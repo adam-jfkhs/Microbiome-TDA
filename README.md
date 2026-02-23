@@ -1,86 +1,72 @@
-# Microbiome-TDA: Persistent Homology Reveals Microbial Community Topologies Linked to Serotonin and Neuropeptide Production
+# Microbiome-TDA
 
-Applying persistent homology to bacterial co-occurrence networks to identify topological signatures of neurotransmitter-producing microbial community configurations, and characterizing how mycobiome disruption and antimicrobial resistance fragment these structures.
+**Persistent Homology Reveals Microbial Community Topologies Linked to Serotonin and Neuropeptide Production**
+
+*A Topological Biomarker Layer for Evaluating CIRS-Associated Inflammatory Signatures in Mold-Exposed Cohorts*
 
 ## Overview
 
-This project constructs co-occurrence networks from 16S rRNA and metagenomic microbiome data (Human Microbiome Project, American Gut Project, curatedMetagenomicData), applies persistent homology to detect topological features (connected components, loops, voids), and links these topological signatures to:
+This project applies persistent homology to bacterial co-occurrence networks to detect topological signatures of microbial community configurations, and interprets these shifts through evidence-weighted priors linking taxa to inflammatory signaling.
 
-- **Neurotransmitter production capacity** — serotonin (5-HT), GABA, dopamine precursors
-- **Mycobiome disruption** — how fungal co-colonization fragments bacterial network topology
-- **AMR gene carriers** — antibiotic-resistant taxa as topological disruptors
-- **Gut permeability** — intestinal barrier function linked to community shape
-- **Gut-brain axis outcomes** — mood, cognition, and neurological self-reports
+Key distinctions:
+
+- **Evidence-weighted priors, not deterministic mappings** — each taxon-biomarker edge carries direction, evidence grade (A/B/C), study types, and citations. We generate testable hypotheses, not predictions.
+- **Two orthogonal mycobiome axes** — environmental mold exposure proxy (Aspergillus, Penicillium, etc.) vs endogenous gut mycobiome (Candida, Malassezia). Each axis is analyzed independently.
+- **CIRS evaluated, not endorsed** — the Shoemaker/CIRS framework is treated as a case study for topology-informed inflammatory signature evaluation.
+
+## What works right now
+
+The pipeline runs end-to-end:
+
+```
+load_cohort() → preprocess (filter + CLR) → Spearman co-occurrence →
+correlation distance → Vietoris-Rips → persistent homology (Betti-0/1/2) →
+persistence entropy + landscapes → permutation test on diagram distances
+```
+
+**Notebook 01** (`notebooks/01_data_exploration.ipynb`) is the minimum publishable unit — loads a cohort, preprocesses, computes per-group persistent homology, and produces publication-quality figures with statistical tests.
 
 ## Repository Structure
 
 ```
-src/                - Python source modules
-  data/             - Download, loading, preprocessing
-  networks/         - Co-occurrence network construction, distance matrices
-  tda/              - Filtration, persistent homology, feature extraction, regime detection
-  analysis/         - Correlation, statistics, ML classification
-  visualization/    - Persistence diagrams, Betti curves, networks, paper figures
-  neurotransmitter/ - Taxa-to-neurotransmitter pathway mapping
-  mycobiome/        - Fungal disruption topology analysis
-  amr/              - AMR gene carrier disruption analysis
-notebooks/          - Jupyter notebooks for each analysis phase
-scripts/            - Data download and setup scripts
-r_scripts/          - R-based analyses (phyloseq, DESeq2, curatedMetagenomicData)
-configs/            - Pipeline parameters and dataset configuration
-paper/              - LaTeX manuscript and figures
+src/
+  data/             - Loaders (HMP, AGP, curatedMGD, synthetic), preprocessing
+  networks/         - Co-occurrence (Spearman), distance matrices (Aitchison)
+  tda/              - Filtration, persistent homology (ripser), features, regimes
+  analysis/         - Statistics (permutation, FDR, effect sizes), correlation, ML
+  visualization/    - Persistence diagrams, Betti curves, networks
+  cirs/             - Evidence-weighted biomarker priors, mycobiome decomposition
+  neurotransmitter/ - NT pathway knowledge base (serotonin, GABA, dopamine, SCFA)
+  mycobiome/        - Legacy fungal disruption module
+  amr/              - AMR carrier disruption and perturbation simulation
+notebooks/          - Jupyter analysis notebooks
+paper/              - LaTeX manuscript
 tests/              - Unit tests
+configs/            - Pipeline parameters
+scripts/            - Data download scripts
 ```
 
 ## Setup
 
-### Python environment
-
 ```bash
-# Option 1: venv
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-
-# Option 2: conda
-conda env create -f environment.yml
-conda activate microbiome-tda
+pip install numpy pandas scipy networkx matplotlib seaborn scikit-learn ripser persim
 ```
 
-### R environment
-
+For real data (optional — synthetic cohort works out of the box):
 ```bash
-Rscript scripts/setup_r_env.R
-```
-
-### Download data
-
-```bash
-make data
-# or manually:
 bash scripts/download_hmp.sh
 bash scripts/download_agp.sh
-Rscript scripts/download_curatedmgd.R
 ```
 
-## Analysis Pipeline
+## Biomarker Hierarchy
 
-1. **Phase 1** — Data acquisition and exploration (`notebooks/01_data_exploration.ipynb`)
-2. **Phase 2** — Co-occurrence network construction (`notebooks/02_network_construction.ipynb`)
-3. **Phase 3** — Persistent homology pipeline (`notebooks/03_tda_pipeline.ipynb`)
-4. **Phase 4** — Neurotransmitter pathway topology (`notebooks/04_neurotransmitter_topology.ipynb`)
-5. **Phase 5** — Mycobiome and AMR disruption analysis (`notebooks/05_disruption_analysis.ipynb`)
-6. **Phase 6** — Regime detection via sliding windows (`notebooks/06_regime_detection.ipynb`)
-7. **Phase 7** — Biomarker correlation and gut-brain axis (`notebooks/07_gutbrain_correlation.ipynb`)
-
-## Key Dependencies
-
-- **TDA**: giotto-tda, ripser, persim, gudhi
-- **Microbiome**: biom-format, scikit-bio
-- **Networks**: networkx
-- **Statistics**: statsmodels, pingouin, scipy
-- **ML**: scikit-learn
+| Tier | Biomarker | CIRS Direction |
+|------|-----------|----------------|
+| Primary | TGF-β1 | Elevated |
+| Secondary | VIP | Reduced |
+| Exploratory | MMP-9 | Elevated |
+| Exploratory | C4a | Elevated |
 
 ## License
 
-See [LICENSE](LICENSE) for details.
+MIT — see [LICENSE](LICENSE).

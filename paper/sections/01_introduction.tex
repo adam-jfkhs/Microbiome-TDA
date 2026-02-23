@@ -21,39 +21,53 @@
 %   correlations, machine learning on feature vectors
 % - What's missing: the SHAPE of the microbial interaction landscape
 
-% Disruption: fungi and antibiotic resistance as topological perturbations
-% - Mycobiome (gut fungi): Candida, Aspergillus, mold-derived mycotoxins
-%   disrupt bacterial community structure through competition, toxin production,
-%   and immune modulation
+% Disruption: two orthogonal mycobiome axes + AMR
+% - Axis 1: Environmental mold exposure (Aspergillus, Penicillium, etc.)
+%   as an external perturbation; presence may indicate inhalation/ingestion exposure
+% - Axis 2: Endogenous gut mycobiome (Candida, Malassezia) as internal dysbiosis
+% - These are orthogonal: a patient can have high environmental exposure with
+%   low gut fungal burden, or vice versa
 % - AMR gene carriers: antibiotic-resistant taxa persist through perturbations
 %   while susceptible neighbors are eliminated, fragmenting cross-feeding networks
-% - Both are external factors that reshape the topology of bacterial communities
-%   in ways that compositional metrics miss
+% - All three axes reshape bacterial community topology in ways that
+%   compositional metrics miss
 
 % The TDA opportunity
 % - Persistent homology captures multi-scale topological features
 %   (connected components, loops, voids) in co-occurrence networks
 % - Betti curves and persistence landscapes provide vectorized descriptors
-%   of community shape, enabling statistical comparison and classification
-% - Proven in brain neuroscience but never applied to the microbiome side
-%   of the gut-brain axis
+%   of community shape, enabling statistical comparison
+% - Proven in brain neuroscience, protein structure, materials science
+%   but not yet applied to microbiome co-occurrence networks
+
+% Biomarker interpretation via evidence-weighted priors
+% - We do NOT claim to map taxa to biomarker effects deterministically
+% - Instead: evidence-weighted priors linking taxa/modules to inflammatory
+%   signaling, used to interpret topological shifts and generate testable
+%   hypotheses
+% - Each taxon-biomarker edge carries: direction, evidence grade (A/B/C),
+%   study types, citations
+% - CIRS framework evaluated (not endorsed) as a case study for
+%   topology-informed inflammatory signature analysis
 
 % Our contribution (5 novelty claims)
 % 1. First application of persistent homology (not Mapper) to bacterial
-%    co-occurrence networks — Betti curves and persistence landscapes
+%    co-occurrence networks with Betti curves and persistence landscapes
 %    as microbiome descriptors
-% 2. Linking topological features to a functional outcome:
-%    neurotransmitter production capacity (serotonin, GABA, dopamine precursors)
-% 3. Characterizing mycobiome disruption as topological fragmentation
-%    of neurotransmitter-producing community structures
-% 4. AMR carriers as topological disruptors: simulating antibiotic perturbation
-% 5. Bridging TDA-microbiome and TDA-neuroscience: same topological framework
-%    applied to both sides of the gut-brain axis
+% 2. Linking topological features to evidence-weighted inflammatory priors
+%    (TGF-beta1, VIP) rather than deterministic biomarker predictions
+% 3. Orthogonal decomposition of mycobiome effects: environmental mold
+%    exposure proxy vs endogenous gut mycobiome composition
+% 4. AMR carriers as topological disruptors: perturbation simulation
+% 5. CIRS as a case study for evaluating topology-informed inflammatory
+%    signatures in mold-exposed cohorts
 
 % Paper outline
-% Section 2: Background on microbiome neurotransmitter pathways, TDA, gut-brain axis
-% Section 3: Theoretical framework linking topology to NT production
-% Section 4: Methods (datasets, pipeline, disruption analysis)
+% Section 2: Background on microbiome neurotransmitter pathways, TDA,
+%            gut-brain axis, CIRS
+% Section 3: Theoretical framework linking topology to inflammatory priors
+% Section 4: Methods (datasets, pipeline, evidence-weighted scoring,
+%            mycobiome decomposition)
 % Section 5: Results
-% Section 6: Discussion (interpretation, clinical implications, limitations)
+% Section 6: Discussion (interpretation, limitations, clinical implications)
 % Section 7: Conclusion

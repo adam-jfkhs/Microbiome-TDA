@@ -2,7 +2,6 @@
 
 import numpy as np
 import pandas as pd
-from biom import Table
 
 
 def filter_low_abundance(df, min_prevalence=0.05, min_reads=1000):

@@ -19,11 +19,13 @@
 
 % --- Title ---
 \title{Persistent Homology Reveals Microbial Community Topologies \\
-  Linked to Serotonin and Neuropeptide Production}
+  Linked to Serotonin and Neuropeptide Production \\[0.5em]
+  \large A Topological Biomarker Layer for Evaluating \\
+  CIRS-Associated Inflammatory Signatures in Mold-Exposed Cohorts}
 
-\author{Adam [Last Name] \\
-  \textit{Institution} \\
-  \texttt{email@institution.edu}}
+\author{Adam Levine \\
+  \textit{Independent Researcher} \\
+  \texttt{adamwasnothere292@gmail.com}}
 
 \date{\today}
 
@@ -33,7 +35,7 @@
 \maketitle
 
 \begin{abstract}
-The gut microbiome modulates host neurotransmitter production through metabolic pathways involving serotonin, $\gamma$-aminobutyric acid (GABA), and dopamine precursors, yet the higher-order structural organization of microbial communities that supports this function remains uncharacterized. Here we apply persistent homology from topological data analysis (TDA) to bacterial co-occurrence networks derived from 16S rRNA and metagenomic sequencing data across three cohorts (Human Microbiome Project, American Gut Project, and curatedMetagenomicData). We construct Betti curves and persistence landscapes as vectorized topological descriptors of microbial community shape and identify persistent loops and voids in the co-occurrence landscape that distinguish neurotransmitter-producing configurations from depleted states. We show that fungal (mycobiome) co-colonization and antimicrobial resistance gene carriers act as topological disruptors, fragmenting the connected components and collapsing the loop structures required for cross-feeding networks that sustain tryptophan metabolism and GABA biosynthesis. Sliding-window analysis reveals abrupt topological regime transitions that precede compositional shifts in neurotransmitter-associated taxa. These topological biomarkers correlate with intestinal permeability markers, short-chain fatty acid profiles, and self-reported neurological and mood outcomes, providing a structural framework linking microbial network topology to the gut-brain axis. Our results suggest that optimizing community topology---not merely taxonomic composition---may be a prerequisite for microbiome-based strategies targeting neurotransmitter production.
+The gut microbiome modulates host neurotransmitter production through metabolic pathways involving serotonin, $\gamma$-aminobutyric acid (GABA), and dopamine precursors, yet the higher-order structural organization of microbial communities that supports this function remains uncharacterized. We apply persistent homology from topological data analysis (TDA) to bacterial co-occurrence networks derived from multiple public cohorts (Human Microbiome Project, American Gut Project, curatedMetagenomicData), constructing Betti curves, persistence landscapes, and entropy-based topological descriptors of microbial community shape. Using evidence-weighted priors linking taxa to inflammatory signaling---graded by study quality (in~vitro, animal model, human cohort) and annotated with mechanisms---we interpret topology-derived community shifts as testable hypotheses about biomarker pressure rather than deterministic predictions. We decompose mycobiome effects into two orthogonal axes: environmental mold exposure proxies and endogenous gut fungal composition, enabling independent assessment of each axis's impact on bacterial network topology. Antimicrobial resistance gene carriers are characterized as topological disruptors through progressive perturbation simulation. We evaluate whether these topological features distinguish exposure-associated community configurations and align with priors predicting altered TGF-$\beta$1 and VIP signaling, framing chronic inflammatory response syndrome (CIRS) as a case study for topology-informed inflammatory signature evaluation. Our framework provides a structural layer for generating and testing hypotheses about microbiome--immune interactions, applicable beyond CIRS to any setting where microbial community shape may inform inflammatory state.
 \end{abstract}
 
 \input{sections/01_introduction}

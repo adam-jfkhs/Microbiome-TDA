@@ -22,6 +22,21 @@ def correlation_distance(corr_df):
     return pd.DataFrame(dist, index=corr_df.index, columns=corr_df.columns)
 
 
+def aitchison_distance(clr_df):
+    """Compute pairwise Aitchison distance between samples.
+
+    Aitchison distance is the Euclidean distance in CLR-transformed space,
+    which is the proper metric for compositional data.
+
+    Args:
+        clr_df: CLR-transformed DataFrame (samples × taxa).
+
+    Returns:
+        Distance matrix as DataFrame.
+    """
+    return sample_distance(clr_df, metric="euclidean")
+
+
 def sample_distance(df, metric="braycurtis"):
     """Compute pairwise distances between samples.
 

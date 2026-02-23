@@ -3,9 +3,44 @@
 import os
 
 import pandas as pd
-from biom import load_table
 
-from .preprocess import biom_to_dataframe
+from .synthetic import generate_synthetic_cohort
+
+
+def load_cohort(name="synthetic", data_dir="data/raw", **kwargs):
+    """Unified entry point for loading a microbiome cohort.
+
+    Returns a consistent triple of (otu_df, metadata_df, taxonomy_df)
+    regardless of the data source.
+
+    Args:
+        name: One of 'synthetic', 'hmp', 'agp', 'curatedmgd'.
+        data_dir: Root data directory for real datasets.
+        **kwargs: Passed to the underlying loader (e.g. seed, n_samples
+            for synthetic, or body_site filtering for HMP).
+
+    Returns:
+        Tuple of (otu_df, metadata_df, taxonomy_df).
+    """
+    if name == "synthetic":
+        return generate_synthetic_cohort(**kwargs)
+
+    if name == "hmp":
+        otu_df, metadata = load_hmp(os.path.join(data_dir, "hmp"))
+        taxonomy = load_taxonomy(data_dir, dataset="hmp")
+        return otu_df, metadata, taxonomy
+
+    if name == "agp":
+        otu_df, metadata = load_agp(os.path.join(data_dir, "agp"))
+        taxonomy = load_taxonomy(data_dir, dataset="agp")
+        return otu_df, metadata, taxonomy
+
+    if name == "curatedmgd":
+        otu_df, metadata = load_curated_mgd(os.path.join(data_dir, "curatedmgd"))
+        taxonomy = load_taxonomy(data_dir, dataset="curatedmgd")
+        return otu_df, metadata, taxonomy
+
+    raise ValueError(f"Unknown cohort: {name}. Use 'synthetic', 'hmp', 'agp', or 'curatedmgd'.")
 
 
 def load_hmp(data_dir="data/raw/hmp"):
@@ -17,6 +52,9 @@ def load_hmp(data_dir="data/raw/hmp"):
     Returns:
         Tuple of (otu_df, metadata_df).
     """
+    from biom import load_table
+    from .preprocess import biom_to_dataframe
+
     biom_path = os.path.join(data_dir, "hmp1_otu_table.biom")
     meta_path = os.path.join(data_dir, "hmp1_metadata.tsv")
 
@@ -37,6 +75,9 @@ def load_agp(data_dir="data/raw/agp"):
     Returns:
         Tuple of (otu_df, metadata_df).
     """
+    from biom import load_table
+    from .preprocess import biom_to_dataframe
+
     biom_path = os.path.join(data_dir, "agp_otu_table.biom")
     meta_path = os.path.join(data_dir, "agp_metadata.tsv")
 

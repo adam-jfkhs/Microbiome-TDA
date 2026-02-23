@@ -46,23 +46,34 @@ def load_cohort(name="synthetic", data_dir="data/raw", **kwargs):
 def load_hmp(data_dir="data/raw/hmp"):
     """Load HMP Phase 1 OTU table and metadata.
 
+    Supports two formats:
+    - TSV from r_scripts/download_hmp_bioconductor.R (recommended)
+    - BIOM from legacy download script
+
     Args:
         data_dir: Path to the HMP raw data directory.
 
     Returns:
-        Tuple of (otu_df, metadata_df).
+        Tuple of (otu_df, metadata_df). otu_df is samples x OTUs.
     """
-    from biom import load_table
-    from .preprocess import biom_to_dataframe
-
+    tsv_path = os.path.join(data_dir, "hmp1_otu_table.tsv")
     biom_path = os.path.join(data_dir, "hmp1_otu_table.biom")
     meta_path = os.path.join(data_dir, "hmp1_metadata.tsv")
 
-    table = load_table(biom_path)
-    otu_df = biom_to_dataframe(table)
+    if os.path.exists(tsv_path):
+        otu_df = pd.read_csv(tsv_path, sep="\t", index_col=0)
+    elif os.path.exists(biom_path):
+        from biom import load_table
+        from .preprocess import biom_to_dataframe
+        table = load_table(biom_path)
+        otu_df = biom_to_dataframe(table)
+    else:
+        raise FileNotFoundError(
+            f"No HMP OTU table found in {data_dir}. "
+            "Run: Rscript r_scripts/download_hmp_bioconductor.R"
+        )
 
     metadata = pd.read_csv(meta_path, sep="\t", index_col=0)
-
     return otu_df, metadata
 
 

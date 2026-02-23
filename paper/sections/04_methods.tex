@@ -5,112 +5,42 @@
 
 \subsection{Datasets}
 \label{subsec:datasets}
-% Human Microbiome Project Phase 1 \citep{hmp2012structure}:
-%   - 300 healthy adults, 18 body sites, multiple visits
-%   - 16S rRNA v3-v5 region
-%   - Stool samples only (filter by body_site metadata)
-%   - Expected: ~300-500 stool samples after QC
-%
-% American Gut Project \citep{mcdonald2018american}:
-%   - 10,000+ citizen-science gut samples
-%   - Deblurred 150nt sequences
-%   - Rich metadata: diet, antibiotics, IBD/IBS, BMI, mental health
-%   - Key metadata variables for cascade analysis:
-%     * antibiotic_history → dysbiosis trigger
-%     * ibd, ibs → disease state
-%     * bmi_cat → metabolic status
-%     * diet_type → F/B ratio modulation
-%     * mental_health_* → gut-brain axis downstream effects
+% HMP Phase 1: 300 healthy adults, stool samples, 16S v3-v5
+% AGP: 10,000+ samples, mental health metadata, antibiotic history
+% curatedMetagenomicData: multi-study metagenomic profiles, cross-cohort validation
 
 \subsection{Data Preprocessing}
 \label{subsec:preprocessing}
-% Quality filtering:
-%   - Remove samples with < 1,000 total reads
-%   - Remove OTUs present in < 5\% of samples
-%   - Taxonomy-based filtering: remove mitochondria, chloroplast
-% Compositionality handling \citep{gloor2017microbiome}:
-%   - Centered log-ratio (CLR) transformation \citep{aitchison1982statistical}
-%   - Pseudocount of 0.5 for zero handling
-% Taxonomic aggregation:
-%   - Genus level for co-occurrence networks (optimal sparsity tradeoff)
-%   - Phylum level for composition overview
-% Body site filtering (HMP): stool samples only
+% Quality filtering, CLR transformation, genus-level aggregation
+% NT pathway annotation: map genera to curated NT pathway database
+% NT production scoring per sample
 
 \subsection{Co-occurrence Network Construction}
 \label{subsec:network_construction}
-% SparCC correlation estimation \citep{friedman2012inferring}:
-%   - Compositional-aware: based on log-ratio variances
-%   - 100 bootstrap iterations for p-value estimation
-%   - Advantages over Spearman: handles closure, reduces spurious correlations
-% Network construction:
-%   - Nodes: genera (or OTUs)
-%   - Edges: significant correlations (|r| > 0.3, p < 0.05 after FDR)
-%   - Edge weights: SparCC correlation values
-%   - Separate networks per sample group (healthy, IBD, high-BMI, etc.)
-% Network metrics computed:
-%   - Modularity (Louvain algorithm)
-%   - Clustering coefficient
-%   - Hub scores (degree centrality, betweenness centrality)
-%   - Network density and diameter
+% Spearman correlation, threshold $|r| > 0.3$, FDR $p < 0.05$
+% NT-specific subnetwork extraction
 
 \subsection{Persistent Homology Pipeline}
 \label{subsec:ph_pipeline}
-% Distance matrix:
-%   - d(i,j) = 1 - |SparCC(i,j)| (correlation distance)
-%   - Ensures d ∈ [0,1], d(i,i) = 0, symmetry
-% Vietoris-Rips filtration:
-%   - Implemented via Ripser \citep{tralie2018ripser}
-%   - Maximum dimension: H₂ (maxdim=2)
-%   - Filtration range: data-adaptive (5th-95th percentile of distances)
-% Feature extraction:
-%   - Persistence diagrams (birth-death pairs per dimension)
-%   - Betti curves: β_k(ε) for k = 0, 1, 2 sampled at 100 points
-%   - Persistence landscapes \citep{bubenik2015statistical}: first 5 landscapes
-%   - Persistence entropy: Shannon entropy of normalized lifetimes
-%   - Summary statistics: count, mean lifetime, max lifetime per dimension
-%
-% Figure 4: Example Persistence Diagrams (Python/matplotlib)
-%   Side-by-side: healthy vs. dysbiotic persistence diagrams
+% Distance matrix, Vietoris-Rips, Ripser
+% Feature extraction: persistence diagrams, Betti curves, landscapes, entropy
+% Applied to: full network, NT subnetworks, high/low fungal groups,
+%   AMR removal simulation
 
-\subsection{Sliding Window Analysis}
-\label{subsec:sliding_window}
-% Window construction:
-%   - Order samples by metadata gradient (e.g., diversity index, BMI)
-%   - Window size: 10-30 samples (sensitivity analysis)
-%   - Step size: 1 sample (overlapping windows)
-% Per-window computation:
-%   - Construct local co-occurrence network
-%   - Compute persistence diagram
-%   - Extract topological feature vector
-% Regime detection:
-%   - Track Betti numbers, entropy, total persistence across windows
-%   - Change-point detection: mean + 2σ threshold on first differences
-%   - Wasserstein distance between consecutive diagrams
+\subsection{Neurotransmitter Pathway Topology Analysis}
+\label{subsec:nt_topology}
+% Per-pathway subnetwork topology
+% Cross-feeding inter-pathway topology
+% Correlation with NT scores and mood outcomes
 
-\subsection{Biomarker Correlation Analysis}
-\label{subsec:biomarker_correlation}
-% Topological features correlated with (where available in metadata):
-%   - Permeability markers: zonulin, LBP, I-FABP
-%   - SCFAs: butyrate, propionate, acetate
-%   - Neuropeptides: serotonin, VIP, CCK, ghrelin
-%   - Inflammatory markers: CRP, TNF-α, IL-6
-% Methods:
-%   - Spearman rank correlation with FDR correction
-%   - Partial correlation controlling for confounders (age, sex, BMI)
+\subsection{Disruption Analysis}
+\label{subsec:disruption_analysis}
+% Mycobiome: partition by fungal burden, compare persistence diagrams
+% AMR resilience: progressive removal simulation, topological tipping point
+% HGT edge detection
 
 \subsection{Statistical Analysis and Machine Learning}
 \label{subsec:statistics}
-% Group comparisons:
-%   - Permutation tests (10,000 permutations) for topological features
-%     between healthy vs. dysbiotic groups
-%   - Mann-Whitney U for two-group comparisons
-%   - Kruskal-Wallis for multi-group comparisons
-% Multiple testing:
-%   - Benjamini-Hochberg FDR correction (α = 0.05)
-% Machine learning classification:
-%   - Features: topological feature vectors (Betti curves, landscapes, entropy)
-%   - Classifiers: Random Forest, SVM (RBF kernel)
-%   - Validation: 5-fold stratified cross-validation
-%   - Comparison baseline: traditional diversity metrics (Shannon, Simpson,
-%     observed OTUs, Bray-Curtis PCoA coordinates)
-%   - Evaluation: accuracy, AUC-ROC, feature importance
+% Permutation tests, FDR correction
+% Spearman correlation with NT scores and metadata
+% Random Forest / SVM classification, 5-fold CV

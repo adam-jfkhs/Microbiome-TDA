@@ -3,50 +3,57 @@
 
 % (~4-5 pages)
 
-% Opening: The gut microbiome as a complex adaptive system
-% - 100 trillion microorganisms, 1000+ species
-% - Not just passengers — active participants in host physiology
-% - Metabolic, immune, and neurological functions
+% Opening: The gut microbiome as neurotransmitter factory
+% - 95\% of serotonin produced in the gut by enterochromaffin cells
+% - GABA, dopamine precursors, SCFAs all synthesized by gut bacteria
+% - The microbiome is not just a bystander — it is a direct participant
+%   in neurotransmitter biosynthesis and regulation
+% - Yet we lack tools to characterize the community-level structure
+%   that supports this production
 
-% The dysbiosis problem
-% - Definition: disruption of the symbiotic equilibrium
-% - Clinical relevance: IBD, obesity, diabetes, neurological disorders
-% - The cascade: dysbiosis → SCFA depletion → barrier degradation →
-%   endotoxin translocation → systemic inflammation → neuroinflammation
+% The structure problem
+% - Individual strains produce neurotransmitters, but production depends on
+%   cross-feeding networks: SCFA producers support serotonin-synthesizing taxa,
+%   tryptophan metabolizers feed downstream pathways
+% - These cross-feeding relationships form a topology — connected components,
+%   loops, higher-order structures — that compositional analysis cannot capture
+% - Current approaches: strain-by-strain probiotic studies, relative abundance
+%   correlations, machine learning on feature vectors
+% - What's missing: the SHAPE of the microbial interaction landscape
 
-% Limitations of current approaches
-% - Alpha/beta diversity metrics capture "how much" but not "what structure"
-% - Differential abundance (DESeq2) identifies individual taxa but misses
-%   community-level organization
-% - Co-occurrence networks capture pairwise relationships but not
-%   higher-order topology
+% Disruption: fungi and antibiotic resistance as topological perturbations
+% - Mycobiome (gut fungi): Candida, Aspergillus, mold-derived mycotoxins
+%   disrupt bacterial community structure through competition, toxin production,
+%   and immune modulation
+% - AMR gene carriers: antibiotic-resistant taxa persist through perturbations
+%   while susceptible neighbors are eliminated, fragmenting cross-feeding networks
+% - Both are external factors that reshape the topology of bacterial communities
+%   in ways that compositional metrics miss
 
 % The TDA opportunity
 % - Persistent homology captures multi-scale topological features
-% - Proven in other complex systems: financial markets, protein structure,
-%   neural networks, materials science
-% - Key parallel: correlation homogeneity → topological stability
-%   (markets ↔ microbial ecosystems)
+%   (connected components, loops, voids) in co-occurrence networks
+% - Betti curves and persistence landscapes provide vectorized descriptors
+%   of community shape, enabling statistical comparison and classification
+% - Proven in brain neuroscience but never applied to the microbiome side
+%   of the gut-brain axis
 
-% The gut-brain axis connection
-% - Vagal nerve as bidirectional communication highway
-% - Neuropeptides produced/modulated by gut microbiota:
-%   serotonin (95% produced in gut), ghrelin, CCK, VIP
-% - Intestinal permeability as the gateway mechanism
-% - Environmental triggers: mycotoxins, antibiotics, diet
-
-% Our contribution
-% - First application of persistent homology to detect regime shifts
-%   in gut microbial co-occurrence networks
-% - Topological biomarkers that correlate with permeability markers
-%   and neuropeptide levels
-% - Sliding-window regime detection as early warning system
-% - Mycotoxin-induced dysbiosis as case study (CIRS connection)
+% Our contribution (5 novelty claims)
+% 1. First application of persistent homology (not Mapper) to bacterial
+%    co-occurrence networks — Betti curves and persistence landscapes
+%    as microbiome descriptors
+% 2. Linking topological features to a functional outcome:
+%    neurotransmitter production capacity (serotonin, GABA, dopamine precursors)
+% 3. Characterizing mycobiome disruption as topological fragmentation
+%    of neurotransmitter-producing community structures
+% 4. AMR carriers as topological disruptors: simulating antibiotic perturbation
+% 5. Bridging TDA-microbiome and TDA-neuroscience: same topological framework
+%    applied to both sides of the gut-brain axis
 
 % Paper outline
-% Section 2: Background on microbiome, TDA, gut-brain axis
-% Section 3: Theoretical framework linking topology to ecology
-% Section 4: Methods (datasets, pipeline, statistics)
+% Section 2: Background on microbiome neurotransmitter pathways, TDA, gut-brain axis
+% Section 3: Theoretical framework linking topology to NT production
+% Section 4: Methods (datasets, pipeline, disruption analysis)
 % Section 5: Results
-% Section 6: Discussion (interpretation, CIRS implications, limitations)
+% Section 6: Discussion (interpretation, clinical implications, limitations)
 % Section 7: Conclusion

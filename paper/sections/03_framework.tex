@@ -5,91 +5,33 @@
 
 \subsection{From Abundance Tables to Topological Spaces}
 % The transformation pipeline:
-%   OTU table (samples × taxa) → CLR transformation (compositional correction)
-%   → SparCC correlation matrix → distance matrix (1 - |corr|)
-%   → Vietoris-Rips simplicial complex → persistent homology
-% Why each step matters:
-%   - CLR handles compositionality (Aitchison geometry)
-%   - SparCC avoids spurious correlations from closure
-%   - Correlation distance captures ecological similarity
-%   - Vietoris-Rips is robust and computationally tractable
+%   OTU table $\to$ CLR transformation $\to$ Spearman correlation matrix
+%   $\to$ distance matrix ($1 - |r|$) $\to$ Vietoris-Rips filtration
+%   $\to$ persistent homology $\to$ Betti curves + persistence landscapes
 %
-% Figure 1: TDA Pipeline Diagram (TikZ)
-%   Raw 16S data → QIIME2 → OTU table → CLR → SparCC → distance matrix
-%   → VR filtration → persistence → features → regime detection
+% Figure 1: TDA Pipeline Diagram
 
-\subsection{Topological Invariants as Ecological Descriptors}
-% H₀ — Connected components:
-%   - Ecological meaning: distinct microbial guilds/modules
-%   - Healthy gut: few large connected components (integrated community)
-%   - Dysbiotic: many small components (fragmented community)
-%   - Merging of components during filtration → inter-guild communication
+\subsection{Topological Invariants as Neurotransmitter Network Descriptors}
+% $H_0$ --- Connected components: how many disconnected NT-producing clusters?
+% $H_1$ --- Loops: cross-feeding cycles between NT-associated taxa
+% $H_2$ --- Voids: higher-order community organization
 %
-% H₁ — Loops (1-cycles):
-%   - Ecological meaning: circular co-occurrence patterns,
-%     mutualistic/competitive cycles, metabolic feedback loops
-%   - Example: A promotes B, B promotes C, C promotes A
-%   - Healthy gut: stable persistent loops (robust feedback mechanisms)
-%   - Dysbiotic: loss of loops (broken feedback) or new unstable loops
-%
-% H₂ — Voids (2-cycles):
-%   - Ecological meaning: higher-order community organization,
-%     "cavities" in the co-occurrence landscape
-%   - Represent groups of taxa that co-occur in a boundary pattern
-%     but have no taxa filling the interior
-%   - Less studied but potentially informative for complex communities
-%
-% Figure 2: Betti Number Interpretation (TikZ)
-%   Visual schematic of H₀, H₁, H₂ with ecological examples
+% Figure 2: Betti Number Interpretation with NT pathway examples
 
-\subsection{The Stability-Topology Hypothesis}
-% Core claim: topological stability of the co-occurrence network
-%   correlates with ecological stability of the microbiome
-% Drawing the parallel to financial markets:
-%   - In markets: correlation homogeneity → topological stability →
-%     market stability; loss of topological diversity → fragility
-%   - In microbiome: diversity/evenness → topological richness →
-%     ecological resilience; loss of topological features → dysbiosis
-% Quantifying stability:
-%   - Persistence entropy (diversity of feature lifetimes)
-%   - Total persistence (sum of lifetimes)
-%   - Betti curve AUC (area under Betti curves)
-% Prediction: dysbiosis produces measurable topological signatures
-%   BEFORE compositional shifts become apparent
+\subsection{The Topology-Function Hypothesis}
+% Core claim: topological structure of NT-associated co-occurrence
+%   subnetworks predicts neurotransmitter production capacity
+% Persistent loops indicate stable cross-feeding partnerships
+% More persistent loops $\to$ more robust NT production
+% Disruption fragments loops $\to$ reduced NT output
+
+\subsection{Disruption Topology: Fungi and AMR as Perturbations}
+% Modeling disruption as topological change
+% Measuring topological impact via Wasserstein/bottleneck distance
+% ``Topological resilience'': how much disruption before loops collapse?
 
 \subsection{Regime Detection via Sliding Window Topology}
-% Temporal or gradient-based sliding windows
-% For each window:
-%   - Construct local co-occurrence network
-%   - Compute persistence diagram
-%   - Extract topological features (Betti curves, entropy, landscapes)
-% Track feature evolution across windows
+% Temporal/gradient-based sliding windows
 % Regime transitions = abrupt changes in topological features
-% Detection methods:
-%   - Change-point detection on Betti number series
-%   - Wasserstein distance between consecutive persistence diagrams
-%   - Persistence landscape norms
-% Connection to early warning signals in ecological theory:
-%   - Critical slowing down before transitions
-%   - Increased autocorrelation, increased variance
-%   - Our contribution: topological early warning signals
-
-\subsection{The Dysbiosis-Permeability-Neuroinflammation Cascade Through a Topological Lens}
-\label{subsec:cascade_topology}
-% Mapping the cascade stages to topological observables:
-%   Stage 1 — Healthy: rich topological structure, many persistent
-%     H₁ features, high persistence entropy
-%   Stage 2 — Early dysbiosis: loss of some H₁ features,
-%     fragmentation of H₀ components, decreased entropy
-%   Stage 3 — Barrier compromise: topological simplification,
-%     appearance of new unstable features
-%   Stage 4 — Systemic effects: dramatically simplified topology,
-%     loss of most persistent features
-% Biomarker correlation at each stage:
-%   - Stage 1→2: butyrate decline, early zonulin increase
-%   - Stage 2→3: significant zonulin/LBP elevation, LPS translocation
-%   - Stage 3→4: neuropeptide disruption, systemic cytokine elevation
-% This gives us a topological staging framework for dysbiosis severity
-%
-% Figure 3: Cascade Staging Diagram (TikZ)
-%   Four-stage model with topological features and biomarkers at each stage
+% Connection to gut-brain axis: regime transitions in NT-network topology
+%   may correspond to shifts in NT output

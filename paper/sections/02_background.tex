@@ -3,103 +3,72 @@
 
 % (~8-10 pages)
 
-\subsection{The Human Gut Microbiome}
+\subsection{The Human Gut Microbiome and Neurotransmitter Production}
 % Microbial ecology of the gut
 % Key phyla: Firmicutes, Bacteroidetes, Proteobacteria, Actinobacteria
-% Functional roles: nutrient metabolism, immune training, pathogen resistance
-% The Firmicutes/Bacteroidetes ratio as a crude health indicator
-% Why composition alone is insufficient — need structural understanding
+% Beyond composition — functional roles in neurotransmitter biosynthesis:
+%   - Serotonin (5-HT): Enterococcus, Streptococcus, Escherichia produce directly;
+%     Clostridium spore-formers modulate host enterochromaffin cell production
+%     \citep{yano2015indigenous}; Turicibacter regulates SERT expression
+%   - GABA: Lactobacillus, Bifidobacterium via glutamate decarboxylase
+%     \citep{strandwitz2019gaba}; Bacteroides, Parabacteroides
+%   - Dopamine: Enterococcus (tyramine via tyrosine decarboxylase),
+%     Escherichia, Bacillus (direct dopamine synthesis)
+%   - SCFAs as mediators: butyrate (Faecalibacterium, Roseburia) supports
+%     barrier integrity required for proper NT signaling
+% Cross-feeding networks: SCFA producers sustain serotonin-synthesizing taxa,
+%   tryptophan metabolizers provide precursors across pathways
+% Why composition alone is insufficient — community topology matters
 
-\subsection{Microbiome Dysbiosis and the Permeability Cascade}
-\label{subsec:permeability_cascade}
-% Definition: loss of beneficial organisms, expansion of pathobionts,
-%   reduction in overall diversity
-% The cascade mechanism:
-%   1. Dysbiosis → reduced butyrate-producing bacteria (Faecalibacterium,
-%      Roseburia, Eubacterium)
-%   2. Butyrate depletion → reduced tight junction protein expression
-%      (claudins, occludin, ZO-1)
-%   3. Barrier degradation → increased intestinal permeability ("leaky gut")
-%   4. LPS and other endotoxins translocate to systemic circulation
-%   5. TLR4 activation → NF-κB → pro-inflammatory cytokines
-%      (TNF-α, IL-1β, IL-6)
-%   6. Systemic inflammation → neuroinflammation via blood-brain barrier
-%      and vagal afferents
-% Permeability biomarkers: zonulin, LPS-binding protein (LBP),
-%   intestinal fatty acid-binding protein (I-FABP),
-%   lactulose/mannitol ratio
-% Associated diseases: IBD, IBS, obesity, T2D, depression, anxiety,
-%   Parkinson's, Alzheimer's
-
-\subsection{The Gut-Brain Axis}
+\subsection{The Gut-Brain Axis and Neurotransmitter Signaling}
 \label{subsec:gut_brain}
 % Bidirectional communication via:
 %   - Vagus nerve (primary conduit)
-%   - Enteric nervous system (ENS, "second brain")
+%   - Enteric nervous system (ENS, ``second brain'')
 %   - Immune signaling (cytokines crossing BBB)
 %   - Microbial metabolites (SCFAs, tryptophan metabolites)
 % Neuropeptides modulated by gut microbiota:
-%   - Serotonin (5-HT): 95\% produced by enterochromaffin cells in gut,
-%     microbiota regulate tryptophan hydroxylase expression
-%   - Ghrelin: appetite regulation, modulated by gut composition
-%   - Cholecystokinin (CCK): satiety, gut motility
-%   - Vasoactive intestinal peptide (VIP): anti-inflammatory,
-%     neuroprotective, barrier maintenance
-%   - GABA: produced by Lactobacillus and Bifidobacterium spp.
-% Disrupted signaling in dysbiosis → cognitive impairment,
-%   emotional dysregulation, altered decision-making
+%   - Serotonin (5-HT): 95\% produced by enterochromaffin cells in gut
+%   - GABA: produced by Lactobacillus and Bifidobacterium spp.,
+%     modulates anxiety and mood via vagal signaling \citep{bravo2011ingestion}
+%   - Dopamine: precursor (tyramine) production by gut bacteria
+% Clinical relevance: depression, anxiety, IBS, autism spectrum,
+%   Parkinson's disease all linked to disrupted gut-brain NT signaling
 
-\subsection{Mycotoxins and Environmental Triggers of Dysbiosis}
-\label{subsec:mycotoxins}
-% Mycotoxins as a concrete environmental trigger
-% Trichothecenes (T-2 toxin, deoxynivalenol/DON):
-%   - Directly reduce tight junction protein expression
-%   - Decrease mucin-secreting goblet cells
-%   - Alter microbiome composition (reduce Lactobacillus, increase
-%     Proteobacteria)
-% Aflatoxins, ochratoxin A: additional gut barrier effects
-% Chronic Inflammatory Response Syndrome (CIRS):
-%   - Biotoxin illness from water-damaged buildings
-%   - Involves gut barrier dysfunction, immune dysregulation,
-%     neuroinflammation
-%   - HLA-DR genetic susceptibility (~24\% of population)
-%   - Shoemaker protocol: cholestyramine, VIP nasal spray
-% Mycotoxin-induced dysbiosis → bacterial translocation →
-%   chronic inflammation → neurological effects
-% This provides a concrete use case for topological regime detection
+\subsection{Mycobiome Disruption of Bacterial Communities}
+\label{subsec:mycobiome}
+% The gut mycobiome: fungal component of the microbiome
+%   - Key genera: Candida, Saccharomyces, Aspergillus, Malassezia
+% Disruption mechanisms:
+%   - Competitive exclusion: Candida displaces Lactobacillus, Bifidobacterium
+%   - Mycotoxin production: Aspergillus (aflatoxin), Fusarium (deoxynivalenol),
+%     Penicillium (patulin) — disrupt tight junctions, damage butyrate producers
+%   - Immune modulation: fungal colonization triggers Th17 response
+% Environmental triggers: mold exposure, dietary mycotoxin contamination
+% CIRS connection: chronic mold exposure $\to$ sustained mycotoxin load $\to$
+%   chronic dysbiosis $\to$ persistent barrier dysfunction $\to$ neuroinflammation
+
+\subsection{Antimicrobial Resistance as Community Disruptor}
+\label{subsec:amr}
+% AMR gene carriers in the gut: Enterococcus, Escherichia, Klebsiella,
+%   Bacteroides, Clostridium, Staphylococcus, Pseudomonas, Acinetobacter
+% How AMR disrupts community topology:
+%   1. Antibiotic treatment eliminates susceptible taxa, AMR carriers persist
+%   2. Cross-feeding networks that sustained NT production are fragmented
+%   3. HGT creates new network edges, potentially rewiring community structure
+% The topology angle: AMR carriers create ``topological holes''
 
 \subsection{Co-occurrence Networks in Microbial Ecology}
 \label{subsec:cooccurrence}
-% Why networks: taxa don't exist in isolation
-% Network construction from abundance data:
-%   - Pearson/Spearman correlation (problematic for compositional data)
-%   - SparCC: handles compositionality via log-ratio variance
-%   - SPIEC-EASI: sparse inverse covariance estimation
-% Network metrics: modularity, clustering coefficient, hub scores,
-%   betweenness centrality
-% Ecological interpretation: modules = functional guilds,
-%   hubs = keystone species
+% Network construction from abundance data
+% Ecological interpretation: modules = functional guilds, hubs = keystone species
 % Limitations: pairwise relationships miss higher-order structure
 
 \subsection{Topological Data Analysis}
 \label{subsec:tda}
-% Simplicial complexes: generalizing graphs to higher dimensions
-%   - 0-simplices (vertices), 1-simplices (edges),
-%     2-simplices (triangles), etc.
-% Filtrations: growing simplicial complexes by a parameter
-%   - Vietoris-Rips: add simplex when all pairwise distances < ε
-%   - \v{C}ech: add simplex when balls of radius ε have common intersection
-% Persistent homology: tracking topological features across filtration
-%   - Birth and death of features
-%   - Persistence = death - birth (long-lived features are "real")
-% Betti numbers and their ecological interpretation:
-%   - β₀: connected components (isolated community clusters)
-%   - β₁: loops (ecological feedback cycles, mutualism rings)
-%   - β₂: voids (higher-order community cavities)
-% Persistence diagrams, barcodes, landscapes
-% Prior applications:
-%   - Protein structure and function \citep{camara2017topological}
-%   - Neural spike train analysis
-%   - Financial market regime detection (the parallel to this work)
-%   - Biological aggregation models \citep{topaz2015topological}
-%   - Zebrafish pattern formation \citep{mcguirl2020topological}
+% Simplicial complexes, filtrations, persistent homology
+% Betti numbers: $\beta_0$ (components), $\beta_1$ (loops), $\beta_2$ (voids)
+% Vectorized summaries: Betti curves, persistence landscapes
+% Prior applications in biology (brain networks, protein structure)
+% The gap: persistent homology has NOT been applied to microbiome co-occurrence
+%   networks — only the Mapper algorithm has been used

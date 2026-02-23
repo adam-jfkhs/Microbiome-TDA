@@ -37,3 +37,33 @@ statistics:
   n_permutations: 10000      # Number of permutations for permutation tests
   alpha: 0.05                # Significance level
   multiple_testing: "fdr_bh" # Multiple testing correction method
+
+# Neurotransmitter analysis
+neurotransmitter:
+  targets:
+    - "serotonin"
+    - "GABA"
+    - "dopamine"
+    - "SCFA"
+  role_weights:              # Weights for scoring by evidence level
+    direct: 1.0
+    precursor: 0.5
+    modulator: 0.3
+  subnetwork_min_otus: 5     # Min OTUs to compute subnetwork topology
+
+# Mycobiome disruption analysis
+mycobiome:
+  fungal_burden_threshold: 0.01  # Min fungal rel. abundance for "high fungal" group
+  comparison_method: "bottleneck" # bottleneck | wasserstein | landscape_distance
+  disruption_fungi:          # Fungi to track (see src/mycobiome/disruption.py)
+    - "Candida"
+    - "Aspergillus"
+    - "Malassezia"
+    - "Cladosporium"
+    - "Penicillium"
+    - "Fusarium"
+
+# AMR disruption analysis
+amr:
+  removal_fractions: [0.1, 0.2, 0.3, 0.5, 0.7]  # For resilience simulation
+  hgt_correlation_threshold: 0.3  # Min |corr| for HGT edge detection

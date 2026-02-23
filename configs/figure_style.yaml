@@ -1,0 +1,39 @@
+# Matplotlib rcParams for consistent publication figures
+
+figure:
+  figsize: [8, 6]
+  dpi: 300
+
+font:
+  size: 12
+  family: "serif"
+
+axes:
+  labelsize: 14
+  titlesize: 16
+  grid: true
+  grid_alpha: 0.3
+
+ticks:
+  labelsize: 11
+
+legend:
+  fontsize: 11
+
+lines:
+  linewidth: 2
+
+savefig:
+  dpi: 300
+  bbox: "tight"
+  format: "pdf"
+
+# Color palettes
+colors:
+  h0: "#2196F3"      # Blue for connected components
+  h1: "#FF5722"      # Orange for loops
+  h2: "#4CAF50"      # Green for voids
+  positive_corr: "#4CAF50"
+  negative_corr: "#F44336"
+  healthy: "#2196F3"
+  dysbiotic: "#F44336"

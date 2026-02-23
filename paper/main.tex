@@ -1,0 +1,51 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\geometry{margin=1in}
+
+% --- Title ---
+\title{Topological Signatures of Microbiome Dysbiosis: \\
+  Persistent Homology Reveals Structural Transitions \\
+  in Gut Microbial Co-occurrence Networks}
+
+\author{Author Name \\
+  \textit{Institution} \\
+  \texttt{email@institution.edu}}
+
+\date{\today}
+
+% --- Document ---
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+The human gut microbiome exhibits complex ecological dynamics whose disruption---dysbiosis---is implicated in numerous diseases. While traditional analyses focus on compositional shifts in microbial taxa, the higher-order structural organization of microbial communities remains poorly characterized. Here, we apply persistent homology from topological data analysis (TDA) to co-occurrence networks derived from 16S rRNA sequencing data from the Human Microbiome Project and American Gut Project. We identify topological signatures---persistent loops and voids in the co-occurrence landscape---that distinguish healthy microbiome configurations from dysbiotic states. Our sliding-window analysis reveals abrupt topological transitions that precede compositional shifts, suggesting that network topology may serve as an early indicator of microbiome destabilization. These topological biomarkers correlate with intestinal permeability markers and neuropeptide levels, providing a novel structural lens on the gut-brain axis.
+\end{abstract}
+
+\input{sections/01_introduction}
+\input{sections/02_background}
+\input{sections/03_framework}
+\input{sections/04_methods}
+\input{sections/05_results}
+\input{sections/06_discussion}
+\input{sections/07_conclusion}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}

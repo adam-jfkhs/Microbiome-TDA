@@ -1,23 +1,105 @@
 \section{Background}
 \label{sec:background}
 
+% (~8-10 pages)
+
 \subsection{The Human Gut Microbiome}
 % Microbial ecology of the gut
-% Key phyla: Firmicutes, Bacteroidetes, Proteobacteria
-% Functional roles and host interactions
+% Key phyla: Firmicutes, Bacteroidetes, Proteobacteria, Actinobacteria
+% Functional roles: nutrient metabolism, immune training, pathogen resistance
+% The Firmicutes/Bacteroidetes ratio as a crude health indicator
+% Why composition alone is insufficient — need structural understanding
 
-\subsection{Microbiome Dysbiosis}
-% Definition and characterization
-% Associated diseases (IBD, obesity, neurological)
-% Current detection methods and their limitations
+\subsection{Microbiome Dysbiosis and the Permeability Cascade}
+\label{subsec:permeability_cascade}
+% Definition: loss of beneficial organisms, expansion of pathobionts,
+%   reduction in overall diversity
+% The cascade mechanism:
+%   1. Dysbiosis → reduced butyrate-producing bacteria (Faecalibacterium,
+%      Roseburia, Eubacterium)
+%   2. Butyrate depletion → reduced tight junction protein expression
+%      (claudins, occludin, ZO-1)
+%   3. Barrier degradation → increased intestinal permeability ("leaky gut")
+%   4. LPS and other endotoxins translocate to systemic circulation
+%   5. TLR4 activation → NF-κB → pro-inflammatory cytokines
+%      (TNF-α, IL-1β, IL-6)
+%   6. Systemic inflammation → neuroinflammation via blood-brain barrier
+%      and vagal afferents
+% Permeability biomarkers: zonulin, LPS-binding protein (LBP),
+%   intestinal fatty acid-binding protein (I-FABP),
+%   lactulose/mannitol ratio
+% Associated diseases: IBD, IBS, obesity, T2D, depression, anxiety,
+%   Parkinson's, Alzheimer's
+
+\subsection{The Gut-Brain Axis}
+\label{subsec:gut_brain}
+% Bidirectional communication via:
+%   - Vagus nerve (primary conduit)
+%   - Enteric nervous system (ENS, "second brain")
+%   - Immune signaling (cytokines crossing BBB)
+%   - Microbial metabolites (SCFAs, tryptophan metabolites)
+% Neuropeptides modulated by gut microbiota:
+%   - Serotonin (5-HT): 95\% produced by enterochromaffin cells in gut,
+%     microbiota regulate tryptophan hydroxylase expression
+%   - Ghrelin: appetite regulation, modulated by gut composition
+%   - Cholecystokinin (CCK): satiety, gut motility
+%   - Vasoactive intestinal peptide (VIP): anti-inflammatory,
+%     neuroprotective, barrier maintenance
+%   - GABA: produced by Lactobacillus and Bifidobacterium spp.
+% Disrupted signaling in dysbiosis → cognitive impairment,
+%   emotional dysregulation, altered decision-making
+
+\subsection{Mycotoxins and Environmental Triggers of Dysbiosis}
+\label{subsec:mycotoxins}
+% Mycotoxins as a concrete environmental trigger
+% Trichothecenes (T-2 toxin, deoxynivalenol/DON):
+%   - Directly reduce tight junction protein expression
+%   - Decrease mucin-secreting goblet cells
+%   - Alter microbiome composition (reduce Lactobacillus, increase
+%     Proteobacteria)
+% Aflatoxins, ochratoxin A: additional gut barrier effects
+% Chronic Inflammatory Response Syndrome (CIRS):
+%   - Biotoxin illness from water-damaged buildings
+%   - Involves gut barrier dysfunction, immune dysregulation,
+%     neuroinflammation
+%   - HLA-DR genetic susceptibility (~24\% of population)
+%   - Shoemaker protocol: cholestyramine, VIP nasal spray
+% Mycotoxin-induced dysbiosis → bacterial translocation →
+%   chronic inflammation → neurological effects
+% This provides a concrete use case for topological regime detection
 
 \subsection{Co-occurrence Networks in Microbial Ecology}
-% Network construction from abundance data
-% Compositionality challenges (SparCC)
-% Network metrics and community structure
+\label{subsec:cooccurrence}
+% Why networks: taxa don't exist in isolation
+% Network construction from abundance data:
+%   - Pearson/Spearman correlation (problematic for compositional data)
+%   - SparCC: handles compositionality via log-ratio variance
+%   - SPIEC-EASI: sparse inverse covariance estimation
+% Network metrics: modularity, clustering coefficient, hub scores,
+%   betweenness centrality
+% Ecological interpretation: modules = functional guilds,
+%   hubs = keystone species
+% Limitations: pairwise relationships miss higher-order structure
 
 \subsection{Topological Data Analysis}
-% Simplicial complexes and filtrations
-% Persistent homology: birth, death, persistence
-% Betti numbers and their ecological interpretation
-% Prior applications of TDA to biological data
+\label{subsec:tda}
+% Simplicial complexes: generalizing graphs to higher dimensions
+%   - 0-simplices (vertices), 1-simplices (edges),
+%     2-simplices (triangles), etc.
+% Filtrations: growing simplicial complexes by a parameter
+%   - Vietoris-Rips: add simplex when all pairwise distances < ε
+%   - \v{C}ech: add simplex when balls of radius ε have common intersection
+% Persistent homology: tracking topological features across filtration
+%   - Birth and death of features
+%   - Persistence = death - birth (long-lived features are "real")
+% Betti numbers and their ecological interpretation:
+%   - β₀: connected components (isolated community clusters)
+%   - β₁: loops (ecological feedback cycles, mutualism rings)
+%   - β₂: voids (higher-order community cavities)
+% Persistence diagrams, barcodes, landscapes
+% Prior applications:
+%   - Protein structure and function \citep{camara2017topological}
+%   - Neural spike train analysis
+%   - Financial market regime detection (the parallel to this work)
+%   - Biological aggregation models \citep{topaz2015topological}
+%   - Zebrafish pattern formation \citep{mcguirl2020topological}

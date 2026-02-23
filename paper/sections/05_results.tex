@@ -1,23 +1,85 @@
 \section{Results}
 \label{sec:results}
 
-\subsection{Co-occurrence Network Structure}
-% Network topology in healthy vs. dysbiotic states
-% Modularity, hub structure, clustering
+% (~8-10 pages)
 
-\subsection{Persistence Diagrams Reveal Structural Differences}
-% H0, H1, H2 feature comparison
-% Betti curve differences between groups
+\subsection{Dataset Characteristics and Preprocessing}
+% Sample counts after QC for HMP and AGP
+% Sparsity statistics, read depth distributions
+% Genus-level aggregation: number of genera retained
+% Table 1: Dataset summary statistics
 
-\subsection{Topological Regime Transitions}
+\subsection{Co-occurrence Network Structure Differs Between Health States}
+\label{subsec:network_results}
+% Network-level comparisons: healthy vs. IBD vs. high-BMI
+% Key findings expected:
+%   - Healthy: higher modularity, more hubs, denser networks
+%   - Dysbiotic: reduced modularity, fewer hubs, sparser networks
+%   - Specific genera as hub nodes in healthy vs. dysbiotic networks
+%
+% Figure 5: Network Visualizations (Python/networkx + matplotlib)
+%   Side-by-side network plots: healthy vs. dysbiotic
+%   Nodes colored by phylum, edges colored by correlation sign
+% Table 2: Network metrics comparison across groups
+
+\subsection{Persistence Diagrams Reveal Topological Differences}
+\label{subsec:persistence_results}
+% H₀ features: connected components
+%   - Healthy: fewer, longer-lived components (well-connected community)
+%   - Dysbiotic: more components, shorter-lived (fragmented)
+% H₁ features: loops
+%   - Healthy: more persistent loops (stable ecological feedback)
+%   - Dysbiotic: fewer loops, shorter persistence
+% H₂ features: voids (if present)
+% Betti curve comparison across groups
+% Persistence entropy comparison
+%
+% Figure 6: Persistence Diagram Comparison (Python/persim + matplotlib)
+%   2x3 panel: H₀, H₁, H₂ for healthy (top) vs. dysbiotic (bottom)
+%
+% Figure 7: Betti Curves (Python/matplotlib)
+%   Overlaid Betti curves β₀, β₁, β₂ with confidence bands
+%   for healthy vs. dysbiotic groups
+
+\subsection{Topological Regime Transitions Precede Compositional Shifts}
+\label{subsec:regime_results}
 % Sliding window analysis results
-% Detection of abrupt topological changes
-% Relationship to compositional shifts
+% Key finding: topological features change BEFORE Shannon diversity drops
+%   - H₁ count drops at window N
+%   - Shannon diversity drops at window N+k (k > 0)
+%   - This supports topology as early warning signal
+% Change-point detection identifies regime boundaries
+% Wasserstein distance spikes at transitions
+%
+% Figure 8: Regime Detection (Python/matplotlib)
+%   Multi-panel time series: Betti numbers, entropy, Shannon diversity
+%   Vertical lines marking detected regime transitions
+%   Shaded regions for different regimes
 
-\subsection{Biomarker Correlations}
-% Topological features vs. permeability markers
-% Topological features vs. neuropeptide levels
+\subsection{Topological Features Correlate with Biomarkers}
+\label{subsec:biomarker_results}
+% Permeability markers:
+%   - H₁ count negatively correlates with zonulin (barrier breakdown
+%     → loss of ecological loops)
+%   - Persistence entropy negatively correlates with LBP
+% SCFA levels:
+%   - Total persistence positively correlates with butyrate
+% Neuropeptides (where available):
+%   - Topological complexity correlates with serotonin levels
+%   - VIP levels correlate with network connectivity metrics
+%
+% Figure 9: Biomarker Correlation Heatmap (Python/seaborn)
+%   Heatmap of Spearman correlations between topological features
+%   and biomarkers, with significance stars
+% Table 3: Correlation coefficients and p-values
 
 \subsection{Classification Performance}
-% ML classification using topological features
-% Comparison with traditional diversity metrics
+\label{subsec:classification_results}
+% Topological features vs. traditional diversity metrics
+% Expected finding: topological features improve classification
+%   of dysbiotic states, especially when combined with diversity metrics
+% Random Forest feature importance: which topological features
+%   are most discriminative
+% Table 4: Classification accuracy comparison
+%   Rows: feature sets (diversity only, topology only, combined)
+%   Columns: accuracy, AUC-ROC, sensitivity, specificity

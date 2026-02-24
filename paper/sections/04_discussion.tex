@@ -35,6 +35,28 @@ Whether these particular taxa drive the loop collapse, or whether the
 entire gram-positive anaerobe compartment contracts uniformly, is a
 question amenable to taxon-attribution analysis (see Section~\ref{subsec:limitations}).
 
+A more mechanistic reading is that the healthy gut co-occurrence graph
+approximates a modular, redundant architecture: butyrate producers and
+fiber-degrading specialists form mutually reinforcing exchange loops in
+which each partner both consumes the metabolic byproducts of others and
+releases substrates that sustain them.
+Persistent loops in the $H_1$ sense require at least three taxa forming
+a correlation triangle strong enough to survive across a wide filtration
+range; the co-occurrence architecture of butyrate producers plausibly
+satisfies this criterion.
+When these taxa are depleted or become numerically erratic under
+\ibd-associated inflammation, the triangles dissolve before they
+consolidate, producing a persistence diagram with lower total mass and
+shorter feature lifetimes.
+What remains is not necessarily a sparser network in the edge-count
+sense---Proteobacterial blooms can increase certain pairwise correlations
+in \ibd~\citep{halfvarson2017dynamics}---but a topologically impoverished
+one: shorter-lived, less reinforced cycles.
+This interpretation predicts that the Proteobacterial compartment, while
+elevated in \ibd, does not substitute structurally for the anaerobic
+Firmicutes it displaces, a prediction testable via the loop attribution
+analysis outlined above.
+
 \subsection{Structural reorganization versus abundance enrichment in diet}
 
 The bifurcated diet signal (fewer total loops, longer-lived individual
@@ -74,6 +96,35 @@ perturbations that differ by orders of magnitude in their ecological
 destructiveness~\citep{petersen2017defining}.
 A better-powered analysis would stratify by antibiotic class and quantify
 time since last exposure as a continuous variable.
+
+\subsection{Relation to prior topological analyses of microbiome data}
+
+The deployment of persistent homology in microbiology is recent and sparse.
+Cam\`{a}ra and colleagues~\citep{camara2017topological} used $H_0$ and $H_1$
+features to distinguish gut microbiome states in longitudinal infant data,
+identifying topological transitions that co-occurred with dietary shifts at
+weaning.
+That work operated on a single cohort of twelve infants with dense temporal
+sampling, a regime that favors trajectory-level topology rather than
+group-level contrast.
+Our design inverts this: large cross-sectional $n$, sparse metadata, no
+temporal structure, but high statistical power for detecting mean differences
+between clinically defined groups.
+The two approaches are complementary rather than competing.
+
+More broadly, TDA has been applied to protein contact networks to predict
+folding stability~\citep{wasserman2018topological}, to neuroimaging data to
+map functional connectivity~\citep{bubenik2015statistical}, and to materials
+microstructure to predict fracture~\citep{ghrist2008barcodes}.
+In each domain, the practical justification for persistent homology over
+graph-theoretic alternatives is the same as here: the features of interest
+are not expressible as functions of individual edges, but emerge from the
+collective geometry of multi-node motifs that thresholding-based networks
+miss or misrepresent.
+The amplified effect sizes we observe relative to conventional alpha-diversity
+are consistent with this general principle: topological features aggregate
+information from many pairwise correlations simultaneously, producing a more
+sensitive readout of network-wide reorganization.
 
 \subsection{Limitations}
 \label{subsec:limitations}

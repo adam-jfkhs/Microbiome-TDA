@@ -3,96 +3,94 @@
 \label{sec:introduction}
 %=============================================================================
 
-The human gut microbiome comprises trillions of microbial cells whose
-collective metabolic activity influences host immunity, energy balance, and,
-increasingly, inflammatory disease severity~\citep{hmp2012structure,
+Characterizing the human gut microbiome has, for two decades, meant counting
+taxa and summarizing their relative proportions~\citep{hmp2012structure,
 turnbaugh2007human}.
-Standard characterization tools---alpha and beta diversity metrics, relative
-abundance profiles---treat the microbiome as a bag of taxa: they count who is
-present and in what proportion, but they do not describe \emph{how} those taxa
-relate to one another.
-Co-occurrence networks partially address this limitation by encoding pairwise
-correlation structure, yet summaries of co-occurrence networks (node count,
-edge density, modularity) remain insensitive to the higher-order topology
-of the interaction landscape---the loops, voids, and multi-scale connectivity
-patterns that may carry distinct biological signal.
+This reductionist accounting has proven clinically informative---\textit{Faecalibacterium
+prausnitzii} depletion, Proteobacteria blooms, enterotype discretization---yet
+it systematically discards the relational fabric that gives a microbial
+community its functional identity: the web of cross-feeding dependencies,
+competitive exclusions, and syntrophic partnerships that collectively determine
+what a community \emph{does} rather than merely what it \emph{contains}.
+Co-occurrence networks partially recover this information by encoding pairwise
+correlational structure, but their standard reductions---edge density, modularity
+index, clustering coefficient---remain insensitive to higher-dimensional
+topological organization: the loops, multi-node cycles, and nested connectivity
+motifs that govern resilience and metabolic redundancy.
 
-\subsection{The structure problem in microbiome analysis}
+\subsection{Why topology, and why now}
 
-Microbial communities are not collections of independent actors.
-Taxa interact through cross-feeding, competition, niche exclusion, and
-quorum sensing, forming an ecological network with emergent structural
-properties~\citep{faust2012microbial,friedman2012inferring}.
-When this network is disrupted---by antibiotic treatment, by inflammatory
-bowel disease (\ibd), by dietary shifts---the disruption may manifest not
-primarily in the loss of particular species but in the reorganization of
-interaction topology.
-Two communities could have identical species richness and similar pairwise
-correlations yet differ fundamentally in whether those correlations form
-cycles, dense cliques, or disconnected modules.
+Persistent homology~\citep{carlsson2009topology,edelsbrunner2008persistent}
+offers a mathematically precise vocabulary for this organizational structure.
+Rather than selecting a correlation threshold and analyzing the resulting
+binary network---a choice that discards information above and below that
+cutoff simultaneously---Vietoris--Rips filtration tracks topological features
+(\textit{connected components, loops, cavities}) as they nucleate and
+extinguish across the full spectrum of correlation distances.
+The resulting persistence diagram encodes both \emph{which} features appear
+and \emph{how robustly} they persist, the latter being the operative
+summary statistic: features that survive across a wide filtration range reflect
+strong, multiply-reinforced co-occurrence relationships rather than chance
+statistical fluctuations.
+Persistence-derived descriptors---Betti curves, persistence entropy, total
+persistence---have demonstrated discriminative power in neuroscience,
+protein folding, and materials microstructure
+analysis~\citep{wasserman2018topological,bubenik2015statistical,ghrist2008barcodes},
+but their deployment on microbial co-occurrence networks has remained
+limited~\citep{camara2017topological}.
 
-Persistent homology, a central tool in topological data analysis (\tda),
-provides a mathematically rigorous way to quantify this higher-order
-structure~\citep{carlsson2009topology, edelsbrunner2008persistent}.
-Applied to a co-occurrence network, it extracts the number and
-``lifetime'' (persistence across correlation thresholds) of connected
-components (\Hzero), one-dimensional loops (\Hone), and higher-order
-cavities.
-These topological descriptors have been applied successfully in
-neuroscience~\citep{ghrist2008barcodes}, protein structure analysis, and
-materials science~\citep{wasserman2018topological,bubenik2015statistical},
-but their application to gut microbiome co-occurrence networks remains
-nascent~\citep{camara2017topological}.
+\subsection{Inflammatory bowel disease as a topological stress test}
 
-\subsection{IBD as a structural disruption model}
+Inflammatory bowel disease---Crohn's disease and ulcerative colitis
+collectively---provides an exceptionally well-characterized perturbation of
+gut microbial ecology~\citep{petersen2017defining}.
+The compositional signature is reproducible across cohorts: contracted
+\textit{Lachnospiraceae} and \textit{Ruminococcaceae} abundance, reduced
+butyrate-producing capacity, elevated Proteobacteria, diminished colonization
+resistance~\citep{gevers2014treatment,halfvarson2017dynamics,ley2006microbial}.
+What this signature does not address is whether these compositional shifts
+\emph{dismantle the loop structure} of the co-occurrence network---whether
+the metabolic cross-feeding circuits that butyrate producers anchor collapse
+when those organisms are numerically depleted, leaving behind a topologically
+impoverished interaction landscape.
+This is the mechanistic hypothesis our analysis tests empirically.
 
-Inflammatory bowel disease---comprising Crohn's disease and ulcerative colitis
-(UC)---is characterized by chronic intestinal inflammation, barrier
-dysfunction, and a consistently altered microbiome~\citep{petersen2017defining}.
-Metagenomic and 16S rRNA studies have documented reductions in microbial
-diversity, depletion of butyrate-producing taxa (\textit{Faecalibacterium
-prausnitzii}, \textit{Roseburia} spp.), and expansion of
-pro-inflammatory Proteobacteria~\citep{ley2006microbial}.
-Yet these compositional findings do not fully explain the clinical
-heterogeneity of \ibd.
-We hypothesize that \ibd\ disrupts the topological organization of microbial
-co-occurrence networks in a way that is detectable and robust, and that this
-topological disruption represents a complementary dimension of dysbiosis
-beyond compositional shifts.
+\subsection{Contributions}
 
-\subsection{Our contribution}
+This paper makes four specific claims:
 
-We make the following specific contributions:
+\begin{enumerate}[leftmargin=*, itemsep=3pt]
+  \item \textbf{Methodological:} A paired bootstrap design for comparing
+  persistence diagrams at scale, using sign-flip label permutation as the null
+  and a globally pre-fixed taxon set to decouple topological signal from
+  feature-space selection noise (Section~\ref{sec:methods}).
 
-\begin{enumerate}[leftmargin=*, itemsep=2pt]
-  \item \textbf{Methodological:} We introduce a paired bootstrap design for
-  comparing persistence diagrams between groups, using sign-flip label
-  permutation as the null and a globally fixed taxon set to ensure every
-  iteration operates on a common feature space (Section~\ref{sec:methods}).
+  \item \textbf{Empirical:} Across 3,409 \agp\ stool samples, \ibd\ is
+  associated with sweeping reduction in co-occurrence loop structure---fewer
+  cycles, shorter-lived cycles, lower peak cycle density---with effect sizes
+  ($d = 0.75$--$2.38$) large enough to be unambiguous
+  (Section~\ref{sec:results}).
 
-  \item \textbf{Empirical:} We apply this design to 3,409 AGP stool samples
-  across three biologically motivated comparisons: \ibd\ status, antibiotic
-  recency, and plant-based diet. We find that \ibd\ is associated with
-  dramatically lower topological complexity across all six \Hone\ features
-  ($d = 0.75$--$2.38$; Section~\ref{sec:results}).
+  \item \textbf{Robustness:} The \ibd\ finding survives covariate matching
+  on age, sex, and BMI and is statistically indistinguishable across taxon-set
+  sizes $N \in \{50, 80, 120\}$---ruling out demographic confounding,
+  taxa-selection artefact, and numerical instability as alternative
+  explanations (Section~\ref{subsec:sensitivity}).
 
-  \item \textbf{Robustness:} We demonstrate that the \ibd\ finding is fully
-  preserved after covariate matching on age, sex, and BMI, and is consistent
-  across taxon-set sizes $N \in \{50, 80, 120\}$
-  (Section~\ref{subsec:sensitivity}).
-
-  \item \textbf{Statistical transparency:} We pre-specify and apply a single,
-  explicit FDR correction policy (18-test BH, sign-flip primary $p$-values
-  only; Section~\ref{subsec:stats}) and report all 36 test results
-  (full and matched subsets) without selection.
+  \item \textbf{Calibration:} A pre-specified FDR policy---18-test
+  Benjamini--Hochberg correction, sign-flip primary $p$-values only,
+  full and matched subsets corrected independently---is stated before any
+  result is examined (Section~\ref{subsec:stats}).
 \end{enumerate}
 
-The remainder of this paper is organized as follows.
-Section~\ref{sec:methods} describes the dataset, preprocessing pipeline,
-network construction, \tda\ approach, and statistical framework.
-Section~\ref{sec:results} presents results for each comparison,
-followed by the sensitivity analysis.
-Section~\ref{sec:discussion} interprets findings in the context of \ibd\
-biology and discusses limitations.
-Section~\ref{sec:conclusion} concludes with implications and directions for
-future work.
+The paper proceeds as follows.
+Section~\ref{sec:methods} details dataset provenance, preprocessing, network
+construction, the persistent homology pipeline, and the full statistical
+framework.
+Section~\ref{sec:results} reports findings for \ibd, diet, and antibiotic
+recency, followed by the taxa-sensitivity analysis.
+Section~\ref{sec:discussion} situates the \ibd\ result in the IBD biology
+literature, qualifies the diet finding, argues for restraint regarding
+antibiotics, and enumerates the study's limitations without euphemism.
+Section~\ref{sec:conclusion} closes with a minimal interpretation and a
+specific agenda for follow-on work.

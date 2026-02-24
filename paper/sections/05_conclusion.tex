@@ -3,41 +3,51 @@
 \label{sec:conclusion}
 %=============================================================================
 
-We have applied persistent homology to co-occurrence networks derived from
-3,409 fecal samples in the American Gut Project, using a paired bootstrap
-design with explicit FDR correction and covariate matching to assess the
-robustness of group differences in topological structure.
+We applied persistent homology to microbial co-occurrence networks derived
+from 3,409 fecal samples in the American Gut Project, quantifying loop
+structure through six scalar features extracted from $H_1$ persistence
+diagrams.
+Using a paired bootstrap framework with sign-flip label permutation and
+Benjamini--Hochberg correction over a pre-specified 18-test family, we
+find that:
 
-The primary finding is clear: inflammatory bowel disease is associated with
-substantially lower topological complexity in microbial co-occurrence networks,
-with large and fully robust effect sizes ($d = 0.75$--$2.38$) across all six
-\Hone\ features, all three taxon-set sizes tested ($N \in \{50, 80, 120\}$),
-and both full and matched subsamples.
-This constitutes, to our knowledge, the first demonstration that \ibd\
-dysbiosis has a detectable topological signature in the loop structure of
-co-occurrence networks.
+\begin{enumerate}[leftmargin=*, itemsep=3pt]
 
-A secondary finding is that plant-based diet is associated with longer-lived
-co-occurrence loops, suggesting a structural reorganization of the microbial
-interaction landscape rather than simple enrichment or depletion.
-This finding is partially robust to covariate matching and stable across two
-of three taxon-set sizes.
+  \item \textbf{\ibd\ (UC + Crohn's) is associated with pan-topological
+  depletion of co-occurrence loop structure.}
+  Effect sizes of $d = 0.75$--$2.38$ across all six features, a null
+  permutation floor at every one, and complete preservation after
+  age/sex/BMI covariate matching make this the most robust finding in
+  the study.
+  It is replicated at taxon-set sizes 50, 80, and 120.
 
-We make no claim about antibiotic recency based on these data; the signal is
-weak and inconsistent.
+  \item \textbf{Plant-based diet restructures rather than uniformly
+  enriches co-occurrence topology.}
+  Fewer but longer-lived loops, partially robust to demographic
+  matching (3/6 features FDR-significant post-match), suggest a
+  fibre-driven structural re-partitioning of the microbial interaction
+  network.
 
-The paired bootstrap design introduced here---drawing matched subsamples
-repeatedly, computing topological features per iteration, and testing the
-distribution of paired differences against a sign-flip null---is directly
-reusable for any group comparison in microbiome TDA.
-Code and data are publicly available at
-\href{https://github.com/adam-jfkhs/Microbiome-TDA}{\texttt{github.com/adam-jfkhs/Microbiome-TDA}}.
+  \item \textbf{Antibiotic recency, as defined in \agp, provides no
+  coherent topological signal.}
+  The comparison is underpowered for topological inference given the
+  heterogeneous exposure window and absence of class stratification.
 
-\paragraph{Future directions.}
-Immediate priorities are: (1) correlation of topological features with
-conventional alpha diversity and beta diversity metrics to establish
-the informational overlap and added value; (2) taxon-level attribution of
-loop structure to identify which co-occurrence pairs form the persistent
-\Hone\ features; (3) replication in an independent IBD cohort; and (4)
-longitudinal analysis to assess whether topological simplification precedes
-or follows clinical relapse.
+\end{enumerate}
+
+The paired bootstrap design and pre-fixed global taxon selection introduced
+here are reusable components for any group-level microbiome TDA
+application.
+All code, data retrieval scripts, result tables, and figure generation
+pipelines are publicly available at
+\href{https://github.com/adam-jfkhs/Microbiome-TDA}%
+{\texttt{github.com/adam-jfkhs/Microbiome-TDA}}.
+
+The three most pressing extensions of this work are:
+(i) comparison of topological features against conventional $\alpha$/$\beta$
+diversity metrics to establish added discriminative value;
+(ii) taxon-attribution of loop structure to connect topological statistics
+to named biological interactions;
+(iii) replication of the \ibd\ finding in an independent cohort
+with clinical activity metadata, as the necessary condition for any
+downstream translational claim.

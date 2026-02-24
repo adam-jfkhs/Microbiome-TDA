@@ -3,96 +3,103 @@
 \label{sec:results}
 %=============================================================================
 
-\subsection{Dataset and group characteristics}
+\subsection{Cohort structure and group partitioning}
 \label{subsec:dataset_chars}
 
-After filtering to stool samples with $\geq 1{,}000$ reads and taxa
-present in $\geq 5\%$ of samples, 3,409 samples remained (1,864 taxa before
-global top-80 selection).
-Table~\ref{tab:groups} summarizes group sizes for each comparison.
-The IBD group ($n = 165$) was smaller than the antibiotics and diet groups,
-reflecting the population prevalence of inflammatory bowel disease in the
-\agp\ cohort.
-Among the 201 metadata columns, fields for antibiotic recency
-(\texttt{ANTIBIOTIC\_SELECT}), IBD status (\texttt{IBD}), and diet type
-(\texttt{DIET\_TYPE}) were used as group definitions.
+Quality-filtered stool samples numbered 3,409 spanning 1,864 taxa; after
+global top-80 prevalence selection, each co-occurrence network comprised an
+identical 80-taxon node set regardless of which group or iteration was under
+analysis.
+Table~\ref{tab:groups} records group cardinalities before and after
+demographic stratification matching.
 
 \begin{table}[H]
 \centering
-\caption{Group sizes for each comparison before and after covariate matching.
-  Matching was performed on age-bin $\times$ sex $\times$ BMI-bin strata;
-  samples missing any covariate were excluded from matched analyses.}
+\caption{%
+  \textbf{Group sizes for each comparison (full and matched subsets).}
+  Matching stratified on age-bin $\times$ sex $\times$ BMI-bin; samples
+  missing any covariate were withheld from matched analyses.
+  Bootstrap subsampling drew $n = 100$ per group per iteration.
+}
 \label{tab:groups}
 \setlength{\tabcolsep}{8pt}
 \begin{tabular}{llrrr}
 \toprule
-\textbf{Comparison} & \textbf{Group} & \textbf{Full $n$} & \textbf{Matched $n$}
-  & \textbf{Bootstrap $n$/iter} \\
+\textbf{Comparison} & \textbf{Group} & \textbf{Full $n$}
+  & \textbf{Matched $n$} & \textbf{Subsample/iter} \\
 \midrule
 \multirow{2}{*}{IBD}
-  & UC + Crohn's         & 165    & 135   & 100 \\
-  & Healthy              & 3{,}084 & 404  & 100 \\
+  & UC + Crohn's    & 165      & 135   & 100 \\
+  & Healthy         & 3{,}084  & 404   & 100 \\
 \addlinespace
 \multirow{2}{*}{Diet}
-  & Plant-based          & 367    & 308   & 100 \\
-  & Omnivore             & 2{,}747 & 922  & 100 \\
+  & Plant-based     & 367      & 308   & 100 \\
+  & Omnivore        & 2{,}747  & 922   & 100 \\
 \addlinespace
 \multirow{2}{*}{Antibiotics}
-  & Recent ($\leq$6 mo.) & 590    & 479   & 100 \\
-  & None ($>$1 yr)       & 2{,}271 & 1{,}284 & 100 \\
+  & Recent ($\leq$6\,mo.) & 590    & 479     & 100 \\
+  & Absent ($>$1\,yr)     & 2{,}271 & 1{,}284 & 100 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{IBD is associated with reduced topological complexity}
+\subsection{IBD is associated with pan-topological collapse of co-occurrence loop structure}
 \label{subsec:ibd_results}
 
-\Ibd-associated microbiomes (UC + Crohn's) showed consistently and strongly
-\emph{reduced} topological complexity compared to healthy controls across all
-six \Hone\ features (Figure~\ref{fig:ibd_bootstrap}).
+The paired bootstrap distributions for the IBD comparison are shown in
+Figure~\ref{fig:ibd_bootstrap}.
+Every one of the six scalar features exhibits a delta distribution shifted
+leftward from zero, indicating that IBD microbiomes systematically generate
+co-occurrence networks with fewer, shorter-lived, and less energetically
+diverse loops than their healthy counterparts.
+No feature was directionally equivocal.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{../figures/agp_ibd_v2.png}
   \caption{%
-    \textbf{Paired bootstrap distributions: IBD vs.\ Healthy.}
-    Each panel shows the distribution of $\delta = f^{(A)} - f^{(B)}$ across
-    200 paired iterations for one topological feature
-    (group A = IBD; group B = Healthy).
-    Red histograms: full groups; green histograms: age/sex/BMI-matched subset.
-    The dashed vertical line marks $\delta = 0$.
-    All six distributions are shifted to the left of zero, indicating that
-    IBD microbiomes have fewer and shorter-lived co-occurrence loops.
-    Effect sizes (Cohen's $d$), permutation $p$-values, and confirmatory
-    Wilcoxon $p$-values are shown in each panel header; all six features are
-    FDR-significant (BH, 18-test correction; Table~\ref{tab:ibd_results}).
+    \textbf{Paired bootstrap delta distributions: IBD (UC + Crohn's)
+    vs.\ Healthy, $N = 80$ taxa.}
+    Each panel plots the distribution of the iteration-level difference
+    $\delta = f^{(\text{IBD})} - f^{(\text{Healthy})}$ across 200
+    paired iterations ($n = 100$ per group per iteration).
+    Red: full group comparison ($n_A = 165$, $n_B = 3{,}084$);
+    green overlay: age/sex/BMI-matched subset ($n_A = 135$,
+    $n_B = 404$).
+    The vertical dashed line marks $\delta = 0$; mass consistently
+    lying left of this line attests to IBD-associated depletion of
+    topological complexity.
+    Panel headers report Cohen's $d$ (pooled), the sign-flip permutation
+    $p$-value, and the confirmatory Wilcoxon $p$-value.
+    All six features reach FDR significance at $p_{\text{FDR}} \leq 0.005$
+    (Table~\ref{tab:ibd_results}).
   }
   \label{fig:ibd_bootstrap}
 \end{figure}
 
-Table~\ref{tab:ibd_results} reports the full statistical results for the IBD
-comparison.
-The largest effect was observed for total \Hone\ persistence
-($d = -2.28$, mean 0.40 vs.\ 0.80 for IBD vs.\ healthy at $N = 80$) and
-max Betti-1 ($d = -2.07$, mean 3.4 vs.\ 7.1).
-H1 count showed $d = -1.34$ (mean 16.9 vs.\ 23.7), indicating that IBD
-microbiomes form approximately 7 fewer co-occurrence loops per subsample than
-healthy controls.
+Numerical results appear in Table~\ref{tab:ibd_results}.
+The three features with the largest effect sizes---total persistence
+($d = -2.28$), max Betti-1 ($d = -2.07$), and mean lifetime ($d = -1.65$)---
+indicate that the healthy microbiome sustains roughly twice the cumulative
+topological weight, twice the peak cycle density, and 42\% longer average
+cycle lifetimes than the \ibd\ microbiome.
+The permutation floor of $p = 0.002$ (the smallest achievable at
+500 permutations; $\lfloor 1/501 \rfloor = 0.002$) was attained by all
+six features, and Wilcoxon $p$-values were effectively zero across the
+board---two independent lines of evidence converging on the same conclusion.
 
 \begin{table}[H]
 \centering
 \caption{%
-  \textbf{IBD vs.\ Healthy: topological feature comparison.}
-  Results from the paired bootstrap design (200 iterations, $n = 100$/group,
-  global top-80 taxa, $N = 80$).
-  Primary $p$-values are from sign-flip label permutation (500 shuffles);
-  $p_{\text{FDR}}$ is BH-corrected across 18 tests.
-  Wilcoxon $p$ is confirmatory only (not FDR-corrected).
-  $\star$ = FDR-significant ($p_{\text{FDR}} \leq 0.05$).
+  \textbf{IBD vs.\ Healthy: full-group topological comparison, $N = 80$ taxa.}
+  Means are averaged across 200 paired bootstrap iterations.
+  Primary inference rests on sign-flip permutation $p$ (500 shuffles);
+  $p_{\text{FDR}}$ is the Benjamini--Hochberg adjusted value across 18 tests.
+  Wilcoxon $p$ is secondary and confirmatory only ($\star$ = FDR-significant).
 }
 \label{tab:ibd_results}
 \small
-\setlength{\tabcolsep}{6pt}
+\setlength{\tabcolsep}{5.5pt}
 \begin{tabular}{lrrrrrr}
 \toprule
 \textbf{Feature} & \textbf{Mean IBD} & \textbf{Mean Healthy}
@@ -101,7 +108,7 @@ healthy controls.
 \midrule
 H1 count             & 16.87 & 23.66 & $-$1.34 & 0.002 & 0.004$^\star$ & $<$0.001 \\
 H1 entropy           & 2.403 & 2.749 & $-$1.23 & 0.002 & 0.004$^\star$ & $<$0.001 \\
-Total persistence    & 0.397 & 0.795 & $-$2.27 & 0.002 & 0.004$^\star$ & $<$0.001 \\
+Total persistence    & 0.397 & 0.795 & $-$2.28 & 0.002 & 0.004$^\star$ & $<$0.001 \\
 Mean lifetime        & 0.024 & 0.034 & $-$1.65 & 0.002 & 0.004$^\star$ & $<$0.001 \\
 Max lifetime         & 0.080 & 0.119 & $-$1.45 & 0.002 & 0.004$^\star$ & $<$0.001 \\
 Max Betti-1          & 3.44  & 7.09  & $-$2.07 & 0.002 & 0.004$^\star$ & $<$0.001 \\
@@ -109,126 +116,138 @@ Max Betti-1          & 3.44  & 7.09  & $-$2.07 & 0.002 & 0.004$^\star$ & $<$0.00
 \end{tabular}
 \end{table}
 
-All six features remained FDR-significant in the matched analysis (matched
-$n_A = 135$, $n_B = 404$), ruling out confounding by age, sex, or BMI as
-an explanation for the observed differences.
+Covariate matching left the picture unaltered: all six features remained
+FDR-significant in the matched subsample ($n_A = 135$, $n_B = 404$), and
+effect sizes were numerically indistinguishable from the full-group estimates
+(matched total persistence $d = -2.22$; matched max Betti-1 $d = -2.32$).
 
-For illustrative purposes, Figure~\ref{fig:ibd_tda} shows the persistence
-diagrams and Betti-1 curves from a representative single comparison (500
-samples per group), which motivated the bootstrap analysis.
+For geometric intuition, Figure~\ref{fig:ibd_tda} displays persistence
+diagrams and Betti-1 curves from a representative single-pass comparison;
+the sparser diagram and attenuated Betti-1 peak for the IBD group
+corroborate the bootstrap evidence at the level of individual network topology.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.92\textwidth]{../figures/agp_ibd_tda.png}
   \caption{%
-    \textbf{Illustrative TDA output: IBD vs.\ Healthy (single comparison,
-    $n = 500$ per group).}
-    \textit{Top row, left and centre:} Persistence diagrams for IBD
-    (n = 165, subsampled) and Healthy (n = 500) groups.
-    Each point represents a topological feature; distance from the diagonal
-    indicates persistence (lifetime).
-    H0 = connected components (blue circles), H1 = loops (orange triangles).
-    \textit{Top row, right:} Betti-1 curves showing the number of active
-    co-occurrence loops as a function of correlation-distance threshold.
-    The healthy group (blue) reaches a higher peak and sustains loops over a
-    wider filtration range.
-    \textit{Bottom row:} Persistence landscape (left), topological summary
-    bar chart (centre), and statistical summary (right).
-    This single-comparison figure is illustrative only; inference is drawn
+    \textbf{Illustrative single-comparison TDA output: IBD vs.\ Healthy
+    ($n = 500$ per group, $N = 80$ taxa).}
+    \textit{Top left and centre:} Persistence diagrams.
+    Connected-component bars (\Hzero, blue circles) and loop bars (\Hone,
+    orange triangles) are plotted at their (birth, death) coordinates;
+    proximity to the diagonal denotes short-lived, numerically fragile
+    features.
+    The IBD diagram is visibly sparser in $H_1$ features and shows a
+    tighter cluster near the diagonal, reflecting the reduced loop
+    persistence quantified in Table~\ref{tab:ibd_results}.
+    \textit{Top right:} Betti-1 curves.
+    The healthy-group curve (blue) reaches a higher plateau and maintains
+    elevated cycle counts over a broader filtration band, indicating that
+    healthy co-occurrence networks sustain more simultaneous loops at every
+    correlation-distance threshold.
+    \textit{Bottom row:} Persistence landscape $\lambda_1(t)$ (left),
+    topological summary bar chart (centre), and reported test statistics
+    (right).
+    This panel is illustrative; statistical inference derives exclusively
     from the paired bootstrap analysis (Figure~\ref{fig:ibd_bootstrap},
     Table~\ref{tab:ibd_results}).
   }
   \label{fig:ibd_tda}
 \end{figure}
 
-\subsection{Plant-based diet is associated with altered loop structure}
+\subsection{Plant-based diet: fewer but more tenacious co-occurrence cycles}
 \label{subsec:diet_results}
 
-Plant-based diet (vegan, vegetarian, and pescatarian; $n = 367$) was
-compared to omnivore ($n = 2{,}747$).
-Figure~\ref{fig:diet_bootstrap} shows the bootstrap delta distributions.
+The plant-based vs.\ omnivore comparison revealed a more nuanced topological
+signature than the IBD contrast (Figure~\ref{fig:diet_bootstrap}).
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{../figures/agp_diet_v2.png}
   \caption{%
-    \textbf{Paired bootstrap distributions: Plant-based vs.\ Omnivore.}
-    Red = full groups; green = matched subset.
-    Plant-based eaters show longer-lived H1 features (positive $\delta$ for
-    mean and max lifetime) and higher max Betti-1, indicating denser and
-    more persistent co-occurrence loops.
-    H1 count and entropy show a negative delta (plant-based communities have
-    \emph{fewer} but \emph{longer-lived} loops), suggesting a structural
-    reorganization rather than uniform enrichment.
+    \textbf{Paired bootstrap delta distributions: Plant-based vs.\ Omnivore,
+    $N = 80$ taxa.}
+    Red = full groups ($n_A = 367$, $n_B = 2{,}747$);
+    green = matched subset ($n_A = 308$, $n_B = 922$).
+    H1 count shows a negative delta (plant-based eaters generate
+    \emph{fewer} total loops), while mean lifetime, max lifetime, and
+    max Betti-1 are positive (the loops they do form are more persistent
+    and reach higher simultaneous densities).
+    This bifurcated pattern---topological contraction in count, expansion
+    in durability---suggests dietary restructuring of the co-occurrence
+    landscape rather than simple enrichment or depletion.
   }
   \label{fig:diet_bootstrap}
 \end{figure}
 
-Five of six features were FDR-significant in the full-group analysis.
-Notably, mean lifetime ($d = 0.65$; $p_\text{FDR} = 0.004$) and max
-Betti-1 ($d = 0.46$; $p_\text{FDR} = 0.004$) showed robust positive effects,
-while H1 count was negative ($d = -0.34$), indicating that plant-based
-microbiomes harbor \emph{fewer but longer-lived} co-occurrence loops.
-In matched analyses (308 vs.\ 922), three of six features survived FDR
-correction (mean lifetime, max lifetime, max Betti-1), suggesting that
-the diet signal is partly confounded by demographic differences but not
-entirely explained by them.
+Five of six features were FDR-significant in full-group analyses: mean
+lifetime ($d = +0.65$, $p_\text{FDR} = 0.004$), max Betti-1
+($d = +0.46$, $p_\text{FDR} = 0.004$), total persistence
+($d = +0.22$, $p_\text{FDR} = 0.030$), H1 count ($d = -0.34$,
+$p_\text{FDR} = 0.007$), and H1 entropy ($d = -0.23$,
+$p_\text{FDR} = 0.029$).
+After matching, three features survived correction (mean lifetime,
+max lifetime, max Betti-1), signalling partial---though not total---confounding
+by demographic covariates.
 
-\subsection{Antibiotic recency shows limited and variable signal}
+\subsection{Antibiotic recency: an inconclusive topological signal}
 \label{subsec:abx_results}
 
-Antibiotic use within the past 6 months ($n = 590$) was compared to no
-antibiotic use in the past year ($n = 2{,}271$).
-In full-group analyses, only max Betti-1 reached FDR significance
-($d = -0.39$; $p_\text{FDR} = 0.004$).
-In matched analyses (479 vs.\ 1{,}284), four of six features were FDR-significant
-at $N = 50$ and $N = 120$ but not at $N = 80$, indicating that the antibiotic
-signal is sensitive to taxa-set choice and should not be reported as robust.
-We interpret this as a weak and potentially confounded effect; antibiotic
-recency within 6 months spans a wide range of time-since-treatment and
-antibiotic classes, which may dilute any topological signal.
+Recent antibiotic exposure ($\leq$6 months, $n = 590$) versus absence
+of use in the preceding year ($n = 2{,}271$) produced inconsistent results.
+In full-group analyses at $N = 80$, only max Betti-1 cleared FDR
+($d = -0.39$, $p_\text{FDR} = 0.004$); in matched analyses at $N = 80$,
+zero features survived correction.
+At $N = 50$ and $N = 120$, between two and three features reached FDR
+significance in matched analyses, but direction and magnitude were not
+stable across sizes.
+We decline to characterize this as a genuine topological effect.
+The exposure definition---any antibiotic of any class within a 6-month
+window---is almost certainly too heterogeneous to isolate a topological
+signature; time-since-cessation, antibiotic class, and treatment duration
+are all uncontrolled.
 
-\subsection{Taxa-set sensitivity: IBD is robust; diet and antibiotics are not}
+\subsection{Taxa-set sensitivity demonstrates IBD robustness and ABX fragility}
 \label{subsec:sensitivity}
 
-Figure~\ref{fig:sensitivity} shows Cohen's $d$ values and FDR significance
-across all three comparisons and three taxon-set sizes ($N \in \{50, 80,
-120\}$) for full groups.
+Figure~\ref{fig:sensitivity} displays Cohen's $d$ and FDR significance
+across all three comparisons and all three taxon-set sizes for full groups.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{../figures/taxa_sensitivity_full.png}
   \caption{%
-    \textbf{Taxa-set sensitivity: Cohen's $d$ by $N$ taxa (full groups).}
-    Heatmap cells show Cohen's $d$ for each feature (rows) and taxon-set
-    size (columns) within each comparison (panels).
-    Cells marked $\star$ are FDR-significant (BH correction across 18 tests,
-    sign-flip permutation $p$-values).
-    \textit{Centre panel (IBD):} All 18 cells are strongly negative and
-    FDR-significant, demonstrating complete robustness to taxon-set size.
-    Effect sizes range from $d = -0.75$ to $d = -2.38$.
-    \textit{Right panel (Diet):} Partial robustness; 3--4 of 6 features are
-    FDR-significant across sizes.
-    \textit{Left panel (ABX):} Variable signal; 1--3 of 6 features
-    FDR-significant, with inconsistent direction.
+    \textbf{Taxa-set sensitivity heatmap: Cohen's $d$ by $N$ taxa (full groups).}
+    Each cell encodes Cohen's $d$ for a feature (row) $\times$
+    taxa-set size (column) combination; cells marked $\star$ cleared
+    FDR correction (18-test BH, sign-flip permutation $p$-values).
+    \textit{Centre panel (IBD):} All 18 cells are strongly negative
+    and FDR-significant, confirming that neither the direction nor the
+    significance of the \ibd\ finding depends on how many taxa are
+    included ($d$ ranges from $-0.75$ to $-2.38$ across the 18 cells).
+    \textit{Right panel (Diet):} Partial robustness; 3--4 of 6 features
+    FDR-significant at each size, with consistent positive direction for
+    lifetime metrics.
+    \textit{Left panel (Antibiotics):} Erratic; effect-size direction
+    varies across features and sizes, with no coherent pattern.
   }
   \label{fig:sensitivity}
 \end{figure}
 
-The matched-group sensitivity heatmap (Supplementary Figure~S1) shows an
-identical pattern for IBD: all 18 cells remain FDR-significant with effect
-sizes $d = -0.81$ to $d = -2.56$.
+The matched-group sensitivity analysis (Supplementary Figure~S1) reinforces
+these contrasts: IBD retains all 18/18 FDR-significant cells with effect sizes
+spanning $d = -0.81$ to $d = -2.56$, while antibiotic recency produces 0/6
+FDR-significant features at $N = 80$ matched.
 
-Table~\ref{tab:sensitivity_summary} summarises the number of FDR-significant
-features per comparison and taxa size.
+Table~\ref{tab:sensitivity_summary} compresses these results into a
+6-cell summary per subset.
 
 \begin{table}[H]
 \centering
 \caption{%
-  \textbf{Taxa-set sensitivity summary.}
-  Number of FDR-significant features (out of 6) per comparison and taxon-set
-  size $N \in \{50, 80, 120\}$.
-  Results shown for full groups (top) and matched subsets (bottom).
+  \textbf{Taxa-set sensitivity summary}: FDR-significant features out of
+  6 per comparison and $N \in \{50, 80, 120\}$.
+  Full groups (upper) and matched subsets (lower).
 }
 \label{tab:sensitivity_summary}
 \small
@@ -240,13 +259,13 @@ features per comparison and taxa size.
 \midrule
 \multirow{3}{*}{Full}
   & IBD          & \textbf{6/6} & \textbf{6/6} & \textbf{6/6} \\
-  & Diet         & 4/6          & 4/6          & 3/6          \\
-  & Antibiotics  & 2/6          & 2/6          & 3/6          \\
+  & Diet         & 4/6 & 4/6 & 3/6 \\
+  & Antibiotics  & 2/6 & 2/6 & 3/6 \\
 \addlinespace
 \multirow{3}{*}{Matched}
   & IBD          & \textbf{6/6} & \textbf{6/6} & \textbf{6/6} \\
-  & Diet         & 4/6          & 3/6          & 4/6          \\
-  & Antibiotics  & 3/6          & 0/6          & 2/6          \\
+  & Diet         & 4/6 & 3/6 & 4/6 \\
+  & Antibiotics  & 3/6 & 0/6 & 2/6 \\
 \bottomrule
 \end{tabular}
 \end{table}

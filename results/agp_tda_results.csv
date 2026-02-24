@@ -1,0 +1,4 @@
+comparison,group_a,group_b,n_a,n_b,h1_features_a,h1_features_b,h1_entropy_a,h1_entropy_b,total_pers_a,total_pers_b,wasserstein_dist,wasserstein_pval,significant
+antibiotics,Recent antibiotics,No recent antibiotics,500,500,16,13,2.39,2.105,0.263,0.234,0.2645,0.0895,False
+ibd,IBD (UC + Crohn's),No IBD,165,500,14,9,2.311,1.952,0.24,0.248,0.2192,0.4308,False
+diet,Plant-based diet,Omnivore,367,500,14,15,2.395,2.358,0.465,0.317,0.2235,0.4143,False

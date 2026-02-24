@@ -1,0 +1,114 @@
+%=============================================================================
+\section{Discussion}
+\label{sec:discussion}
+%=============================================================================
+
+\subsection{Topological simplification as a dimension of IBD dysbiosis}
+
+The central finding of this study---that IBD-associated microbiomes show
+dramatically lower \Hone\ complexity than healthy controls---is consistent
+with the known compositional features of IBD but reveals a structurally
+distinct dimension of dysbiosis.
+Compositional studies have documented the depletion of butyrate-producing taxa
+(\textit{Faecalibacterium prausnitzii}, \textit{Roseburia spp.}) and the
+expansion of Proteobacteria in IBD~\citep{petersen2017defining}.
+These changes would be expected to reduce the density and connectivity of the
+co-occurrence network, which is precisely what our topological metrics capture:
+fewer loops (H1 count $-1.34$ SD lower), shorter loop lifetimes (mean lifetime
+$-1.65$ SD), and a lower peak number of simultaneously active loops (max
+Betti-1 $-2.07$ SD).
+
+Importantly, topological reduction is \emph{not} the same as diversity
+reduction.
+Shannon entropy quantifies evenness of abundance; our loop metrics quantify
+the multi-scale co-occurrence structure.
+A community could have high Shannon diversity but few co-occurrence loops if
+taxa co-occur independently; conversely, a low-diversity community with strong
+pairwise dependencies could exhibit rich loop structure.
+The relationship between topological and diversity metrics in this dataset
+remains to be characterized formally (see Limitations).
+
+The magnitude of effect sizes ($d = 0.75$--$2.38$) is notably large for a
+microbiome study.
+We attribute this partly to the paired bootstrap design: by repeatedly drawing
+$n = 100$ from each group and comparing the resulting topological features
+across 200 iterations, we are effectively estimating the typical topological
+difference between a random IBD patient sample and a random healthy sample,
+rather than comparing two fixed community-level representations.
+The bootstrap variance captures within-group heterogeneity, which tends to
+reduce effect sizes; that the effects remain large under this conservative
+design strengthens confidence in the finding.
+
+\subsection{Diet signal: structural reorganization rather than enrichment}
+
+The diet comparison revealed an intriguing pattern: plant-based eaters had
+\emph{fewer} H1 features than omnivores ($d = -0.34$) but \emph{longer-lived}
+loops (mean lifetime $d = +0.65$; max lifetime $d = +0.32$).
+This counterintuitive result---fewer but more persistent loops---suggests that
+plant-based microbiomes are not simply richer in co-occurrence structure;
+rather, they exhibit a different structural geometry.
+A possible biological interpretation is that the higher fiber intake
+characteristic of plant-based diets selectively enriches for a smaller number
+of cross-feeding consortia with strong metabolic dependencies (high loop
+persistence), while reducing the overall number of weaker, transient
+co-occurrences (lower total count).
+
+This interpretation is speculative and should be tested with mechanistic data.
+The partial attenuation of the diet signal after matching (3/6 vs.\ 5/6
+features surviving FDR) suggests that demographic factors---perhaps
+correlated lifestyle variables---account for some of the difference.
+
+\subsection{Antibiotic recency: insufficient evidence for a topological claim}
+
+We find no robust topological signature of recent antibiotic use.
+Only one feature (max Betti-1) survived FDR correction in full-group analyses,
+and the matched analysis at $N = 80$ produced zero FDR-significant features.
+We do not interpret this as evidence that antibiotics have no effect on
+microbiome topology; rather, the \agp\ antibiotic field aggregates use
+across a 6-month window and across all antibiotic classes, which almost
+certainly dilutes any class- or dose-specific effect.
+A more targeted analysis---comparing pre- and post-treatment samples, or
+stratifying by antibiotic class---would be required to evaluate the topological
+impact of antibiotics.
+
+\subsection{Limitations}
+\label{subsec:limitations}
+
+\paragraph{Cross-sectional design.}
+All \agp\ samples are single time-point observations.
+We cannot infer whether topological simplification precedes \ibd\ onset,
+accompanies active disease, or persists during remission.
+Longitudinal designs with pre/post samples would be required to address
+directionality.
+
+\paragraph{16S rRNA resolution.}
+The \agp\ BIOM file contains deblurred ASVs, which were not collapsed to
+genus level in our analysis.
+Species and strain-level interactions, which may contribute importantly to
+loop structure, are not resolved.
+
+\paragraph{No comparison with conventional diversity metrics.}
+We did not compare topological metrics against Shannon diversity or Bray--Curtis
+dissimilarity in the same samples.
+Whether topological features provide information \emph{beyond} standard metrics
+is an important question that we leave for follow-up work.
+
+\paragraph{Single dataset.}
+All results are from the \agp.
+The \agp\ is a self-selected citizen-science cohort with potential
+ascertainment bias; replication in an independent clinical cohort
+(e.g., curatedMetagenomicData, iHMP) is needed before clinical claims
+can be made.
+
+\paragraph{No mechanistic interpretation.}
+We do not identify which specific taxa drive the loop-structure differences.
+Taxon-level attribution (e.g., identifying which cross-feeding pairs form the
+persistent loops) would require further analysis.
+
+\paragraph{Bootstrap non-independence.}
+The 200 paired iterations are not fully independent because they draw
+(without replacement) from the same finite pool of samples.
+Effective sample size is therefore less than 200.
+The sign-flip permutation test accounts for this to some degree (it permutes
+within the same set of deltas), but formal correction for the effective
+sample size was not applied.

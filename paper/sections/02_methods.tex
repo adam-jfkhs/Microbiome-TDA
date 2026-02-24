@@ -1,0 +1,204 @@
+%=============================================================================
+\section{Methods}
+\label{sec:methods}
+%=============================================================================
+
+\subsection{Dataset}
+\label{subsec:dataset}
+
+We analyzed publicly available data from the American Gut Project
+(\agp)~\citep{mcdonald2018american}, a citizen-science 16S rRNA gene
+sequencing initiative.
+Raw sequence data were obtained in BIOM format from the AGP public repository
+(Deblur 2021.09 processing, Illumina 16S V4 150\,nt, context
+\texttt{Deblur\_2021.09-Illumina-16S-V4-150nt-780f26b}).
+The full dataset comprised 22,742 amplicon sequence variants (ASVs) across
+4,827 samples with 201 metadata columns.
+
+We restricted analysis to fecal (stool) samples only
+(\texttt{BODY\_SITE = UBERON:feces}; $n = 3{,}679$ samples before
+quality filtering), as stool is the most consistently characterized body site
+in \agp\ and provides the largest sample size for group comparisons.
+
+\subsection{Preprocessing}
+\label{subsec:preprocessing}
+
+Quality filtering retained samples with $\geq 1{,}000$ total reads and taxa
+present in $\geq 5\%$ of samples, yielding 3,409 samples and 1,864 taxa.
+Compositional bias was addressed using the centered log-ratio (\clr)
+transformation~\citep{aitchison1982statistical,gloor2017microbiome}:
+\begin{equation}
+  \text{CLR}(x_i) = \ln\!\left(\frac{x_i + 0.5}{g(\mathbf{x} + 0.5)}\right),
+\end{equation}
+where $g(\cdot)$ denotes the geometric mean across all taxa and a pseudocount
+of 0.5 is added to handle zeros.
+
+\subsection{Global taxon-set selection}
+\label{subsec:taxa_selection}
+
+A key methodological decision is which taxa to include in co-occurrence
+network construction.
+We selected the top 80 taxa by prevalence (fraction of samples in which a
+taxon is above its median abundance) across \emph{all} 3,409 stool samples
+\emph{before} any group splitting.
+This global selection ensures that every bootstrap iteration and every group
+comparison operates on an identical 80-node network, eliminating feature-space
+variation as a confound.
+The sensitivity of results to this choice ($N \in \{50, 80, 120\}$) is
+evaluated in Section~\ref{subsec:sensitivity}.
+
+\subsection{Co-occurrence network construction}
+\label{subsec:networks}
+
+For each bootstrap subsample (Section~\ref{subsec:bootstrap}), we computed
+the $80 \times 80$ Spearman rank correlation matrix across taxa (i.e., taxa
+are variables, samples are observations within the subsample).
+Distances between taxa were defined as:
+\begin{equation}
+  d_{ij} = 1 - |r_{ij}|,
+\end{equation}
+where $r_{ij}$ is the Spearman correlation between taxa $i$ and $j$.
+This maps strong correlators (positive or negative) to small distances
+($d \approx 0$) and uncorrelated taxa to large distances ($d = 1$),
+producing a metric space suitable for Vietoris--Rips filtration.
+
+We did not apply a hard correlation threshold prior to persistent homology;
+instead the full filtration encodes correlations at all scales simultaneously.
+
+\subsection{Persistent homology}
+\label{subsec:ph}
+
+Persistent homology was computed using Ripser~\citep{tralie2018ripser} via
+the Python package \texttt{ripser} (v0.6), operating on the $80 \times 80$
+distance matrix.
+We computed homology in dimensions $k \in \{0, 1\}$ (connected components
+and one-dimensional loops respectively).
+Higher-dimensional homology ($H_2$) was omitted for computational tractability
+and because $H_1$ features capture the loop structure of co-occurrence
+networks most directly.
+
+A persistence diagram $\mathrm{PD}_k = \{(b_i, d_i)\}$ encodes the birth
+($b_i$) and death ($d_i$) filtration values of the $i$-th $k$-dimensional
+topological feature.
+Features with $d_i - b_i < \varepsilon$ (persistence below the numerical
+precision floor) were excluded.
+Infinite bars (features that never die within $[0,1]$) were removed before
+feature extraction.
+
+\subsection{Topological feature extraction}
+\label{subsec:features}
+
+From each persistence diagram $\mathrm{PD}_1$, we extracted six scalar
+features:
+
+\begin{description}[leftmargin=2em, itemsep=2pt]
+  \item[\textbf{H1 count}] Number of finite \Hone\ bars: total count of
+  co-occurrence loops detected.
+  \item[\textbf{H1 entropy}] Persistent entropy of \Hone:
+  $S = -\sum_i \ell_i \ln \ell_i / L$, where $\ell_i = d_i - b_i$
+  and $L = \sum_i \ell_i$. Measures the diversity of loop lifetimes.
+  \item[\textbf{Total persistence}] $\sum_i (d_i - b_i)$: total accumulated
+  lifetime of all \Hone\ features.
+  \item[\textbf{Mean lifetime}] $\overline{\ell} = L / |\mathrm{PD}_1|$:
+  average loop persistence.
+  \item[\textbf{Max lifetime}] $\max_i (d_i - b_i)$: persistence of the
+  longest-lived loop, a robust summary statistic.
+  \item[\textbf{Max Betti-1}] Maximum of the Betti-1 curve
+  $\beta_1(\varepsilon) = |\{i : b_i \leq \varepsilon < d_i\}|$ over all
+  $\varepsilon$: peak number of simultaneous active loops.
+\end{description}
+
+\subsection{Paired bootstrap design}
+\label{subsec:bootstrap}
+
+Comparing a single persistence diagram per group would constitute
+pseudoreplication.
+Instead, for each group comparison, we ran $I = 200$ paired iterations.
+In each iteration $t$:
+\begin{enumerate}[leftmargin=*, itemsep=1pt]
+  \item Draw $n_A = 100$ samples without replacement from group~A.
+  \item Draw $n_B = 100$ samples without replacement from group~B.
+  \item Compute the six topological features for each subsample:
+  $f_k^{(t,A)}$ and $f_k^{(t,B)}$.
+  \item Record $\delta_k^{(t)} = f_k^{(t,A)} - f_k^{(t,B)}$.
+\end{enumerate}
+The observed test statistic for feature $k$ is $\bar{\delta}_k =
+I^{-1}\sum_t \delta_k^{(t)}$.
+Effect size (Cohen's $d$) is computed from the pooled distributions of
+$f_k^{(\cdot,A)}$ and $f_k^{(\cdot,B)}$ across all 200 iterations.
+
+We chose $n = 100$ per group as a compromise between per-iteration network
+quality (Spearman correlations on $n < 50$ are unstable) and the constraint
+that IBD group A ($n = 165$ total) can be sampled 200 times without
+replacement only if $n \ll 165$.
+
+\subsection{Statistical testing}
+\label{subsec:stats}
+
+\paragraph{Primary $p$-value: sign-flip label permutation.}
+For each feature $k$ we build a null distribution by independently and
+uniformly flipping the sign of each $\delta_k^{(t)}$ (500 permutations):
+\begin{equation}
+  T^{(\pi)} = \frac{1}{I}\sum_{t=1}^{I} \sigma_t^{(\pi)}\, \delta_k^{(t)},
+  \qquad \sigma_t^{(\pi)} \in \{-1, +1\} \text{ i.i.d.}
+\end{equation}
+The permutation $p$-value is $(|\{T^{(\pi)} : |T^{(\pi)}| \geq |\bar\delta_k|\}| +
+1) / (500 + 1)$.
+This null corresponds to the question: ``would we still see a mean delta of
+this magnitude if group labels were uninformative?''
+
+\paragraph{Secondary test: Wilcoxon signed-rank.}
+As a secondary confirmatory test, we applied the two-sided Wilcoxon signed-rank
+test to the vector of 200 deltas $(\delta_k^{(1)}, \ldots,
+\delta_k^{(200)})$.
+Wilcoxon $p$-values are reported alongside permutation $p$-values but are
+\emph{not} used for any FDR correction or primary inference.
+
+\paragraph{Multiple testing correction.}
+We apply Benjamini--Hochberg (\bh) FDR correction to the 18 sign-flip
+$p$-values (3 comparisons $\times$ 6 features) \emph{separately} within the
+full and matched subsets.
+Full and matched corrections are independent; results are reported for both.
+We do not pool across subsets (which would require correcting 36 tests) in
+order to give the matched analyses appropriate sensitivity.
+
+\subsection{Confounding control: covariate matching}
+\label{subsec:matching}
+
+For each comparison, we constructed a matched subsample to assess whether
+observed topological differences persist after removing demographic confounding.
+Samples were stratified by:
+\begin{itemize}[leftmargin=*, itemsep=1pt]
+  \item \textbf{Age}: binned into $<$25, 25--40, 40--60, $>$60 years.
+  \item \textbf{Sex}: female / male (samples with missing or ``other'' sex excluded).
+  \item \textbf{BMI}: binned into $<$25, 25--30, $>$30.
+\end{itemize}
+Within each stratum, all group-A members were retained and up to $3 \times
+|A_\text{stratum}|$ group-B members were sampled.
+Of 3,409 stool samples, 2,740 (80\%) had complete age, sex, and BMI data.
+The matched analysis was run only when matched group sizes were sufficient
+for the paired bootstrap ($\geq 100$ samples per group after matching).
+Matched group sizes were: antibiotic recency 479 vs.\ 1{,}284; IBD 135
+vs.\ 404; diet 308 vs.\ 922.
+
+\subsection{Sensitivity to taxon-set size}
+\label{subsec:design_sensitivity}
+
+To verify that findings are not artefacts of the specific choice of $N = 80$
+taxa, we repeated the full pipeline (global selection, paired bootstrap,
+sign-flip permutation, FDR correction, matched analysis) at $N \in \{50, 80,
+120\}$.
+All other parameters were held constant.
+
+\subsection{Reproducibility}
+\label{subsec:repro}
+
+All analyses were implemented in Python using \texttt{ripser}~\citep{tralie2018ripser},
+\texttt{persim}, \texttt{scipy}, \texttt{numpy}, and \texttt{pandas}.
+The random number generator was seeded at 42 throughout.
+All code, data download scripts, preprocessed data, result CSVs, and figure
+generation scripts are available at
+\href{https://github.com/adam-jfkhs/Microbiome-TDA}{\texttt{github.com/adam-jfkhs/Microbiome-TDA}}.
+The specific scripts used for the results in this paper are
+\texttt{scripts/run\_agp\_bootstrap\_v2.py} (main analysis) and
+\texttt{scripts/run\_taxa\_sensitivity.py} (sensitivity analysis).

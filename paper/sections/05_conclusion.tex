@@ -1,0 +1,43 @@
+%=============================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+%=============================================================================
+
+We have applied persistent homology to co-occurrence networks derived from
+3,409 fecal samples in the American Gut Project, using a paired bootstrap
+design with explicit FDR correction and covariate matching to assess the
+robustness of group differences in topological structure.
+
+The primary finding is clear: inflammatory bowel disease is associated with
+substantially lower topological complexity in microbial co-occurrence networks,
+with large and fully robust effect sizes ($d = 0.75$--$2.38$) across all six
+\Hone\ features, all three taxon-set sizes tested ($N \in \{50, 80, 120\}$),
+and both full and matched subsamples.
+This constitutes, to our knowledge, the first demonstration that \ibd\
+dysbiosis has a detectable topological signature in the loop structure of
+co-occurrence networks.
+
+A secondary finding is that plant-based diet is associated with longer-lived
+co-occurrence loops, suggesting a structural reorganization of the microbial
+interaction landscape rather than simple enrichment or depletion.
+This finding is partially robust to covariate matching and stable across two
+of three taxon-set sizes.
+
+We make no claim about antibiotic recency based on these data; the signal is
+weak and inconsistent.
+
+The paired bootstrap design introduced here---drawing matched subsamples
+repeatedly, computing topological features per iteration, and testing the
+distribution of paired differences against a sign-flip null---is directly
+reusable for any group comparison in microbiome TDA.
+Code and data are publicly available at
+\href{https://github.com/adam-jfkhs/Microbiome-TDA}{\texttt{github.com/adam-jfkhs/Microbiome-TDA}}.
+
+\paragraph{Future directions.}
+Immediate priorities are: (1) correlation of topological features with
+conventional alpha diversity and beta diversity metrics to establish
+the informational overlap and added value; (2) taxon-level attribution of
+loop structure to identify which co-occurrence pairs form the persistent
+\Hone\ features; (3) replication in an independent IBD cohort; and (4)
+longitudinal analysis to assess whether topological simplification precedes
+or follows clinical relapse.

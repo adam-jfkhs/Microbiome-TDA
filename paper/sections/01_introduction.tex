@@ -1,73 +1,98 @@
+%=============================================================================
 \section{Introduction}
 \label{sec:introduction}
+%=============================================================================
 
-% (~4-5 pages)
+The human gut microbiome comprises trillions of microbial cells whose
+collective metabolic activity influences host immunity, energy balance, and,
+increasingly, inflammatory disease severity~\citep{hmp2012structure,
+turnbaugh2007human}.
+Standard characterization tools---alpha and beta diversity metrics, relative
+abundance profiles---treat the microbiome as a bag of taxa: they count who is
+present and in what proportion, but they do not describe \emph{how} those taxa
+relate to one another.
+Co-occurrence networks partially address this limitation by encoding pairwise
+correlation structure, yet summaries of co-occurrence networks (node count,
+edge density, modularity) remain insensitive to the higher-order topology
+of the interaction landscape---the loops, voids, and multi-scale connectivity
+patterns that may carry distinct biological signal.
 
-% Opening: The gut microbiome as neurotransmitter factory
-% - 95\% of serotonin produced in the gut by enterochromaffin cells
-% - GABA, dopamine precursors, SCFAs all synthesized by gut bacteria
-% - The microbiome is not just a bystander — it is a direct participant
-%   in neurotransmitter biosynthesis and regulation
-% - Yet we lack tools to characterize the community-level structure
-%   that supports this production
+\subsection{The structure problem in microbiome analysis}
 
-% The structure problem
-% - Individual strains produce neurotransmitters, but production depends on
-%   cross-feeding networks: SCFA producers support serotonin-synthesizing taxa,
-%   tryptophan metabolizers feed downstream pathways
-% - These cross-feeding relationships form a topology — connected components,
-%   loops, higher-order structures — that compositional analysis cannot capture
-% - Current approaches: strain-by-strain probiotic studies, relative abundance
-%   correlations, machine learning on feature vectors
-% - What's missing: the SHAPE of the microbial interaction landscape
+Microbial communities are not collections of independent actors.
+Taxa interact through cross-feeding, competition, niche exclusion, and
+quorum sensing, forming an ecological network with emergent structural
+properties~\citep{faust2012microbial,friedman2012inferring}.
+When this network is disrupted---by antibiotic treatment, by inflammatory
+bowel disease (\ibd), by dietary shifts---the disruption may manifest not
+primarily in the loss of particular species but in the reorganization of
+interaction topology.
+Two communities could have identical species richness and similar pairwise
+correlations yet differ fundamentally in whether those correlations form
+cycles, dense cliques, or disconnected modules.
 
-% Disruption: two orthogonal mycobiome axes + AMR
-% - Axis 1: Environmental mold exposure (Aspergillus, Penicillium, etc.)
-%   as an external perturbation; presence may indicate inhalation/ingestion exposure
-% - Axis 2: Endogenous gut mycobiome (Candida, Malassezia) as internal dysbiosis
-% - These are orthogonal: a patient can have high environmental exposure with
-%   low gut fungal burden, or vice versa
-% - AMR gene carriers: antibiotic-resistant taxa persist through perturbations
-%   while susceptible neighbors are eliminated, fragmenting cross-feeding networks
-% - All three axes reshape bacterial community topology in ways that
-%   compositional metrics miss
+Persistent homology, a central tool in topological data analysis (\tda),
+provides a mathematically rigorous way to quantify this higher-order
+structure~\citep{carlsson2009topology, edelsbrunner2008persistent}.
+Applied to a co-occurrence network, it extracts the number and
+``lifetime'' (persistence across correlation thresholds) of connected
+components (\Hzero), one-dimensional loops (\Hone), and higher-order
+cavities.
+These topological descriptors have been applied successfully in
+neuroscience~\citep{ghrist2008barcodes}, protein structure analysis, and
+materials science~\citep{wasserman2018topological,bubenik2015statistical},
+but their application to gut microbiome co-occurrence networks remains
+nascent~\citep{camara2017topological}.
 
-% The TDA opportunity
-% - Persistent homology captures multi-scale topological features
-%   (connected components, loops, voids) in co-occurrence networks
-% - Betti curves and persistence landscapes provide vectorized descriptors
-%   of community shape, enabling statistical comparison
-% - Proven in brain neuroscience, protein structure, materials science
-%   but not yet applied to microbiome co-occurrence networks
+\subsection{IBD as a structural disruption model}
 
-% Biomarker interpretation via evidence-weighted priors
-% - We do NOT claim to map taxa to biomarker effects deterministically
-% - Instead: evidence-weighted priors linking taxa/modules to inflammatory
-%   signaling, used to interpret topological shifts and generate testable
-%   hypotheses
-% - Each taxon-biomarker edge carries: direction, evidence grade (A/B/C),
-%   study types, citations
-% - CIRS framework evaluated (not endorsed) as a case study for
-%   topology-informed inflammatory signature analysis
+Inflammatory bowel disease---comprising Crohn's disease and ulcerative colitis
+(UC)---is characterized by chronic intestinal inflammation, barrier
+dysfunction, and a consistently altered microbiome~\citep{petersen2017defining}.
+Metagenomic and 16S rRNA studies have documented reductions in microbial
+diversity, depletion of butyrate-producing taxa (\textit{Faecalibacterium
+prausnitzii}, \textit{Roseburia} spp.), and expansion of
+pro-inflammatory Proteobacteria~\citep{ley2006microbial}.
+Yet these compositional findings do not fully explain the clinical
+heterogeneity of \ibd.
+We hypothesize that \ibd\ disrupts the topological organization of microbial
+co-occurrence networks in a way that is detectable and robust, and that this
+topological disruption represents a complementary dimension of dysbiosis
+beyond compositional shifts.
 
-% Our contribution (5 novelty claims)
-% 1. First application of persistent homology (not Mapper) to bacterial
-%    co-occurrence networks with Betti curves and persistence landscapes
-%    as microbiome descriptors
-% 2. Linking topological features to evidence-weighted inflammatory priors
-%    (TGF-beta1, VIP) rather than deterministic biomarker predictions
-% 3. Orthogonal decomposition of mycobiome effects: environmental mold
-%    exposure proxy vs endogenous gut mycobiome composition
-% 4. AMR carriers as topological disruptors: perturbation simulation
-% 5. CIRS as a case study for evaluating topology-informed inflammatory
-%    signatures in mold-exposed cohorts
+\subsection{Our contribution}
 
-% Paper outline
-% Section 2: Background on microbiome neurotransmitter pathways, TDA,
-%            gut-brain axis, CIRS
-% Section 3: Theoretical framework linking topology to inflammatory priors
-% Section 4: Methods (datasets, pipeline, evidence-weighted scoring,
-%            mycobiome decomposition)
-% Section 5: Results
-% Section 6: Discussion (interpretation, limitations, clinical implications)
-% Section 7: Conclusion
+We make the following specific contributions:
+
+\begin{enumerate}[leftmargin=*, itemsep=2pt]
+  \item \textbf{Methodological:} We introduce a paired bootstrap design for
+  comparing persistence diagrams between groups, using sign-flip label
+  permutation as the null and a globally fixed taxon set to ensure every
+  iteration operates on a common feature space (Section~\ref{sec:methods}).
+
+  \item \textbf{Empirical:} We apply this design to 3,409 AGP stool samples
+  across three biologically motivated comparisons: \ibd\ status, antibiotic
+  recency, and plant-based diet. We find that \ibd\ is associated with
+  dramatically lower topological complexity across all six \Hone\ features
+  ($d = 0.75$--$2.38$; Section~\ref{sec:results}).
+
+  \item \textbf{Robustness:} We demonstrate that the \ibd\ finding is fully
+  preserved after covariate matching on age, sex, and BMI, and is consistent
+  across taxon-set sizes $N \in \{50, 80, 120\}$
+  (Section~\ref{subsec:sensitivity}).
+
+  \item \textbf{Statistical transparency:} We pre-specify and apply a single,
+  explicit FDR correction policy (18-test BH, sign-flip primary $p$-values
+  only; Section~\ref{subsec:stats}) and report all 36 test results
+  (full and matched subsets) without selection.
+\end{enumerate}
+
+The remainder of this paper is organized as follows.
+Section~\ref{sec:methods} describes the dataset, preprocessing pipeline,
+network construction, \tda\ approach, and statistical framework.
+Section~\ref{sec:results} presents results for each comparison,
+followed by the sensitivity analysis.
+Section~\ref{sec:discussion} interprets findings in the context of \ibd\
+biology and discusses limitations.
+Section~\ref{sec:conclusion} concludes with implications and directions for
+future work.

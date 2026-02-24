@@ -1,52 +1,230 @@
-\documentclass[12pt, a4paper]{article}
+%=============================================================================
+% Topological Simplification in IBD-Associated Microbial Co-occurrence Networks
+% American Gut Project (n = 3,409) — February 2026
+%=============================================================================
 
-% --- Packages ---
+\documentclass[11pt, a4paper]{article}
+
+% ── Encoding & fonts ──────────────────────────────────────────────────────────
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}           % better typography, fewer overfull boxes
+
+% ── Mathematics ───────────────────────────────────────────────────────────────
 \usepackage{amsmath, amssymb, amsthm}
+
+% ── Page geometry ─────────────────────────────────────────────────────────────
+\usepackage[
+  a4paper,
+  top=25mm, bottom=28mm,
+  left=28mm, right=28mm,
+  headheight=14pt
+]{geometry}
+
+% ── Color ─────────────────────────────────────────────────────────────────────
+\usepackage[dvipsnames]{xcolor}
+\definecolor{darkblue}{RGB}{15, 52, 96}
+\definecolor{midblue}{RGB}{52, 120, 180}
+\definecolor{lightgray}{RGB}{245, 245, 248}
+\definecolor{accentred}{RGB}{180, 50, 40}
+\definecolor{linkblue}{RGB}{30, 100, 200}
+
+% ── Hyperlinks ────────────────────────────────────────────────────────────────
+\usepackage[
+  colorlinks = true,
+  linkcolor  = darkblue,
+  citecolor  = midblue,
+  urlcolor   = linkblue,
+  pdftitle   = {Persistent Homology Reveals Topological Simplification in IBD-Associated Microbial Co-occurrence Networks},
+  pdfauthor  = {Adam Levine},
+  pdfsubject = {Microbiome Topology; TDA; IBD; American Gut Project},
+  pdfkeywords= {persistent homology; microbiome; IBD; co-occurrence networks; topological data analysis},
+  bookmarksnumbered = true
+]{hyperref}
+
+% ── Headers & footers ─────────────────────────────────────────────────────────
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyhead[L]{\small\textcolor{darkblue}{\textit{Levine — Microbiome TDA}}}
+\fancyhead[R]{\small\textcolor{darkblue}{\textit{February 2026 · Preprint}}}
+\fancyfoot[C]{\small\textcolor{gray}{\thepage}}
+\fancyfoot[L]{\small\textcolor{gray}{American Gut Project · AGP · $n = 3{,}409$}}
+\fancyfoot[R]{\small\textcolor{gray}{\href{https://github.com/adam-jfkhs/Microbiome-TDA}{github.com/adam-jfkhs/Microbiome-TDA}}}
+
+% Plain style for title page
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0.4pt}
+  \fancyfoot[C]{\small\textcolor{gray}{\thepage}}
+  \fancyfoot[R]{\small\textcolor{gray}{\href{https://github.com/adam-jfkhs/Microbiome-TDA}{github.com/adam-jfkhs/Microbiome-TDA}}}
+}
+
+% ── Figures & tables ──────────────────────────────────────────────────────────
 \usepackage{graphicx}
-\usepackage{hyperref}
-\usepackage{natbib}
 \usepackage{booktabs}
+\usepackage{array}
 \usepackage{caption}
 \usepackage{subcaption}
-\usepackage{geometry}
-\usepackage{xcolor}
-\usepackage{algorithm}
-\usepackage{algorithmic}
+\usepackage{float}
+\usepackage{multirow}
 
-\geometry{margin=1in}
+\captionsetup{
+  labelfont = {bf, color=darkblue},
+  textfont  = {small},
+  margin    = 8pt,
+  skip      = 6pt
+}
 
-% --- Title ---
-\title{Persistent Homology Reveals Microbial Community Topologies \\
-  Linked to Serotonin and Neuropeptide Production \\[0.5em]
-  \large A Topological Biomarker Layer for Evaluating \\
-  CIRS-Associated Inflammatory Signatures in Mold-Exposed Cohorts}
+% ── Line spacing & paragraph ──────────────────────────────────────────────────
+\usepackage{setspace}
+\setstretch{1.15}
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{14pt}
 
-\author{Adam Levine \\
-  \textit{Independent Researcher} \\
-  \texttt{adamwasnothere292@gmail.com}}
+% ── References ────────────────────────────────────────────────────────────────
+\usepackage[numbers, sort&compress]{natbib}
 
-\date{\today}
+% ── Misc ──────────────────────────────────────────────────────────────────────
+\usepackage{enumitem}
+\usepackage{lipsum}           % placeholder text — remove when writing is done
 
-% --- Document ---
+% ── Section styling ───────────────────────────────────────────────────────────
+\usepackage{titlesec}
+\titleformat{\section}
+  {\large\bfseries\color{darkblue}}
+  {\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}
+  {\normalsize\bfseries\color{midblue}}
+  {\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+  {\normalsize\itshape\color{darkblue}}
+  {\thesubsubsection}{1em}{}
+
+% ── Custom commands ───────────────────────────────────────────────────────────
+\newcommand{\pval}[1]{\ensuremath{p = #1}}
+\newcommand{\fdrpval}[1]{\ensuremath{p_{\text{FDR}} = #1}}
+\newcommand{\cohend}[1]{\ensuremath{d = #1}}
+\newcommand{\Hone}{\ensuremath{H_1}}
+\newcommand{\Hzero}{\ensuremath{H_0}}
+\newcommand{\agp}{\textsc{agp}}
+\newcommand{\clr}{\textsc{clr}}
+\newcommand{\vr}{\textsc{vr}}
+\newcommand{\tda}{\textsc{tda}}
+\newcommand{\ibd}{\textsc{ibd}}
+\newcommand{\Ibd}{\textsc{Ibd}}
+\newcommand{\abx}{\textsc{abx}}
+\newcommand{\bh}{\textsc{bh}}
+\newcommand{\todo}[1]{\textcolor{accentred}{\textbf{[TODO: #1]}}}
+
+%=============================================================================
+% TITLE BLOCK
+%=============================================================================
+
+\title{%
+  \vspace{-10mm}
+  {\LARGE\bfseries\color{darkblue}
+    Persistent Homology Reveals Topological Simplification\\[4pt]
+    in \textsc{ibd}-Associated Microbial Co-occurrence Networks}\\[8pt]
+  {\large\normalfont\color{gray}
+    A Paired Bootstrap Analysis of the American Gut Project ($n = 3{,}409$)\\
+    with Covariate Matching and Taxa-Set Sensitivity Testing}
+}
+
+\author{%
+  \textbf{Adam Levine}\\[3pt]
+  \small\textit{Independent Researcher}\\[2pt]
+  \small\href{mailto:adamwasnothere292@gmail.com}{adamwasnothere292@gmail.com}\\[4pt]
+  \small\texttt{\href{https://github.com/adam-jfkhs/Microbiome-TDA}{github.com/adam-jfkhs/Microbiome-TDA}}
+}
+
+\date{%
+  \small\textbf{Preprint} · February 2026\\[2pt]
+  \small Not peer reviewed
+}
+
+%=============================================================================
 \begin{document}
+%=============================================================================
 
 \maketitle
+\thispagestyle{plain}
 
+%─────────────────────────────────────────────────────────────────────────────
 \begin{abstract}
-The gut microbiome modulates host neurotransmitter production through metabolic pathways involving serotonin, $\gamma$-aminobutyric acid (GABA), and dopamine precursors, yet the higher-order structural organization of microbial communities that supports this function remains uncharacterized. We apply persistent homology from topological data analysis (TDA) to bacterial co-occurrence networks derived from multiple public cohorts (Human Microbiome Project, American Gut Project, curatedMetagenomicData), constructing Betti curves, persistence landscapes, and entropy-based topological descriptors of microbial community shape. Using evidence-weighted priors linking taxa to inflammatory signaling---graded by study quality (in~vitro, animal model, human cohort) and annotated with mechanisms---we interpret topology-derived community shifts as testable hypotheses about biomarker pressure rather than deterministic predictions. We decompose mycobiome effects into two orthogonal axes: environmental mold exposure proxies and endogenous gut fungal composition, enabling independent assessment of each axis's impact on bacterial network topology. Antimicrobial resistance gene carriers are characterized as topological disruptors through progressive perturbation simulation. We evaluate whether these topological features distinguish exposure-associated community configurations and align with priors predicting altered TGF-$\beta$1 and VIP signaling, framing chronic inflammatory response syndrome (CIRS) as a case study for topology-informed inflammatory signature evaluation. Our framework provides a structural layer for generating and testing hypotheses about microbiome--immune interactions, applicable beyond CIRS to any setting where microbial community shape may inform inflammatory state.
+\noindent\textbf{Background.}
+Microbial co-occurrence networks encode higher-order interactions among gut
+bacteria, yet conventional diversity metrics (Shannon entropy, Bray--Curtis
+dissimilarity) are insensitive to the loop-level structure of these networks.
+Persistent homology, a technique from topological data analysis (\tda),
+extracts exactly this information: it tracks how many connected components,
+loops (\Hone\ features), and voids form and dissolve across all correlation
+thresholds simultaneously.
+
+\noindent\textbf{Methods.}
+We applied persistent homology to Spearman co-occurrence networks derived
+from 3,409 stool samples from the American Gut Project (\agp), preprocessed
+with centered log-ratio (\clr) transformation and filtered to a globally fixed
+set of top-80 prevalent taxa.
+We used a paired bootstrap design (200 iterations, $n = 100$ per group per
+iteration) to obtain distributions of six scalar topological features per group.
+Group comparisons were assessed via sign-flip label permutation
+(500 shuffles; primary $p$-value) and Wilcoxon signed-rank test
+(secondary/confirmatory), with Benjamini--Hochberg false discovery rate
+correction applied across 18 tests (3 comparisons $\times$ 6 features) per
+subset.
+Confounding by age, sex, and body mass index was addressed by repeating all
+analyses in matched subsamples.
+Robustness was evaluated by repeating the full pipeline at taxon-set sizes
+$N \in \{50, 80, 120\}$.
+
+\noindent\textbf{Results.}
+Inflammatory bowel disease (\ibd; $n = 165$ UC + Crohn's vs.\ $n = 3{,}084$
+healthy) was associated with dramatically lower topological complexity across
+all six \Hone\ features (Cohen's $d = 0.75$--$2.38$; $p_{\text{FDR}} <
+0.005$ at all taxa sizes), a finding that was fully preserved after
+age/sex/BMI matching.
+Plant-based diet was associated with moderately longer-lived co-occurrence
+loops (mean lifetime $d = 0.65$; $p_{\text{FDR}} = 0.004$), robust at
+$N \in \{50, 80\}$.
+Antibiotic recency showed limited signal (1--3 of 6 features, variable across
+taxa sizes) that emerged only in matched analyses.
+
+\noindent\textbf{Conclusions.}
+\Ibd-associated gut microbiomes are topologically simpler than healthy
+controls, suggesting that the disease state reshapes---rather than merely
+reduces---the diversity of co-occurrence relationships.
+This finding is robust to taxa-set size and demographic confounders.
+Persistent homology provides a structurally informative complement to
+existing microbiome diversity metrics.
+
+\smallskip\noindent
+\textbf{Keywords:} persistent homology, gut microbiome, inflammatory bowel
+disease, co-occurrence networks, topological data analysis, American Gut
+Project, bootstrap, FDR
 \end{abstract}
 
-\input{sections/01_introduction}
-\input{sections/02_background}
-\input{sections/03_framework}
-\input{sections/04_methods}
-\input{sections/05_results}
-\input{sections/06_discussion}
-\input{sections/07_conclusion}
+\newpage
+\tableofcontents
+\newpage
 
-\bibliographystyle{plainnat}
+%─────────────────────────────────────────────────────────────────────────────
+
+\input{sections/01_introduction}
+\input{sections/02_methods}
+\input{sections/03_results}
+\input{sections/04_discussion}
+\input{sections/05_conclusion}
+
+%─────────────────────────────────────────────────────────────────────────────
+\newpage
+\bibliographystyle{unsrtnat}
 \bibliography{references}
 
+%=============================================================================
 \end{document}
+%=============================================================================

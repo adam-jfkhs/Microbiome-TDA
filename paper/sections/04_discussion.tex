@@ -153,11 +153,15 @@ This is the most practically important open question.
 \paragraph{Single cohort.}
 All results originate from a self-recruited citizen-science population with
 attendant ascertainment biases.
-The \ibd\ group may be systematically different from clinical populations in
+The IBD group may be systematically different from clinical populations in
 disease severity, medication status, and dietary self-reporting accuracy.
 Independent replication in a cohort with clinical metadata (endoscopy scores,
 calprotectin levels, treatment records) is required before any clinical
 utility claim can be made.
+The IBDMDB multi-omics dataset~\citep{halfvarson2017dynamics}---which
+pairs longitudinal 16S and shotgun metagenomics with calprotectin, IBD
+serology, and host transcriptomics across 132 subjects---and the
+IBD-INDEX consortium represent natural first replication targets.
 
 \paragraph{Loop attribution absent.}
 We report aggregate topological statistics but do not identify which taxon
@@ -179,9 +183,18 @@ butyrate-mediated Treg maintenance---remains untested in this cohort.
 The 200 paired iterations are constructed from overlapping samples (a sample
 from the IBD group can appear in multiple iterations), so the deltas
 $\delta^{(1)}, \ldots, \delta^{(200)}$ are not strictly independent.
+For the IBD comparison, where the smaller group has $n_A = 165$
+and each iteration draws 100 without replacement, any two iterations
+share on average $100^2 / 165 \approx 61$ IBD samples; a conservative
+effective sample size for IBD-group-driven variation is therefore
+$n_\text{eff} \approx 165$ rather than 200.
+The healthy-group overlap is negligible by comparison
+($100^2 / 3{,}084 \approx 3$ shared samples per pair).
 The sign-flip permutation operates on the same correlated set of deltas
 and thereby conserves this correlation structure under the null, which is
 appropriate.
-However, formal correction for the reduced effective sample size was not
-applied to the Wilcoxon test, which assumes independence.
-This is one reason why Wilcoxon results are treated as secondary.
+However, the Wilcoxon signed-rank test assumes independence across the
+200 deltas; applying it to correlated observations inflates the test
+statistic and underestimates the $p$-value.
+This is one reason Wilcoxon results are treated as confirmatory only and
+never enter any FDR calculation.

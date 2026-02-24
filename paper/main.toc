@@ -23,14 +23,15 @@
 \contentsline {subsection}{\numberline {3.5}Taxa-set sensitivity demonstrates IBD robustness and ABX fragility}{13}{subsection.3.5}%
 \contentsline {section}{\numberline {4}Discussion}{13}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Loop collapse as a structural correlate of IBD dysbiosis}{13}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Structural reorganization versus abundance enrichment in diet}{14}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.2}Structural reorganization versus abundance enrichment in diet}{15}{subsection.4.2}%
 \contentsline {subsection}{\numberline {4.3}The antibiotic null}{15}{subsection.4.3}%
 \contentsline {subsection}{\numberline {4.4}Relation to prior topological analyses of microbiome data}{15}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}Limitations}{15}{subsection.4.5}%
-\contentsline {paragraph}{Cross-sectional topology.}{15}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.5}Limitations}{16}{subsection.4.5}%
+\contentsline {paragraph}{Cross-sectional topology.}{16}{subsection.4.5}%
 \contentsline {paragraph}{ASV-level resolution.}{16}{subsection.4.5}%
 \contentsline {paragraph}{No diversity-metric benchmark.}{16}{subsection.4.5}%
 \contentsline {paragraph}{Single cohort.}{16}{subsection.4.5}%
 \contentsline {paragraph}{Loop attribution absent.}{16}{subsection.4.5}%
-\contentsline {paragraph}{Bootstrap non-independence.}{16}{subsection.4.5}%
-\contentsline {section}{\numberline {5}Conclusion}{16}{section.5}%
+\contentsline {paragraph}{No inflammatory biomarker correlation.}{16}{subsection.4.5}%
+\contentsline {paragraph}{Bootstrap non-independence.}{17}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Conclusion}{17}{section.5}%

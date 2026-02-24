@@ -1,37 +1,37 @@
-\contentsline {section}{\numberline {1}Introduction}{4}{section.1}%
-\contentsline {subsection}{\numberline {1.1}Why topology, and why now}{4}{subsection.1.1}%
-\contentsline {subsection}{\numberline {1.2}Inflammatory bowel disease as a topological stress test}{4}{subsection.1.2}%
-\contentsline {subsection}{\numberline {1.3}Contributions}{4}{subsection.1.3}%
-\contentsline {section}{\numberline {2}Methods}{5}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Dataset provenance}{5}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}Preprocessing}{5}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Global taxon-set selection}{6}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}Network construction and Vietoris--Rips filtration}{6}{subsection.2.4}%
-\contentsline {subsection}{\numberline {2.5}Persistent homology computation}{6}{subsection.2.5}%
-\contentsline {subsection}{\numberline {2.6}Scalar topological features}{6}{subsection.2.6}%
-\contentsline {subsection}{\numberline {2.7}Paired bootstrap design}{7}{subsection.2.7}%
-\contentsline {subsection}{\numberline {2.8}Sign-flip label permutation}{7}{subsection.2.8}%
-\contentsline {paragraph}{FDR policy (pre-specified).}{7}{equation.2.3}%
-\contentsline {subsection}{\numberline {2.9}Covariate matching}{8}{subsection.2.9}%
-\contentsline {subsection}{\numberline {2.10}Taxa-size sensitivity}{8}{subsection.2.10}%
-\contentsline {subsection}{\numberline {2.11}Implementation and reproducibility}{8}{subsection.2.11}%
-\contentsline {section}{\numberline {3}Results}{8}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Cohort structure and group partitioning}{8}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}IBD is associated with pan-topological collapse of co-occurrence loop structure}{9}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Plant-based diet: fewer but more tenacious co-occurrence cycles}{11}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Antibiotic recency: an inconclusive topological signal}{12}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}Taxa-set sensitivity demonstrates IBD robustness and ABX fragility}{13}{subsection.3.5}%
-\contentsline {section}{\numberline {4}Discussion}{13}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Loop collapse as a structural correlate of IBD dysbiosis}{13}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Structural reorganization versus abundance enrichment in diet}{15}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}The antibiotic null}{15}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Relation to prior topological analyses of microbiome data}{15}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}Limitations}{16}{subsection.4.5}%
-\contentsline {paragraph}{Cross-sectional topology.}{16}{subsection.4.5}%
-\contentsline {paragraph}{ASV-level resolution.}{16}{subsection.4.5}%
-\contentsline {paragraph}{No diversity-metric benchmark.}{16}{subsection.4.5}%
-\contentsline {paragraph}{Single cohort.}{16}{subsection.4.5}%
-\contentsline {paragraph}{Loop attribution absent.}{16}{subsection.4.5}%
-\contentsline {paragraph}{No inflammatory biomarker correlation.}{16}{subsection.4.5}%
-\contentsline {paragraph}{Bootstrap non-independence.}{17}{subsection.4.5}%
-\contentsline {section}{\numberline {5}Conclusion}{17}{section.5}%
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Why topology, and why now}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Inflammatory bowel disease as a topological stress test}{3}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Contributions}{3}{subsection.1.3}%
+\contentsline {section}{\numberline {2}Methods}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Dataset provenance}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Preprocessing}{4}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Global taxon-set selection}{5}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Network construction and Vietoris--Rips filtration}{5}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Persistent homology computation}{5}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Scalar topological features}{5}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}Paired bootstrap design}{6}{subsection.2.7}%
+\contentsline {subsection}{\numberline {2.8}Sign-flip label permutation}{6}{subsection.2.8}%
+\contentsline {paragraph}{FDR policy (pre-specified).}{6}{equation.2.3}%
+\contentsline {subsection}{\numberline {2.9}Covariate matching}{7}{subsection.2.9}%
+\contentsline {subsection}{\numberline {2.10}Taxa-size sensitivity}{7}{subsection.2.10}%
+\contentsline {subsection}{\numberline {2.11}Implementation and reproducibility}{7}{subsection.2.11}%
+\contentsline {section}{\numberline {3}Results}{7}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Cohort structure and group partitioning}{7}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}IBD is associated with systematic attenuation of co-occurrence loop structure}{8}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Plant-based diet: fewer but more tenacious co-occurrence cycles}{10}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Antibiotic recency: an inconclusive topological signal}{11}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Taxa-set sensitivity demonstrates IBD robustness and ABX fragility}{12}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Discussion}{12}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Loop collapse as a structural correlate of IBD dysbiosis}{12}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Structural reorganization versus abundance enrichment in diet}{14}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}The antibiotic null}{14}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Relation to prior topological analyses of microbiome data}{14}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Limitations}{15}{subsection.4.5}%
+\contentsline {paragraph}{Cross-sectional topology.}{15}{subsection.4.5}%
+\contentsline {paragraph}{ASV-level resolution.}{15}{subsection.4.5}%
+\contentsline {paragraph}{No diversity-metric benchmark.}{15}{subsection.4.5}%
+\contentsline {paragraph}{Single cohort.}{15}{subsection.4.5}%
+\contentsline {paragraph}{Loop attribution absent.}{15}{subsection.4.5}%
+\contentsline {paragraph}{No inflammatory biomarker correlation.}{15}{subsection.4.5}%
+\contentsline {paragraph}{Bootstrap non-independence.}{16}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Conclusion}{16}{section.5}%

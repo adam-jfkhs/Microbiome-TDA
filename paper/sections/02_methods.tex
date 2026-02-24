@@ -144,7 +144,11 @@ uniformly randomizing the sign of each delta:
   \qquad \sigma_t^{(\pi)} \overset{\text{i.i.d.}}{\sim} \{-1, +1\},
   \label{eq:signflip}
 \end{equation}
-repeated 500 times.
+repeated 500 times (yielding a minimum achievable $p = 1/501 \approx 0.002$,
+sufficient to reach the floor at our observed significance levels).
+Because subsamples overlap, iteration-level deltas are not strictly
+independent; inference relies exclusively on sign-flip permutation, which
+preserves this correlation structure under the null.
 The permutation $p$-value is
 $p = \bigl(|\{\pi : |T^{(\pi)}| \geq |\bar{\delta}_k|\}| + 1\bigr) / 501$.
 This construction tests the hypothesis that group membership is

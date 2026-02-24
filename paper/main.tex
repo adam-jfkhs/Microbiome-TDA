@@ -157,50 +157,39 @@
 %─────────────────────────────────────────────────────────────────────────────
 \begin{abstract}
 \noindent\textbf{Background.}
-Microbial co-occurrence networks encode higher-order interactions among gut
-bacteria, yet conventional diversity metrics (Shannon entropy, Bray--Curtis
-dissimilarity) are insensitive to the loop-level structure of these networks.
-Persistent homology, a technique from topological data analysis (\tda),
-extracts exactly this information: it tracks how many connected components,
-loops (\Hone\ features), and voids form and dissolve across all correlation
-thresholds simultaneously.
+Conventional diversity metrics are insensitive to the loop-level
+structure of microbial co-occurrence networks.
+Persistent homology, from topological data analysis (\tda), tracks how
+loops and other higher-order features form and dissolve across all
+correlation thresholds simultaneously.
 
 \noindent\textbf{Methods.}
-We applied persistent homology to Spearman co-occurrence networks derived
-from 3,409 stool samples from the American Gut Project (\agp), preprocessed
-with centered log-ratio (\clr) transformation and filtered to a globally fixed
-set of top-80 prevalent taxa.
-We used a paired bootstrap design (200 iterations, $n = 100$ per group per
-iteration) to obtain distributions of six scalar topological features per group.
-Group comparisons were assessed via sign-flip label permutation
-(500 shuffles; primary $p$-value) and Wilcoxon signed-rank test
-(secondary/confirmatory), with Benjamini--Hochberg false discovery rate
-correction applied across 18 tests (3 comparisons $\times$ 6 features) per
-subset.
-Confounding by age, sex, and body mass index was addressed by repeating all
-analyses in matched subsamples.
-Robustness was evaluated by repeating the full pipeline at taxon-set sizes
-$N \in \{50, 80, 120\}$.
+We applied persistent homology to Spearman co-occurrence networks from
+3,409 American Gut Project (\agp) stool samples (\clr-transformed;
+top-80 prevalent taxa).
+A paired bootstrap (200 iterations, $n = 100$/group) yielded distributions
+of six \Hone\ scalar features.
+Significance was assessed via sign-flip permutation (500 shuffles; primary)
+and Wilcoxon signed-rank (confirmatory), with Benjamini--Hochberg correction
+across 18 tests per subset.
+All analyses were repeated in age/sex/BMI-matched subsamples and at
+taxon-set sizes $N \in \{50, 80, 120\}$.
 
 \noindent\textbf{Results.}
-Inflammatory bowel disease (\ibd; $n = 165$ UC + Crohn's vs.\ $n = 3{,}084$
-healthy) was associated with dramatically lower topological complexity across
-all six \Hone\ features (Cohen's $d = 0.75$--$2.38$; $p_{\text{FDR}} <
-0.005$ at all taxa sizes), a finding that was fully preserved after
-age/sex/BMI matching.
-Plant-based diet was associated with moderately longer-lived co-occurrence
-loops (mean lifetime $d = 0.65$; $p_{\text{FDR}} = 0.004$), robust at
-$N \in \{50, 80\}$.
-Antibiotic recency showed limited signal (1--3 of 6 features, variable across
-taxa sizes) that emerged only in matched analyses.
+Inflammatory bowel disease (\ibd; $n = 165$ vs.\ $n = 3{,}084$ healthy)
+was associated with systematically lower topological complexity across all
+six features (Cohen's $d = 0.75$--$2.38$; $p_{\text{FDR}} < 0.005$ at all
+taxa sizes), fully preserved after covariate matching.
+Plant-based diet showed moderately longer-lived loops (mean lifetime
+$d = 0.65$; $p_{\text{FDR}} = 0.004$); antibiotic recency produced limited,
+matching-dependent signal.
 
 \noindent\textbf{Conclusions.}
-\Ibd-associated gut microbiomes are topologically simpler than healthy
-controls, suggesting that the disease state reshapes, rather than merely
-reduces, the diversity of co-occurrence relationships.
-This finding is robust to taxa-set size and demographic confounders.
+\Ibd-associated microbiomes are topologically simpler than healthy controls,
+suggesting that the disease state reshapes co-occurrence architecture beyond
+what diversity indices capture.
 Persistent homology provides a structurally informative complement to
-existing microbiome diversity metrics.
+existing microbiome metrics.
 
 \smallskip\noindent
 \textbf{Keywords:} persistent homology, gut microbiome, inflammatory bowel

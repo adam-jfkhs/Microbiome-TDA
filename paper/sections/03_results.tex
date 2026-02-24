@@ -56,7 +56,7 @@ No feature was directionally equivocal.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{../figures/agp_ibd_v2.png}
+  \includegraphics[width=\textwidth]{figures/agp_ibd_v2.png}
   \caption{%
     \textbf{Paired bootstrap delta distributions: IBD (UC + Crohn's)
     vs.\ Healthy, $N = 80$ taxa.}
@@ -78,15 +78,15 @@ No feature was directionally equivocal.
 \end{figure}
 
 Numerical results appear in Table~\ref{tab:ibd_results}.
-The three features with the largest effect sizes---total persistence
-($d = -2.28$), max Betti-1 ($d = -2.07$), and mean lifetime ($d = -1.65$)---
-indicate that the healthy microbiome sustains roughly twice the cumulative
+The three features with the largest effect sizes are total persistence
+($d = -2.28$), max Betti-1 ($d = -2.07$), and mean lifetime ($d = -1.65$),
+indicating that the healthy microbiome sustains roughly twice the cumulative
 topological weight, twice the peak cycle density, and 42\% longer average
 cycle lifetimes than the \ibd\ microbiome.
 The permutation floor of $p = 0.002$ (the smallest achievable at
 500 permutations; $\lfloor 1/501 \rfloor = 0.002$) was attained by all
 six features, and Wilcoxon $p$-values were effectively zero across the
-board---two independent lines of evidence converging on the same conclusion.
+board: two independent lines of evidence converging on the same conclusion.
 
 \begin{table}[H]
 \centering
@@ -128,7 +128,7 @@ corroborate the bootstrap evidence at the level of individual network topology.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.92\textwidth]{../figures/agp_ibd_tda.png}
+  \includegraphics[width=0.92\textwidth]{figures/agp_ibd_tda.png}
   \caption{%
     \textbf{Illustrative single-comparison TDA output: IBD vs.\ Healthy
     ($n = 500$ per group, $N = 80$ taxa).}
@@ -163,7 +163,7 @@ signature than the IBD contrast (Figure~\ref{fig:diet_bootstrap}).
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{../figures/agp_diet_v2.png}
+  \includegraphics[width=\textwidth]{figures/agp_diet_v2.png}
   \caption{%
     \textbf{Paired bootstrap delta distributions: Plant-based vs.\ Omnivore,
     $N = 80$ taxa.}
@@ -173,8 +173,8 @@ signature than the IBD contrast (Figure~\ref{fig:diet_bootstrap}).
     \emph{fewer} total loops), while mean lifetime, max lifetime, and
     max Betti-1 are positive (the loops they do form are more persistent
     and reach higher simultaneous densities).
-    This bifurcated pattern---topological contraction in count, expansion
-    in durability---suggests dietary restructuring of the co-occurrence
+    This bifurcated pattern (topological contraction in count, expansion
+    in durability) suggests dietary restructuring of the co-occurrence
     landscape rather than simple enrichment or depletion.
   }
   \label{fig:diet_bootstrap}
@@ -187,7 +187,7 @@ lifetime ($d = +0.65$, $p_\text{FDR} = 0.004$), max Betti-1
 $p_\text{FDR} = 0.007$), and H1 entropy ($d = -0.23$,
 $p_\text{FDR} = 0.029$).
 After matching, three features survived correction (mean lifetime,
-max lifetime, max Betti-1), signalling partial---though not total---confounding
+max lifetime, max Betti-1), signalling partial but not total confounding
 by demographic covariates.
 
 \subsection{Antibiotic recency: an inconclusive topological signal}
@@ -202,8 +202,8 @@ At $N = 50$ and $N = 120$, between two and three features reached FDR
 significance in matched analyses, but direction and magnitude were not
 stable across sizes.
 We decline to characterize this as a genuine topological effect.
-The exposure definition---any antibiotic of any class within a 6-month
-window---is almost certainly too heterogeneous to isolate a topological
+The exposure definition (any antibiotic of any class within a 6-month window)
+is almost certainly too heterogeneous to isolate a topological
 signature; time-since-cessation, antibiotic class, and treatment duration
 are all uncontrolled.
 
@@ -215,7 +215,7 @@ across all three comparisons and all three taxon-set sizes for full groups.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{../figures/taxa_sensitivity_full.png}
+  \includegraphics[width=\textwidth]{figures/taxa_sensitivity_full.png}
   \caption{%
     \textbf{Taxa-set sensitivity heatmap: Cohen's $d$ by $N$ taxa (full groups).}
     Each cell encodes Cohen's $d$ for a feature (row) $\times$

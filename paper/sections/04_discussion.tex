@@ -13,7 +13,7 @@ typically reach $d \approx 0.3$--$0.6$.
 The amplification observed here reflects several features of the
 topology-via-bootstrap approach.
 First, persistent homology integrates correlation structure across all
-taxa simultaneously---a perturbation affecting five co-occurring taxa
+taxa simultaneously: a perturbation affecting five co-occurring taxa
 simultaneously depresses loop count, loop lifetime, and loop density
 together, whereas alpha diversity registers only additive taxon loss.
 Second, the paired bootstrap harvests the typical IBD--healthy contrast
@@ -21,13 +21,13 @@ over 200 independent draws, so the observed $d$ reflects the expected
 contrast between one randomly drawn patient panel and one randomly drawn
 healthy panel, rather than a contrast between two centralized estimates.
 Under this framing, a large $d$ implies that the topological gap is
-visible at virtually any randomly selected subsample---not merely in the
+visible at virtually any randomly selected subsample, not merely in the
 aggregate.
 
 The direction of the finding is consistent with known IBD compositional
 pathology.
-Butyrate-producing Firmicutes---\textit{Faecalibacterium},
-\textit{Roseburia}, \textit{Lachnospiraceae}---occupy dense, multi-partner
+Butyrate-producing Firmicutes (\textit{Faecalibacterium},
+\textit{Roseburia}, \textit{Lachnospiraceae}) occupy dense, multi-partner
 co-occurrence neighborhoods in healthy gut networks; their depletion in
 \ibd\ would be expected to dissolve the loops anchored around
 them~\citep{gevers2014treatment,halfvarson2017dynamics}.
@@ -37,8 +37,8 @@ question amenable to taxon-attribution analysis (see Section~\ref{subsec:limitat
 
 \subsection{Structural reorganization versus abundance enrichment in diet}
 
-The bifurcated diet signal---fewer total loops, longer-lived individual
-loops for plant-based eaters---resists a simple narrative.
+The bifurcated diet signal (fewer total loops, longer-lived individual
+loops for plant-based eaters) resists a simple narrative.
 It is not that plant-based microbiomes are topologically richer in an
 unqualified sense; they appear to support a different \emph{architecture}:
 a sparser set of co-occurrence partnerships, but ones with more robust,
@@ -56,9 +56,9 @@ intake quantification on loop attribution.
 The partial attenuation of the diet signal after matching (3/6 features
 surviving FDR) counsels against strong claims.
 It is plausible that a fraction of the full-group diet effect is
-sociological---plant-based eaters in \agp\ are skewed toward higher
-education, younger age, and metropolitan residence---rather than
-physiological.
+sociological, given that plant-based eaters in \agp\ are skewed toward higher
+education, younger age, and metropolitan residence, rather than purely
+physiological in origin.
 The three features that do survive matching (mean lifetime, max
 lifetime, max Betti-1) are precisely the ones reflecting loop durability,
 which are less susceptible to demographic covariates than loop count.
@@ -69,7 +69,7 @@ That a 6-month antibiotic history window produces no coherent topological
 signal after matching is not surprising, and should not be over-interpreted
 as evidence that antibiotics are topologically inert.
 The exposure category aggregates single-course amoxicillin prescriptions,
-prolonged prophylactic macrolide regimens, and fluoroquinolone treatment---
+prolonged prophylactic macrolide regimens, and fluoroquinolone treatment:
 perturbations that differ by orders of magnitude in their ecological
 destructiveness~\citep{petersen2017defining}.
 A better-powered analysis would stratify by antibiotic class and quantify
@@ -80,9 +80,9 @@ time since last exposure as a continuous variable.
 
 \paragraph{Cross-sectional topology.}
 All \agp\ records are single-timepoint observations.
-The causal directionality---whether topological simplification precedes \ibd\
+The causal directionality (whether topological simplification precedes \ibd\
 onset, coincides with active inflammation, or lingers through clinical
-remission---cannot be resolved without longitudinal sampling.
+remission) cannot be resolved without longitudinal sampling.
 
 \paragraph{ASV-level resolution.}
 The pipeline operates on Deblur ASVs without genus-level aggregation.
@@ -116,8 +116,8 @@ Attribution analysis, such as identifying taxa whose removal from the network
 most rapidly reduces $\beta_1(\varepsilon)$, is the logical next step.
 
 \paragraph{Bootstrap non-independence.}
-The 200 paired iterations are constructed from overlapping samples---
-a sample from the IBD group can appear in multiple iterations---so the deltas
+The 200 paired iterations are constructed from overlapping samples (a sample
+from the IBD group can appear in multiple iterations), so the deltas
 $\delta^{(1)}, \ldots, \delta^{(200)}$ are not strictly independent.
 The sign-flip permutation operates on the same correlated set of deltas
 and thereby conserves this correlation structure under the null, which is

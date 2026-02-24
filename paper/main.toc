@@ -18,6 +18,7 @@
 \contentsline {section}{\numberline {3}Results}{7}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Cohort structure and group partitioning}{7}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}IBD is associated with systematic attenuation of co-occurrence loop structure}{8}{subsection.3.2}%
+\contentsline {paragraph}{Comparison with Shannon $\alpha $-diversity.}{9}{table.caption.3}%
 \contentsline {subsection}{\numberline {3.3}Plant-based diet: fewer but more tenacious co-occurrence cycles}{10}{subsection.3.3}%
 \contentsline {subsection}{\numberline {3.4}Antibiotic recency: an inconclusive topological signal}{11}{subsection.3.4}%
 \contentsline {subsection}{\numberline {3.5}Taxa-set sensitivity demonstrates IBD robustness and ABX fragility}{12}{subsection.3.5}%
@@ -29,7 +30,7 @@
 \contentsline {subsection}{\numberline {4.5}Limitations}{15}{subsection.4.5}%
 \contentsline {paragraph}{Cross-sectional topology.}{15}{subsection.4.5}%
 \contentsline {paragraph}{ASV-level resolution.}{15}{subsection.4.5}%
-\contentsline {paragraph}{No diversity-metric benchmark.}{15}{subsection.4.5}%
+\contentsline {paragraph}{Limited diversity-metric benchmark.}{15}{subsection.4.5}%
 \contentsline {paragraph}{Single cohort.}{15}{subsection.4.5}%
 \contentsline {paragraph}{Loop attribution absent.}{15}{subsection.4.5}%
 \contentsline {paragraph}{No inflammatory biomarker correlation.}{15}{subsection.4.5}%

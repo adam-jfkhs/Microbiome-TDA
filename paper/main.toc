@@ -8,10 +8,10 @@
 \contentsline {subsection}{\numberline {2.3}Global taxon-set selection}{5}{subsection.2.3}%
 \contentsline {subsection}{\numberline {2.4}Network construction and Vietoris--Rips filtration}{5}{subsection.2.4}%
 \contentsline {subsection}{\numberline {2.5}Persistent homology computation}{5}{subsection.2.5}%
-\contentsline {subsection}{\numberline {2.6}Scalar topological features}{5}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.6}Scalar topological features}{6}{subsection.2.6}%
 \contentsline {subsection}{\numberline {2.7}Paired bootstrap design}{6}{subsection.2.7}%
 \contentsline {subsection}{\numberline {2.8}Sign-flip label permutation}{6}{subsection.2.8}%
-\contentsline {paragraph}{FDR policy (pre-specified).}{6}{equation.2.3}%
+\contentsline {paragraph}{FDR policy (pre-specified).}{7}{equation.2.3}%
 \contentsline {subsection}{\numberline {2.9}Covariate matching}{7}{subsection.2.9}%
 \contentsline {subsection}{\numberline {2.10}Taxa-size sensitivity}{7}{subsection.2.10}%
 \contentsline {subsection}{\numberline {2.11}Implementation and reproducibility}{7}{subsection.2.11}%
@@ -21,18 +21,18 @@
 \contentsline {paragraph}{Comparison with Shannon $\alpha $-diversity.}{9}{table.caption.3}%
 \contentsline {subsection}{\numberline {3.3}Plant-based diet: fewer but more tenacious co-occurrence cycles}{10}{subsection.3.3}%
 \contentsline {subsection}{\numberline {3.4}Antibiotic recency: an inconclusive topological signal}{11}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}Taxa-set sensitivity demonstrates IBD robustness and ABX fragility}{12}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.5}Taxa-set sensitivity demonstrates IBD robustness and ABX fragility}{11}{subsection.3.5}%
 \contentsline {section}{\numberline {4}Discussion}{12}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Loop collapse as a structural correlate of IBD dysbiosis}{12}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Structural reorganization versus abundance enrichment in diet}{14}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}The antibiotic null}{14}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.2}Structural reorganization versus abundance enrichment in diet}{13}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}The antibiotic null}{13}{subsection.4.3}%
 \contentsline {subsection}{\numberline {4.4}Relation to prior topological analyses of microbiome data}{14}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}Limitations}{15}{subsection.4.5}%
-\contentsline {paragraph}{Cross-sectional topology.}{15}{subsection.4.5}%
-\contentsline {paragraph}{ASV-level resolution.}{15}{subsection.4.5}%
-\contentsline {paragraph}{Limited diversity-metric benchmark.}{15}{subsection.4.5}%
-\contentsline {paragraph}{Single cohort.}{15}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.5}Limitations}{14}{subsection.4.5}%
+\contentsline {paragraph}{Cross-sectional topology.}{14}{subsection.4.5}%
+\contentsline {paragraph}{ASV-level resolution.}{14}{subsection.4.5}%
+\contentsline {paragraph}{Limited diversity-metric benchmark.}{14}{subsection.4.5}%
+\contentsline {paragraph}{Single cohort.}{14}{subsection.4.5}%
 \contentsline {paragraph}{Loop attribution absent.}{15}{subsection.4.5}%
-\contentsline {paragraph}{No inflammatory biomarker correlation.}{15}{subsection.4.5}%
-\contentsline {paragraph}{Bootstrap non-independence.}{16}{subsection.4.5}%
-\contentsline {section}{\numberline {5}Conclusion}{16}{section.5}%
+\contentsline {paragraph}{No inflammatory biomarker data.}{15}{subsection.4.5}%
+\contentsline {paragraph}{Bootstrap non-independence.}{15}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Conclusion}{15}{section.5}%

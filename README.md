@@ -1,71 +1,83 @@
 # Microbiome-TDA
 
-**Persistent Homology Reveals Microbial Community Topologies Linked to Serotonin and Neuropeptide Production**
+**Persistent Homology Reveals Topological Simplification in IBD-Associated Microbial Co-occurrence Networks**
 
-*A Topological Biomarker Layer for Evaluating CIRS-Associated Inflammatory Signatures in Mold-Exposed Cohorts*
+*A Paired Bootstrap Analysis of the American Gut Project (n = 3,409) with Covariate Matching and Taxa-Set Sensitivity Testing*
+
+Adam Levine — Independent Researcher · February 2026 Preprint
+
+---
 
 ## Overview
 
-This project applies persistent homology to bacterial co-occurrence networks to detect topological signatures of microbial community configurations, and interprets these shifts through evidence-weighted priors linking taxa to inflammatory signaling.
+This project applies persistent homology (topological data analysis, TDA) to Spearman co-occurrence networks derived from 3,409 American Gut Project stool samples. We test whether inflammatory bowel disease (IBD) is associated with measurable differences in the loop-level topology of microbial co-occurrence networks — a structural property that conventional diversity metrics cannot capture.
 
-Key distinctions:
+**Key finding:** IBD-associated microbiomes show systematically lower topological complexity across all six H₁ scalar features (Cohen's d = 0.75–2.38; p_FDR < 0.005), fully preserved after age/sex/BMI covariate matching.
 
-- **Evidence-weighted priors, not deterministic mappings** — each taxon-biomarker edge carries direction, evidence grade (A/B/C), study types, and citations. We generate testable hypotheses, not predictions.
-- **Two orthogonal mycobiome axes** — environmental mold exposure proxy (Aspergillus, Penicillium, etc.) vs endogenous gut mycobiome (Candida, Malassezia). Each axis is analyzed independently.
-- **CIRS evaluated, not endorsed** — the Shoemaker/CIRS framework is treated as a case study for topology-informed inflammatory signature evaluation.
+---
 
-## What works right now
-
-The pipeline runs end-to-end:
+## Pipeline
 
 ```
-load_cohort() → preprocess (filter + CLR) → Spearman co-occurrence →
-correlation distance → Vietoris-Rips → persistent homology (Betti-0/1/2) →
-persistence entropy + landscapes → permutation test on diagram distances
+AGP stool samples (n = 3,409)
+  → CLR transformation (top-80 prevalent taxa)
+  → Spearman co-occurrence matrix
+  → Correlation distance → Vietoris–Rips filtration
+  → Persistent homology (Ripser, H₁)
+  → Six scalar features per diagram
+  → Paired bootstrap (200 iterations, n = 100/group)
+  → Sign-flip permutation test (500 shuffles) + Wilcoxon confirmatory
+  → Benjamini–Hochberg FDR correction (18 tests/subset)
 ```
 
-**Notebook 01** (`notebooks/01_data_exploration.ipynb`) is the minimum publishable unit — loads a cohort, preprocesses, computes per-group persistent homology, and produces publication-quality figures with statistical tests.
+---
 
 ## Repository Structure
 
 ```
 src/
-  data/             - Loaders (HMP, AGP, curatedMGD, synthetic), preprocessing
-  networks/         - Co-occurrence (Spearman), distance matrices (Aitchison)
-  tda/              - Filtration, persistent homology (ripser), features, regimes
-  analysis/         - Statistics (permutation, FDR, effect sizes), correlation, ML
-  visualization/    - Persistence diagrams, Betti curves, networks
-  cirs/             - Evidence-weighted biomarker priors, mycobiome decomposition
-  neurotransmitter/ - NT pathway knowledge base (serotonin, GABA, dopamine, SCFA)
-  mycobiome/        - Legacy fungal disruption module
-  amr/              - AMR carrier disruption and perturbation simulation
-notebooks/          - Jupyter analysis notebooks
-paper/              - LaTeX manuscript
-tests/              - Unit tests
-configs/            - Pipeline parameters
-scripts/            - Data download scripts
+  data/          - AGP loader, CLR preprocessing, cohort filtering
+  networks/      - Spearman co-occurrence, correlation distance matrices
+  tda/           - Vietoris–Rips filtration, persistent homology, H₁ features
+  analysis/      - Bootstrap, permutation tests, FDR, Cohen's d, Wilcoxon
+  visualization/ - Persistence diagrams, Betti curves, barcode plots
+notebooks/       - Jupyter analysis notebooks
+paper/           - LaTeX manuscript (main.tex + sections/)
+figures/         - Publication-quality output figures
+results/         - Numerical results and summary tables
+r_scripts/       - R-based sensitivity and diversity benchmarking
+tests/           - Unit tests
+configs/         - Pipeline parameters
+scripts/         - Data download helpers
 ```
+
+---
 
 ## Setup
 
 ```bash
-pip install numpy pandas scipy networkx matplotlib seaborn scikit-learn ripser persim
+pip install -r requirements.txt
 ```
 
-For real data (optional — synthetic cohort works out of the box):
+Or with conda:
+
 ```bash
-bash scripts/download_hmp.sh
+conda env create -f environment.yml
+conda activate microbiome-tda
+```
+
+For AGP data (required for full analysis):
+```bash
 bash scripts/download_agp.sh
 ```
 
-## Biomarker Hierarchy
+---
 
-| Tier | Biomarker | CIRS Direction |
-|------|-----------|----------------|
-| Primary | TGF-β1 | Elevated |
-| Secondary | VIP | Reduced |
-| Exploratory | MMP-9 | Elevated |
-| Exploratory | C4a | Elevated |
+## Reproducibility
+
+All analyses use fixed random seeds. The full pipeline is parameterised via `configs/`. Results in the paper are generated by running the notebooks in order (`01_` → `05_`).
+
+---
 
 ## License
 

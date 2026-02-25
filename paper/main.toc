@@ -22,17 +22,18 @@
 \contentsline {subsection}{\numberline {3.3}Plant-based diet: fewer but more tenacious co-occurrence cycles}{10}{subsection.3.3}%
 \contentsline {subsection}{\numberline {3.4}Antibiotic recency: an inconclusive topological signal}{11}{subsection.3.4}%
 \contentsline {subsection}{\numberline {3.5}Taxa-set sensitivity demonstrates IBD robustness and ABX fragility}{11}{subsection.3.5}%
-\contentsline {section}{\numberline {4}Discussion}{12}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Loop collapse as a structural correlate of IBD dysbiosis}{12}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Structural reorganization versus abundance enrichment in diet}{13}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}The antibiotic null}{13}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Relation to prior topological analyses of microbiome data}{14}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}Limitations}{14}{subsection.4.5}%
-\contentsline {paragraph}{Cross-sectional topology.}{14}{subsection.4.5}%
-\contentsline {paragraph}{ASV-level resolution.}{14}{subsection.4.5}%
-\contentsline {paragraph}{Limited diversity-metric benchmark.}{14}{subsection.4.5}%
-\contentsline {paragraph}{Single cohort.}{14}{subsection.4.5}%
-\contentsline {paragraph}{Loop attribution absent.}{15}{subsection.4.5}%
-\contentsline {paragraph}{No inflammatory biomarker data.}{15}{subsection.4.5}%
-\contentsline {paragraph}{Bootstrap non-independence.}{15}{subsection.4.5}%
-\contentsline {section}{\numberline {5}Conclusion}{15}{section.5}%
+\contentsline {subsection}{\numberline {3.6}Independent validation in IBDMDB: replication and biomarker grounding}{12}{subsection.3.6}%
+\contentsline {section}{\numberline {4}Discussion}{14}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Loop collapse as a structural correlate of IBD dysbiosis}{14}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Structural reorganization versus abundance enrichment in diet}{15}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}The antibiotic null}{16}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Relation to prior topological analyses of microbiome data}{16}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Limitations}{16}{subsection.4.5}%
+\contentsline {paragraph}{Cross-sectional topology.}{16}{subsection.4.5}%
+\contentsline {paragraph}{ASV-level resolution.}{16}{subsection.4.5}%
+\contentsline {paragraph}{Limited diversity-metric benchmark.}{16}{subsection.4.5}%
+\contentsline {paragraph}{Single cohort (addressed in part).}{17}{subsection.4.5}%
+\contentsline {paragraph}{Loop attribution absent.}{17}{subsection.4.5}%
+\contentsline {paragraph}{Inflammatory biomarker data (partially addressed).}{17}{subsection.4.5}%
+\contentsline {paragraph}{Bootstrap non-independence.}{17}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Conclusion}{17}{section.5}%

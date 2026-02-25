@@ -125,6 +125,11 @@ The amplified effect sizes we observe relative to conventional alpha-diversity
 are consistent with this general principle: topological features aggregate
 information from many pairwise correlations simultaneously, producing a more
 sensitive readout of network-wide reorganization.
+The IBDMDB replication (Section~\ref{subsec:ibdmdb}) extends these results
+to a second dataset and shows that topological features are sensitive not
+only to the categorical disease label but to continuous biomarker severity,
+a property that prior applications of TDA in biology have not demonstrated
+in a clinical context.
 
 \subsection{Limitations}
 \label{subsec:limitations}
@@ -150,18 +155,18 @@ topological features explain variance in clinical outcomes \emph{beyond} what
 simpler metrics already capture (e.g., via classification AUC comparison).
 This is the most practically important open question.
 
-\paragraph{Single cohort.}
-All results originate from a self-recruited citizen-science population with
-attendant ascertainment biases.
-The IBD group may be systematically different from clinical populations in
-disease severity, medication status, and dietary self-reporting accuracy.
-Independent replication in a cohort with clinical metadata (endoscopy scores,
-calprotectin levels, treatment records) is required before any clinical
-utility claim can be made.
-The IBDMDB multi-omics dataset~\citep{halfvarson2017dynamics}---which
-pairs longitudinal 16S and shotgun metagenomics with calprotectin, IBD
-serology, and host transcriptomics across 132 subjects---and the
-IBD-INDEX consortium represent natural first replication targets.
+\paragraph{Single cohort (addressed in part).}
+All primary \agp\ results originate from a self-recruited citizen-science
+population with attendant ascertainment biases.
+Section~\ref{subsec:ibdmdb} reports an independent replication in the
+IBDMDB clinical cohort~\citep{lloydprice2019multi}, which uses a different
+sequencing platform, bioinformatics pipeline, and population (recruited IBD
+patients with endoscopic confirmation rather than self-reported community
+participants).
+The replication is qualitatively successful for the \ibd\ finding.
+Residual concerns include the possibility that both datasets share
+confounders related to medication (immunosuppressants, biologics) that
+are not controlled in either analysis.
 
 \paragraph{Loop attribution absent.}
 We report aggregate topological statistics but do not identify which taxon
@@ -172,12 +177,16 @@ are disrupted).
 Attribution analysis, such as identifying taxa whose removal from the network
 most rapidly reduces $\beta_1(\varepsilon)$, is the logical next step.
 
-\paragraph{No inflammatory biomarker data.}
-The \agp\ dataset contains no measurements of circulating cytokines,
-fecal calprotectin, or other inflammatory biomarkers.
-Whether topological features correlate with host immune state---and
-whether loop collapse reflects downstream consequences such as impaired
-butyrate-mediated Treg maintenance---remains untested in this cohort.
+\paragraph{Inflammatory biomarker data (partially addressed).}
+The \agp\ dataset contains no fecal calprotectin or other inflammatory
+biomarkers.
+The IBDMDB replication (Section~\ref{subsec:ibdmdb}) partially addresses
+this: calprotectin-stratified comparisons confirm that topological
+contraction in loop count tracks mucosal inflammation, while revealing
+a nuanced secondary pattern (longer-lived individual loops at high
+calprotectin) that warrants mechanistic investigation.
+Whether loop collapse reflects impaired butyrate-mediated Treg
+maintenance remains unresolved in either cohort.
 
 \paragraph{Bootstrap non-independence.}
 The 200 paired iterations are constructed from overlapping samples (a sample

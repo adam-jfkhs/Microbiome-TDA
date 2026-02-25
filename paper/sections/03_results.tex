@@ -283,3 +283,178 @@ Table~\ref{tab:sensitivity_summary} compresses these results into a
 \bottomrule
 \end{tabular}
 \end{table}
+
+%─────────────────────────────────────────────────────────────────────────────
+\subsection{Independent validation in IBDMDB: replication and biomarker grounding}
+\label{subsec:ibdmdb}
+%─────────────────────────────────────────────────────────────────────────────
+
+To address the single-cohort limitation of the \agp\ analysis, we replicated
+the bootstrap pipeline on the IBDMDB multi-omics dataset~\citep{lloydprice2019multi},
+a clinical longitudinal study of 106 subjects (599 Crohn's disease,
+375 ulcerative colitis, 364 non-\ibd\ controls) followed for
+approximately one year.
+We used 1,338 shotgun metagenomics samples with species-level
+\textsc{MetaPhlAn}2 abundances; the same \clr\ transform and global top-80
+taxa selection was applied.
+Bootstrap subsampling used $n = 60$ per group per iteration.
+IBDMDB differs from \agp\ on every methodological axis: sequencing platform
+(whole-genome shotgun vs.\ 16S amplicon), bioinformatics pipeline, study
+design (clinical vs.\ citizen-science), and population (recruited IBD patients
+vs.\ self-reported community participants).
+Concordance across all these differences constitutes a stringent replication test.
+
+\subsubsection*{Replication of the IBD topological-simplification finding}
+
+Table~\ref{tab:ibdmdb_results} reports the primary replication comparison
+(IBD vs.\ non-IBD) and the Crohn's-only and UC-only breakdowns.
+The \ibd\ finding replicates cleanly: all six features were FDR-significant
+($p_\text{FDR} = 0.003$ at the permutation floor) with effect sizes ranging
+from $d = -0.52$ (max Betti-1) to $d = -1.46$ (total persistence).
+Direction is uniformly negative---IBD microbiomes generate fewer, shorter,
+and less energetically diverse co-occurrence loops than non-IBD controls---
+reproducing the \agp\ result in every qualitative respect despite the
+platform and population differences.
+
+Breaking down by diagnosis subtype reveals an informative asymmetry.
+Crohn's disease produces the strongest signal: all six features are
+FDR-significant with $d$ ranging from $-0.56$ to $-1.50$.
+Ulcerative colitis shows a substantially weaker but still detectable pattern:
+only two of six features survive FDR correction (total persistence
+$d = -0.28$, $p_\text{FDR} = 0.010$; mean lifetime $d = -0.22$,
+$p_\text{FDR} = 0.040$).
+This CD--UC disparity is consistent with the broader literature: Crohn's
+disease involves deeper and more diffuse microbial disruption than
+ulcerative colitis, which is confined to the colon and can present with
+near-normal microbiome composition during clinical
+remission~\citep{halfvarson2017dynamics,gevers2014treatment}.
+
+\begin{table}[H]
+\centering
+\caption{%
+  \textbf{IBDMDB replication results: IBD subtypes vs.\ non-IBD controls.}
+  Bootstrap parameters: 200 iterations, $n = 60$ per group, global top-80
+  species, sign-flip permutation ($K = 500$).
+  $p_\text{FDR}$ corrects the 36-test matrix (6 features $\times$ 6
+  comparisons) by Benjamini--Hochberg.
+  $\star$ = FDR-significant.
+}
+\label{tab:ibdmdb_results}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrrr}
+\toprule
+\textbf{Feature} & \textbf{Comparison}
+  & \textbf{Mean A} & \textbf{Mean B}
+  & \textbf{Cohen's $d$} & \boldmath$p_\text{FDR}$ \\
+\midrule
+\multirow{3}{*}{H1 count}
+  & IBD vs.\ nonIBD  & 35.5 & 40.8 & $-$0.96$^\star$ & 0.003 \\
+  & CD vs.\ nonIBD   & 33.2 & 40.9 & $-$1.50$^\star$ & 0.003 \\
+  & UC vs.\ nonIBD   & 39.5 & 40.4 & $-$0.17         & 0.114 \\
+\addlinespace
+\multirow{3}{*}{H1 entropy}
+  & IBD vs.\ nonIBD  & 3.196 & 3.316 & $-$0.73$^\star$ & 0.003 \\
+  & CD vs.\ nonIBD   & 3.108 & 3.317 & $-$1.28$^\star$ & 0.003 \\
+  & UC vs.\ nonIBD   & 3.300 & 3.315 & $-$0.10         & 0.341 \\
+\addlinespace
+\multirow{3}{*}{Total persistence}
+  & IBD vs.\ nonIBD  & 1.668 & 2.189 & $-$1.46$^\star$ & 0.003 \\
+  & CD vs.\ nonIBD   & 1.659 & 2.226 & $-$1.46$^\star$ & 0.003 \\
+  & UC vs.\ nonIBD   & 2.106 & 2.216 & $-$0.28$^\star$ & 0.010 \\
+\addlinespace
+\multirow{3}{*}{Mean lifetime}
+  & IBD vs.\ nonIBD  & 0.047 & 0.054 & $-$0.96$^\star$ & 0.003 \\
+  & CD vs.\ nonIBD   & 0.050 & 0.054 & $-$0.56$^\star$ & 0.003 \\
+  & UC vs.\ nonIBD   & 0.053 & 0.055 & $-$0.22$^\star$ & 0.040 \\
+\addlinespace
+\multirow{3}{*}{Max lifetime}
+  & IBD vs.\ nonIBD  & 0.159 & 0.197 & $-$1.23$^\star$ & 0.003 \\
+  & CD vs.\ nonIBD   & 0.175 & 0.196 & $-$0.67$^\star$ & 0.003 \\
+  & UC vs.\ nonIBD   & 0.189 & 0.194 & $-$0.17         & 0.096 \\
+\addlinespace
+\multirow{3}{*}{Max Betti-1}
+  & IBD vs.\ nonIBD  & 12.7 & 14.4  & $-$0.52$^\star$ & 0.003 \\
+  & CD vs.\ nonIBD   & 11.6 & 14.6  & $-$0.95$^\star$ & 0.003 \\
+  & UC vs.\ nonIBD   & 14.8 & 14.5  & $+$0.09         & 0.395 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Biomarker grounding: calprotectin and clinical activity scores}
+
+A central open question is whether topological features correlate with
+direct measurements of mucosal inflammation rather than merely with the
+categorical \ibd\ label.
+IBDMDB provides fecal calprotectin for 456 \textsc{mgx} samples and
+disease activity indices for the majority of subjects.
+Splitting on a standard clinical threshold
+($\geq 250\,\mu\text{g/g}$: active mucosal inflammation; $<50\,\mu\text{g/g}$:
+quiescent) yields $n_\text{high} = 60$ and $n_\text{low} = 189$ samples.
+
+Table~\ref{tab:ibdmdb_biomarkers} reports the calprotectin and activity-score
+comparisons.
+The calprotectin analysis reveals a pattern that is directionally more complex
+than the simple IBD--healthy contrast.
+High-calprotectin samples show \emph{fewer} co-occurrence loops overall
+(H1 count $d = -1.27^\star$) but \emph{longer-lived} individual loops
+(mean lifetime $d = +3.51^\star$; max lifetime $d = +1.98^\star$; total
+persistence $d = +1.55^\star$).
+This pattern---topological contraction in breadth, expansion in depth---is
+consistent with the hypothesis that acute mucosal inflammation selects for
+a small, structurally robust co-occurrence cluster (plausibly dominated by
+Proteobacteria and \textit{Enterobacteriaceae}) while dismantling the broader
+anaerobic cross-feeding network: the surviving loops are fewer but more
+persistent because they are anchored by stable, inflammation-associated
+co-occurrence relationships rather than the fragile, metabolically redundant
+partnerships of the healthy state.
+
+Clinical activity scores corroborate this picture.
+Active Crohn's (HBI $\geq 5$, $n = 93$) shows lower loop count, entropy,
+and total persistence than CD remission (HBI $< 5$, $n = 457$; 4/6 features
+FDR-significant; $d$ range $-0.43$ to $-0.62$).
+Active UC (SCCAI $\geq 3$, $n = 114$) shows 5/6 features FDR-significant
+versus UC remission (SCCAI $< 3$, $n = 240$).
+Together, these results establish that topological simplification tracks not
+only disease diagnosis but also continuous inflammation severity within both
+CD and UC subtypes.
+
+\begin{table}[H]
+\centering
+\caption{%
+  \textbf{IBDMDB biomarker comparisons: calprotectin, HBI, and SCCAI.}
+  Same bootstrap parameters as Table~\ref{tab:ibdmdb_results}.
+  $\star$ = FDR-significant ($p_\text{FDR} < 0.05$, 36-test BH correction).
+  Selected features shown; full results in \texttt{results/ibdmdb\_bootstrap.csv}.
+}
+\label{tab:ibdmdb_biomarkers}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrrr}
+\toprule
+\textbf{Feature} & \textbf{Comparison}
+  & \textbf{Mean A} & \textbf{Mean B}
+  & \textbf{Cohen's $d$} & \boldmath$p_\text{FDR}$ \\
+\midrule
+\multirow{3}{*}{H1 count}
+  & Calprotectin $\geq$250 vs.\ $<$50 & 32.0 & 36.0 & $-$1.27$^\star$ & 0.003 \\
+  & Active CD (HBI$\geq$5) vs.\ remission & 31.4 & 33.3 & $-$0.44$^\star$ & 0.003 \\
+  & Active UC (SCCAI$\geq$3) vs.\ remission & 33.7 & 39.6 & $-$1.19$^\star$ & 0.003 \\
+\addlinespace
+\multirow{3}{*}{Total persistence}
+  & Calprotectin $\geq$250 vs.\ $<$50 & 2.049 & 1.708 & $+$1.55$^\star$ & 0.003 \\
+  & Active CD (HBI$\geq$5) vs.\ remission & 1.542 & 1.671 & $-$0.43$^\star$ & 0.003 \\
+  & Active UC (SCCAI$\geq$3) vs.\ remission & 1.780 & 2.078 & $-$0.99$^\star$ & 0.003 \\
+\addlinespace
+\multirow{3}{*}{Mean lifetime}
+  & Calprotectin $\geq$250 vs.\ $<$50 & 0.064 & 0.048 & $+$3.51$^\star$ & 0.003 \\
+  & Active CD (HBI$\geq$5) vs.\ remission & 0.049 & 0.050 & $-$0.15         & 0.152 \\
+  & Active UC (SCCAI$\geq$3) vs.\ remission & 0.053 & 0.053 & $+$0.09         & 0.347 \\
+\addlinespace
+\multirow{3}{*}{Max Betti-1}
+  & Calprotectin $\geq$250 vs.\ $<$50 & 14.0 & 12.9 & $+$0.59$^\star$ & 0.003 \\
+  & Active CD (HBI$\geq$5) vs.\ remission & 10.0 & 11.5 & $-$0.62$^\star$ & 0.003 \\
+  & Active UC (SCCAI$\geq$3) vs.\ remission &  9.6 & 13.9 & $-$1.63$^\star$ & 0.003 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -40,7 +40,15 @@ def load_cohort(name="synthetic", data_dir="data/raw", **kwargs):
         taxonomy = load_taxonomy(data_dir, dataset="curatedmgd")
         return otu_df, metadata, taxonomy
 
-    raise ValueError(f"Unknown cohort: {name}. Use 'synthetic', 'hmp', 'agp', or 'curatedmgd'.")
+    if name == "ibdmdb":
+        from .ibdmdb_loader import load_ibdmdb
+        abundance_df, metadata = load_ibdmdb(os.path.join(data_dir, "ibdmdb"))
+        taxonomy = _parse_metaphlan_taxonomy(abundance_df.columns)
+        return abundance_df, metadata, taxonomy
+
+    raise ValueError(
+        f"Unknown cohort: {name}. Use 'synthetic', 'hmp', 'agp', 'curatedmgd', or 'ibdmdb'."
+    )
 
 
 def load_hmp(data_dir="data/raw/hmp"):

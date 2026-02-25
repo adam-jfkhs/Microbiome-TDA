@@ -16,6 +16,23 @@ datasets:
     study_id: 10317
     description: "10,000+ gut samples with lifestyle/health/diet/mental health metadata"
 
+  ibdmdb:
+    name: "Inflammatory Bowel Disease Multi-omics Database (HMP2)"
+    abundance_table: "data/raw/ibdmdb/taxonomic_profiles.tsv.gz"
+    metadata: "data/raw/ibdmdb/hmp2_metadata.csv"
+    data_type_filter: "metagenomics"
+    n_samples: 1338
+    n_subjects: 106
+    description: >
+      Longitudinal multi-omics study; 106 subjects (CD/UC/nonIBD) sampled
+      over ~1 year. MetaPhlAn2 species-level relative abundances. Clinical
+      metadata includes fecal calprotectin, CRP, HBI (Crohn's), SCCAI (UC).
+    biomarkers:
+      calprotectin: "Tube B:Fecal Calprotectin"
+      hbi: "hbi"
+      sccai: "sccai"
+    download: "bash scripts/download_ibdmdb.sh"
+
   curatedmgd:
     name: "curatedMetagenomicData"
     abundance_table: "data/raw/curatedmgd/curated_abundance.tsv"

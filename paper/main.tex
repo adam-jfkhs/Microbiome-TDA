@@ -137,7 +137,8 @@
 
 \author{%
   \textbf{Adam Levine}\\[3pt]
-  \small\textit{Independent Researcher}\\[4pt]
+  \small\textit{Independent Researcher}\\[2pt]
+  \small\texttt{\href{mailto:adalevine@bmchsd.org}{adalevine@bmchsd.org}}\\[4pt]
   \small\texttt{\href{https://github.com/adam-jfkhs/Microbiome-TDA}{github.com/adam-jfkhs/Microbiome-TDA}}
 }
 
@@ -207,6 +208,20 @@ Project, bootstrap, FDR
 \input{sections/03_results}
 \input{sections/04_discussion}
 \input{sections/05_conclusion}
+
+%─────────────────────────────────────────────────────────────────────────────
+\section*{Data and Code Availability}
+
+All code, download scripts, result CSVs, and figure generation notebooks
+are publicly available at
+\url{https://github.com/adam-jfkhs/Microbiome-TDA}.
+Primary analysis entry points are
+\texttt{scripts/run\_agp\_bootstrap\_v2.py} (main bootstrap pipeline)
+and \texttt{scripts/run\_taxa\_sensitivity.py} (taxon-set sensitivity analysis).
+The American Gut Project (AGP) data used in this study are publicly
+available via the European Nucleotide Archive (accession ERP012803) and
+through the redbiom query interface (\url{https://redbiom.readthedocs.io}).
+The IBDMDB validation data are available at \url{https://ibdmdb.org}.
 
 %─────────────────────────────────────────────────────────────────────────────
 \newpage

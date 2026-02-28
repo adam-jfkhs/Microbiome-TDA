@@ -298,6 +298,13 @@ We used 1,338 shotgun metagenomics samples with species-level
 \textsc{MetaPhlAn}2 abundances; the same \clr\ transform and global top-80
 taxa selection was applied.
 Bootstrap subsampling used $n = 60$ per group per iteration.
+Because IBDMDB is a longitudinal study, multiple timepoint samples from the
+same subject are present in the dataset; no within-subject deduplication was
+applied, so individual bootstrap draws may include repeated observations from
+the same participant.
+This constitutes a potential pseudoreplication issue and is acknowledged as
+a limitation of the IBDMDB validation; replication using one randomly selected
+sample per subject per comparison is deferred to future work.
 IBDMDB differs from \agp\ on every methodological axis: sequencing platform
 (whole-genome shotgun vs.\ 16S amplicon), bioinformatics pipeline, study
 design (clinical vs.\ citizen-science), and population (recruited IBD patients
@@ -335,9 +342,10 @@ remission~\citep{halfvarson2017dynamics,gevers2014treatment}.
   \textbf{IBDMDB replication results: IBD subtypes vs.\ non-IBD controls.}
   Bootstrap parameters: 200 iterations, $n = 60$ per group, global top-80
   species, sign-flip permutation ($K = 500$).
-  $p_\text{FDR}$ corrects the 36-test matrix (6 features $\times$ 6
-  comparisons) by Benjamini--Hochberg.
-  $\star$ = FDR-significant.
+  $p_\text{FDR}$: Benjamini--Hochberg applied to 18 sign-flip $p$-values
+  (6 features $\times$ 3 comparisons) within this IBDMDB analysis;
+  correction is independent of the AGP analyses in Tables~1--3.
+  $\star$ = FDR-significant ($p_\text{FDR} < 0.05$).
 }
 \label{tab:ibdmdb_results}
 \small
@@ -408,6 +416,14 @@ anaerobic cross-feeding network: the surviving loops are fewer but more
 persistent because they are anchored by stable, inflammation-associated
 co-occurrence relationships rather than the fragile, metabolically redundant
 partnerships of the healthy state.
+Note that with $n_\text{high} = 60$ and bootstrap subsampling at $n = 60$
+per iteration, the high-calprotectin group is sampled near-exhaustively on
+each draw (sampling without replacement from a pool essentially equal to $n$).
+Near-exhaustive resampling reduces variance in the bootstrap estimate and
+may inflate Cohen's $d$ for lifetime features; the mean lifetime and
+max lifetime effects ($d = +3.51$, $d = +1.98$) should therefore be
+interpreted as upper bounds pending replication in a larger calprotectin-stratified
+sample.
 
 Clinical activity scores corroborate this picture.
 Active Crohn's (HBI $\geq 5$, $n = 93$) shows lower loop count, entropy,
@@ -424,7 +440,8 @@ CD and UC subtypes.
 \caption{%
   \textbf{IBDMDB biomarker comparisons: calprotectin, HBI, and SCCAI.}
   Same bootstrap parameters as Table~\ref{tab:ibdmdb_results}.
-  $\star$ = FDR-significant ($p_\text{FDR} < 0.05$, 36-test BH correction).
+  $\star$ = FDR-significant ($p_\text{FDR} < 0.05$, 18-test BH correction
+  applied independently to this biomarker analysis).
   Selected features shown; full results in \texttt{results/ibdmdb\_bootstrap.csv}.
 }
 \label{tab:ibdmdb_biomarkers}

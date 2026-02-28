@@ -100,16 +100,14 @@ time since last exposure as a continuous variable.
 \subsection{Relation to prior topological analyses of microbiome data}
 
 The deployment of persistent homology in microbiology is recent and sparse.
-Cam\`{a}ra and colleagues~\citep{camara2017topological} used $H_0$ and $H_1$
-features to distinguish gut microbiome states in longitudinal infant data,
-identifying topological transitions that co-occurred with dietary shifts at
-weaning.
-That work operated on a single cohort of twelve infants with dense temporal
-sampling, a regime that favors trajectory-level topology rather than
-group-level contrast.
-Our design inverts this: large cross-sectional $n$, sparse metadata, no
-temporal structure, but high statistical power for detecting mean differences
-between clinically defined groups.
+C\'{a}mara~\citep{camara2017topological} surveyed the emerging application
+of $H_0$ and $H_1$ features to genomic and microbial data, identifying
+trajectory-level topology---tracking how network structure evolves across
+dense temporal sampling---as a particularly promising regime for small-$n$,
+longitudinal designs.
+Our design occupies the complementary regime: large cross-sectional $n$,
+sparse metadata, no temporal structure, but high statistical power for
+detecting mean differences between clinically defined groups.
 The two approaches are complementary rather than competing.
 
 More broadly, TDA has been applied to protein contact networks to predict

@@ -32,8 +32,10 @@ co-occurrence neighborhoods in healthy gut networks; their depletion in
 \ibd\ would be expected to dissolve the loops anchored around
 them~\citep{gevers2014treatment,halfvarson2017dynamics}.
 Whether these particular taxa drive the loop collapse, or whether the
-entire gram-positive anaerobe compartment contracts uniformly, is a
-question amenable to taxon-attribution analysis (see Section~\ref{subsec:limitations}).
+entire gram-positive anaerobe compartment contracts uniformly, is directly
+addressed by the \loo\ attribution in Section~\ref{subsec:attribution}:
+\textit{Oscillospira} and \textit{Blautia} emerge as the dominant
+differential anchors in the AGP 16S data.
 
 A more mechanistic reading is that the healthy gut co-occurrence graph
 approximates a modular, redundant architecture: butyrate producers and
@@ -54,8 +56,10 @@ in \ibd~\citep{halfvarson2017dynamics}---but a topologically impoverished
 one: shorter-lived, less reinforced cycles.
 This interpretation predicts that the Proteobacterial compartment, while
 elevated in \ibd, does not substitute structurally for the anaerobic
-Firmicutes it displaces, a prediction testable via the loop attribution
-analysis outlined above.
+Firmicutes it displaces---a prediction consistent with the \loo\ attribution
+finding that \textit{Clostridiaceae} and \textit{Lachnospiraceae}, not any
+Proteobacterial genus, are the significant healthy anchors in AGP
+(Section~\ref{subsec:attribution}).
 
 \subsection{Structural reorganization versus abundance enrichment in diet}
 
@@ -166,14 +170,20 @@ Residual concerns include the possibility that both datasets share
 confounders related to medication (immunosuppressants, biologics) that
 are not controlled in either analysis.
 
-\paragraph{Loop attribution absent.}
-We report aggregate topological statistics but do not identify which taxon
-pairs anchor the detected loops.
-This is a fundamental gap between a statistical claim (IBD has topologically
-simpler networks) and a biological claim (specific cross-feeding partnerships
-are disrupted).
-Attribution analysis, such as identifying taxa whose removal from the network
-most rapidly reduces $\beta_1(\varepsilon)$, is the logical next step.
+\paragraph{Loop attribution completed; biological validation pending.}
+Section~\ref{subsec:attribution} reports taxon-level \loo\ attribution in
+both datasets.
+The aggregate statistical claim (IBD has topologically simpler networks) is
+now paired with a taxon-resolved candidate list: \textit{Oscillospira},
+\textit{Blautia}, \textit{Lachnospiraceae}, and \textit{Clostridiaceae} in
+the AGP 16S data; \textit{Bacteroides finegoldii}, \textit{B.\ thetaiotaomicron},
+\textit{Flavonifractor plautii}, and \textit{Clostridium nexile} in the
+IBDMDB WGS data.
+The remaining gap is biological validation: whether these taxa truly form
+the cross-feeding exchange loops predicted by their composite scores, or
+whether their high scores reflect shared correlation partners that happen to
+track disease status, requires targeted metabolomic or in vitro co-culture
+experiments.
 
 \paragraph{Inflammatory biomarker data (partially addressed).}
 The \agp\ dataset contains no fecal calprotectin or other inflammatory

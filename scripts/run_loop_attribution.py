@@ -31,6 +31,7 @@ Runtime: ~1–2 min (160 Ripser runs on 79×79 matrices).
 import os
 import sys
 import time
+from multiprocessing import Pool, cpu_count
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
@@ -51,6 +52,8 @@ from src.data.preprocess import filter_low_abundance, clr_transform
 # ── Configuration ───────────────────────────────────────────────────────────────
 SEED = 42
 N_GLOBAL_TAXA = 80
+N_PERMS  = 500   # permutation test iterations
+N_BOOT   = 200   # bootstrap stability iterations
 DATA_DIR  = os.path.join(os.path.dirname(__file__), "..", "data", "raw")
 FIG_DIR   = os.path.join(os.path.dirname(__file__), "..", "figures")
 RES_DIR   = os.path.join(os.path.dirname(__file__), "..", "results")
@@ -192,16 +195,111 @@ def loo_impact(clr_group: np.ndarray, taxa_names: list) -> pd.DataFrame:
     return df
 
 
+# ── Permutation test & bootstrap (module-level workers for multiprocessing) ─────
+
+def _diff_composite(clr_a: np.ndarray, clr_b: np.ndarray, n_taxa: int) -> np.ndarray:
+    """Compute the 80-vector differential composite impact (group_a − group_b)."""
+    baseline_a = group_h1(clr_a)
+    baseline_b = group_h1(clr_b)
+    impacts_a = np.stack([
+        baseline_a - group_h1(clr_a[:, [k for k in range(n_taxa) if k != j]])
+        for j in range(n_taxa)
+    ])  # (n_taxa, 6)
+    impacts_b = np.stack([
+        baseline_b - group_h1(clr_b[:, [k for k in range(n_taxa) if k != j]])
+        for j in range(n_taxa)
+    ])
+    diff_raw = impacts_a - impacts_b   # (n_taxa, 6)
+    z = (diff_raw - diff_raw.mean(axis=0)) / (diff_raw.std(axis=0) + 1e-9)
+    return z.mean(axis=1)              # (n_taxa,)
+
+
+def _perm_worker(args):
+    """One permutation: shuffle labels, return differential composite vector."""
+    clr_matrix, n_healthy, n_taxa, seed = args
+    rng = np.random.default_rng(seed)
+    idx = rng.permutation(len(clr_matrix))
+    return _diff_composite(clr_matrix[idx[:n_healthy]],
+                           clr_matrix[idx[n_healthy:]], n_taxa)
+
+
+def _boot_worker(args):
+    """One bootstrap: resample within groups, return differential composite."""
+    healthy_clr, ibd_clr, n_taxa, seed = args
+    rng = np.random.default_rng(seed)
+    h_idx = rng.integers(0, len(healthy_clr), size=len(healthy_clr))
+    i_idx = rng.integers(0, len(ibd_clr),     size=len(ibd_clr))
+    return _diff_composite(healthy_clr[h_idx], ibd_clr[i_idx], n_taxa)
+
+
+def permutation_test(clr_matrix: np.ndarray, n_healthy: int,
+                     observed: np.ndarray, n_perms: int = N_PERMS) -> np.ndarray:
+    """Return one-sided p-values for each taxon via label permutation."""
+    n_taxa  = clr_matrix.shape[1]
+    n_jobs  = max(1, cpu_count() - 1)
+    seeds   = range(SEED, SEED + n_perms)
+    args    = [(clr_matrix, n_healthy, n_taxa, s) for s in seeds]
+
+    print(f"  Running {n_perms} permutations on {n_jobs} CPUs …")
+    t0 = time.time()
+    with Pool(n_jobs) as pool:
+        null_composites = np.stack(pool.map(_perm_worker, args))   # (n_perms, n_taxa)
+    print(f"  Done in {time.time()-t0:.0f}s")
+
+    # one-sided p-value: fraction of null >= observed
+    pvals = (null_composites >= observed[np.newaxis, :]).mean(axis=0)
+    return pvals
+
+
+def bootstrap_stability(healthy_clr: np.ndarray, ibd_clr: np.ndarray,
+                        observed: np.ndarray, n_boot: int = N_BOOT) -> tuple:
+    """Return (ci_lo, ci_hi) 95% bootstrap CI on the differential composite."""
+    n_taxa  = healthy_clr.shape[1]
+    n_jobs  = max(1, cpu_count() - 1)
+    seeds   = range(SEED + 10000, SEED + 10000 + n_boot)
+    args    = [(healthy_clr, ibd_clr, n_taxa, s) for s in seeds]
+
+    print(f"  Running {n_boot} bootstrap iterations on {n_jobs} CPUs …")
+    t0 = time.time()
+    with Pool(n_jobs) as pool:
+        boot_composites = np.stack(pool.map(_boot_worker, args))   # (n_boot, n_taxa)
+    print(f"  Done in {time.time()-t0:.0f}s")
+
+    ci_lo = np.percentile(boot_composites, 2.5,  axis=0)
+    ci_hi = np.percentile(boot_composites, 97.5, axis=0)
+    return ci_lo, ci_hi
+
+
 # ── Figures ─────────────────────────────────────────────────────────────────────
 
 def plot_top20(diff_df: pd.DataFrame, out_path: str):
-    """Bar chart of top 20 differential topological anchors."""
-    top = diff_df["composite_impact"].nlargest(20)
+    """Bar chart of top 20 differential topological anchors with CI and significance."""
+    # Use positional head(20) to avoid duplicate-index alignment issues
+    top20   = diff_df.head(20)
+    vals    = top20["composite_impact"].values
+    labels  = top20.index.tolist()
+
+    has_ci  = "ci_lo" in top20.columns and not top20["ci_lo"].isna().all()
+    has_pv  = "pval"  in top20.columns and not top20["pval"].isna().all()
+
+    xerr_lo = np.clip(vals - top20["ci_lo"].values, 0, None) if has_ci else np.zeros(20)
+    xerr_hi = np.clip(top20["ci_hi"].values - vals, 0, None) if has_ci else np.zeros(20)
 
     fig, ax = plt.subplots(figsize=(8, 6))
-    ax.barh(range(len(top)), top.values[::-1], color="#e6550d", alpha=0.85)
-    ax.set_yticks(range(len(top)))
-    ax.set_yticklabels(top.index[::-1], fontsize=8)
+    ax.barh(range(20), vals[::-1], color="#e6550d", alpha=0.85)
+    if has_ci:
+        ax.errorbar(vals[::-1], range(20),
+                    xerr=[xerr_lo[::-1], xerr_hi[::-1]],
+                    fmt="none", color="black", capsize=3, linewidth=0.8)
+
+    if has_pv:
+        for i, pv in enumerate(top20["pval"].values[::-1]):
+            star = "***" if pv < 0.001 else "**" if pv < 0.01 else "*" if pv < 0.05 else ""
+            if star:
+                ax.text(vals[19 - i] + 0.02, i, star, va="center", fontsize=7)
+
+    ax.set_yticks(range(20))
+    ax.set_yticklabels(labels[::-1], fontsize=8)
     ax.set_xlabel("Differential composite topological impact\n(healthy anchor score)", fontsize=9)
     ax.set_title(
         "Top 20 taxa: topological anchors in healthy but not IBD networks",
@@ -274,16 +372,32 @@ def main():
     diff_df = healthy_df[FEATURE_NAMES].subtract(ibd_df[FEATURE_NAMES])
     z = (diff_df - diff_df.mean()) / (diff_df.std() + 1e-9)
     diff_df["composite_impact"] = z.mean(axis=1)
+
+    # ── Permutation test ─────────────────────────────────────────────────────────
+    print("\nRunning permutation test …")
+    clr_matrix  = clr_df.values
+    observed    = diff_df["composite_impact"].values
+    pvals       = permutation_test(clr_matrix, len(healthy_clr), observed)
+    diff_df["pval"] = pvals
+
+    # ── Bootstrap CI ─────────────────────────────────────────────────────────────
+    print("\nRunning bootstrap stability …")
+    ci_lo, ci_hi = bootstrap_stability(healthy_clr, ibd_clr, observed)
+    diff_df["ci_lo"] = ci_lo
+    diff_df["ci_hi"] = ci_hi
+
     diff_df = diff_df.sort_values("composite_impact", ascending=False)
     diff_df.to_csv(os.path.join(RES_DIR, "loop_attribution_differential.csv"))
     print(f"  Saved: results/loop_attribution_differential.csv")
 
     # ── Print top 20 ─────────────────────────────────────────────────────────────
     print("\nTop 20 differential topological anchors (healthy − IBD):")
-    print(f"{'Rank':<5} {'Taxon':<35} {'Composite':>10}")
-    print("-" * 55)
+    print(f"{'Rank':<5} {'Taxon':<35} {'Composite':>10} {'p-val':>8} {'95% CI'}")
+    print("-" * 75)
     for rank, (taxon, row) in enumerate(diff_df.head(20).iterrows(), 1):
-        print(f"{rank:<5} {taxon:<35} {row['composite_impact']:>10.3f}")
+        star = "***" if row["pval"] < 0.001 else "**" if row["pval"] < 0.01 else "*" if row["pval"] < 0.05 else ""
+        ci   = f"[{row['ci_lo']:.3f}, {row['ci_hi']:.3f}]"
+        print(f"{rank:<5} {taxon:<35} {row['composite_impact']:>10.3f} {row['pval']:>7.3f} {star:<4} {ci}")
 
     # ── Figures ──────────────────────────────────────────────────────────────────
     print("\nGenerating figures …")

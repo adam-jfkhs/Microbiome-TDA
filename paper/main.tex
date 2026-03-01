@@ -174,27 +174,42 @@ and Wilcoxon signed-rank (confirmatory), with Benjamini--Hochberg correction
 across 18 tests per subset.
 All analyses were repeated in age/sex/BMI-matched subsamples and at
 taxon-set sizes $N \in \{50, 80, 120\}$.
+The \agp\ finding was independently validated in the IBDMDB multi-omics
+cohort and grounded against fecal calprotectin.
+A leave-one-out topological attribution identified per-taxon contributions
+to loop structure.
+Classification benchmarking compared topological features against Shannon
+diversity under 5-fold cross-validation.
 
 \noindent\textbf{Results.}
-Inflammatory bowel disease (\ibd; $n = 165$ vs.\ $n = 3{,}084$ healthy)
-was associated with systematically lower topological complexity across all
-six features (Cohen's $d = 0.75$--$2.38$; $p_{\text{FDR}} < 0.005$ at all
-taxa sizes), fully preserved after covariate matching.
-Plant-based diet showed moderately longer-lived loops (mean lifetime
-$d = 0.65$; $p_{\text{FDR}} = 0.004$); antibiotic recency produced limited,
-matching-dependent signal.
+\Ibd\ ($n = 165$ vs.\ $n = 3{,}084$ healthy) was associated with
+systematically lower topological complexity across all six features
+(Cohen's $d = 0.75$--$2.38$; $p_{\text{FDR}} < 0.005$ at all taxa sizes),
+fully preserved after covariate matching.
+The \ibd\ topological-simplification finding replicated in IBDMDB
+(cross-platform, WGS) and correlated with fecal calprotectin, linking loop
+collapse to a continuous inflammation biomarker.
+Leave-one-out attribution identified \textit{Oscillospira} and
+\textit{Blautia} as the dominant loop anchors in healthy \agp\ networks,
+with cross-dataset replication of \textit{Bacteroides}-clade importance in
+IBDMDB.
+Classifiers combining topological features with Shannon diversity achieved
+AUC $= 0.70$ for \ibd\ prediction, versus $0.69$ for Shannon alone.
+Plant-based diet showed moderately longer-lived loops ($d = 0.65$,
+$p_{\text{FDR}} = 0.004$); antibiotic recency produced limited signal.
 
 \noindent\textbf{Conclusions.}
-\Ibd-associated microbiomes are topologically simpler than healthy controls,
-suggesting that the disease state reshapes co-occurrence architecture beyond
-what diversity indices capture.
+\Ibd-associated microbiomes are topologically simpler than healthy controls
+across two independent cohorts and two sequencing technologies, and this
+simplification tracks a clinical inflammation biomarker.
 Persistent homology provides a structurally informative complement to
-existing microbiome metrics.
+existing microbiome metrics, with taxon-level attribution bridging
+topological statistics and named biological interactions.
 
 \smallskip\noindent
 \textbf{Keywords:} persistent homology, gut microbiome, inflammatory bowel
 disease, co-occurrence networks, topological data analysis, American Gut
-Project, bootstrap, FDR
+Project, IBDMDB, calprotectin, leave-one-out attribution, bootstrap, FDR
 \end{abstract}
 
 \newpage

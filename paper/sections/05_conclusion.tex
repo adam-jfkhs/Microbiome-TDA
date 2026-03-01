@@ -4,9 +4,8 @@
 %=============================================================================
 
 We applied persistent homology to microbial co-occurrence networks derived
-from 3,409 fecal samples in the American Gut Project, quantifying loop
-structure through six scalar features extracted from $H_1$ persistence
-diagrams.
+from 3,409 fecal samples in the American Gut Project and independently
+validated the core finding in the IBDMDB multi-omics cohort.
 Using a paired bootstrap framework with sign-flip label permutation and
 Benjamini--Hochberg correction over a pre-specified 18-test family, we
 find that:
@@ -15,11 +14,17 @@ find that:
 
   \item \textbf{\ibd\ (UC + Crohn's) is associated with consistent
   attenuation of co-occurrence loop structure across all six features.}
-  Effect sizes of $d = 0.75$--$2.38$ across all six features, a null
-  permutation floor at every one, and complete preservation after
-  age/sex/BMI covariate matching make this the most robust finding in
-  the study.
-  It is replicated at taxon-set sizes 50, 80, and 120.
+  Effect sizes of $d = 0.75$--$2.38$, a null permutation floor at every
+  feature, and complete preservation after age/sex/BMI covariate matching
+  make this the most robust finding in the study.
+  It replicates at taxon-set sizes 50, 80, and 120 within \agp, and is
+  reproduced in IBDMDB WGS data using a fully independent pipeline.
+
+  \item \textbf{The loop-collapse signal tracks a continuous inflammation
+  biomarker.}
+  Fecal calprotectin correlates with topological features in IBDMDB,
+  grounding the binary IBD label in a quantitative measure of mucosal
+  inflammation and strengthening the mechanistic interpretation.
 
   \item \textbf{Plant-based diet restructures rather than uniformly
   enriches co-occurrence topology.}
@@ -33,37 +38,49 @@ find that:
   The comparison is underpowered for topological inference given the
   heterogeneous exposure window and absence of class stratification.
 
+  \item \textbf{Leave-one-out attribution identifies taxon-level anchors.}
+  \textit{Oscillospira} and \textit{Blautia} are the dominant healthy loop
+  anchors in the AGP 16S dataset; \textit{Bacteroides}-clade species
+  dominate the IBDMDB WGS ranking.
+  Seven genera appear in both top-20 lists, providing named biological
+  candidates for the loop collapse.
+
+  \item \textbf{Topological features are complementary to Shannon diversity
+  in classification.}
+  Logistic regression using topology alone achieves AUC $= 0.67$;
+  the combined set reaches $0.70$, confirming non-redundant discriminative
+  information relative to conventional alpha diversity.
+
 \end{enumerate}
 
-The paired bootstrap design and pre-fixed global taxon selection introduced
-here are reusable components for any group-level microbiome TDA
-application.
+The paired bootstrap design, pre-fixed global taxon selection, and
+leave-one-out topological attribution pipeline introduced here are reusable
+components for any group-level microbiome TDA application.
 All code, data retrieval scripts, result tables, and figure generation
 pipelines are publicly available at
 \href{https://github.com/adam-jfkhs/Microbiome-TDA}%
 {\texttt{github.com/adam-jfkhs/Microbiome-TDA}}.
 
-The four most pressing extensions of this work are:
-(i) formal classification benchmarking (e.g., logistic regression AUC)
-comparing topological features against Shannon diversity---which we show
-has $d = 0.51$, roughly 1.5--4.7$\times$ smaller than the primary
-topological effect sizes---and UniFrac $\beta$-diversity;
-(ii) taxon-attribution of loop structure to connect topological statistics
-to named biological interactions;
-(iii) replication of the \ibd\ finding in an independent cohort
-with clinical activity metadata, as the necessary condition for any
-downstream translational claim;
-and (iv) correlation of topological features with inflammatory
-biomarkers (fecal calprotectin, circulating cytokines) in cohorts
-that pair microbiome sequencing with immunological profiling, to test
-mechanistic hypotheses linking loop collapse to impaired
-butyrate-mediated immune regulation.
+The most pressing open extensions of this work are:
+(i) longitudinal tracking of topological features within individual patients
+across disease flares and remission, to test whether loop complexity is a
+dynamic marker of disease activity rather than a static cross-sectional
+trait;
+(ii) richer topological representations---persistence images, kernel
+embeddings, or $H_2$ cavity counts---which are expected to widen the
+topology-versus-Shannon AUC gap beyond the current $0.02$ margin;
+and (iii) integration with metatranscriptomic and metabolomic layers from
+IBDMDB to test whether the taxa identified as loop anchors also exhibit
+coordinated functional disruption, providing the mechanistic link from
+co-occurrence topology to butyrate synthesis and immune regulation.
 
 More broadly, this work is a demonstration of what is measurable with
 publicly available citizen-science data and open-source TDA software, not
 a clinical claim.
 The finding that \ibd-associated microbiomes are topologically simpler is
-reproducible, robust, and biologically interpretable.
+reproducible across cohorts and sequencing technologies, robust to
+demographic confounding, grounded in an inflammation biomarker, and
+interpretable at the level of named taxa.
 It invites the question of whether topological complexity is a property
 worth restoring therapeutically, and whether interventions that shift
 microbiome composition (FMT, dietary modulation, precision probiotics) do

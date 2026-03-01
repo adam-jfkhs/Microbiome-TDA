@@ -277,7 +277,16 @@ def plot_top20(diff_df: pd.DataFrame, out_path: str):
     # Use positional head(20) to avoid duplicate-index alignment issues
     top20   = diff_df.head(20)
     vals    = top20["composite_impact"].values
-    labels  = top20.index.tolist()
+    # Disambiguate duplicate taxon names (e.g. multiple Bacteroides OTUs)
+    raw_labels = top20.index.tolist()
+    seen: dict = {}
+    labels = []
+    for name in raw_labels:
+        if raw_labels.count(name) > 1:
+            seen[name] = seen.get(name, 0) + 1
+            labels.append(f"{name} ({seen[name]})")
+        else:
+            labels.append(name)
 
     has_ci  = "ci_lo" in top20.columns and not top20["ci_lo"].isna().all()
     has_pv  = "pval"  in top20.columns and not top20["pval"].isna().all()

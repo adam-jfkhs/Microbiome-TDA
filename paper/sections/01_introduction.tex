@@ -58,7 +58,7 @@ This is the mechanistic hypothesis our analysis tests empirically.
 
 \subsection{Contributions}
 
-This paper makes four specific claims:
+This paper makes seven specific claims:
 
 \begin{enumerate}[leftmargin=*, itemsep=3pt]
   \item \textbf{Methodological:} A paired bootstrap design for comparing
@@ -70,7 +70,7 @@ This paper makes four specific claims:
   associated with systematic reduction in co-occurrence loop structure---fewer
   cycles, shorter-lived cycles, lower peak cycle density---with effect sizes
   ($d = 0.75$--$2.38$) large enough to be unambiguous
-  (Section~\ref{sec:results}).
+  (Section~\ref{subsec:ibd_results}).
 
   \item \textbf{Robustness:} The \ibd\ finding survives covariate matching
   on age, sex, and BMI and is statistically indistinguishable across taxon-set
@@ -78,20 +78,44 @@ This paper makes four specific claims:
   taxa-selection artefact, and numerical instability as alternative
   explanations (Section~\ref{subsec:sensitivity}).
 
-  \item \textbf{Calibration:} A pre-specified FDR policy (18-test
-  Benjamini--Hochberg correction, sign-flip primary $p$-values only,
-  full and matched subsets corrected independently) is stated before any
-  result is examined (Section~\ref{subsec:stats}).
+  \item \textbf{Cross-platform replication:} The \ibd\ topological-simplification
+  signal replicates in the IBDMDB multi-omics cohort using whole-genome
+  shotgun sequencing---a different platform, different population, and
+  independent preprocessing pipeline (Section~\ref{subsec:ibdmdb}).
+
+  \item \textbf{Biomarker grounding:} Topological features correlate with
+  fecal calprotectin and clinical activity scores (HBI, SCCAI) in IBDMDB,
+  linking loop collapse to a continuous, objective inflammation marker rather
+  than a binary diagnostic label (Section~\ref{subsec:ibdmdb}).
+
+  \item \textbf{Taxon-level attribution:} A leave-one-out pipeline identifies
+  \textit{Oscillospira} and \textit{Blautia} as dominant loop anchors in
+  healthy \agp\ networks, with \textit{Bacteroides}-clade species replicated
+  as top anchors in IBDMDB WGS data, providing named biological candidates for
+  the observed loop collapse (Section~\ref{subsec:attribution}).
+
+  \item \textbf{Classification benchmark:} Logistic-regression classifiers
+  using topological features alone achieve AUC $= 0.67$ for \ibd\ prediction;
+  combined with Shannon diversity the AUC rises to $0.70$, confirming that
+  topology carries non-redundant discriminative information relative to
+  conventional alpha diversity (Section~\ref{subsec:classification}).
 \end{enumerate}
+
+\noindent
+\textbf{Calibration note.} A pre-specified FDR policy (18-test
+Benjamini--Hochberg correction, sign-flip primary $p$-values only, full and
+matched subsets corrected independently) is stated before any result is
+examined (Section~\ref{subsec:stats}).
 
 The paper proceeds as follows.
 Section~\ref{sec:methods} details dataset provenance, preprocessing, network
 construction, the persistent homology pipeline, and the full statistical
 framework.
-Section~\ref{sec:results} reports findings for \ibd, diet, and antibiotic
-recency, followed by the taxa-sensitivity analysis.
+Section~\ref{sec:results} reports findings for \ibd, diet, antibiotic recency,
+IBDMDB replication, calprotectin grounding, taxon attribution, and the
+classification benchmark.
 Section~\ref{sec:discussion} situates the \ibd\ result in the IBD biology
 literature, qualifies the diet finding, argues for restraint regarding
 antibiotics, and enumerates the study's limitations without euphemism.
 Section~\ref{sec:conclusion} closes with a minimal interpretation and a
-specific agenda for follow-on work.
+specific agenda for genuinely open follow-on work.

@@ -1,18 +1,20 @@
-.PHONY: setup data data-curated data-all explore paper test clean
+.PHONY: setup data data-ibdmdb analyze paper test clean
 
 setup:
 	python -m venv .venv
 	. .venv/bin/activate && pip install -r requirements.txt
-	Rscript scripts/setup_r_env.R
 
 data:
-	bash scripts/download_hmp.sh
 	bash scripts/download_agp.sh
 
-data-curated:
-	Rscript scripts/download_curatedmgd.R
+data-ibdmdb:
+	bash scripts/download_ibdmdb.sh
 
-data-all: data data-curated
+analyze:
+	python scripts/run_agp_bootstrap_v2.py
+	python scripts/run_taxa_sensitivity.py
+	python scripts/run_ibdmdb_bootstrap.py
+	python scripts/run_classification_benchmark.py
 
 explore:
 	jupyter notebook notebooks/01_data_exploration.ipynb
@@ -24,5 +26,5 @@ test:
 	python -m pytest tests/ -v
 
 clean:
-	rm -rf data/processed/* data/results/* figures/*
+	rm -rf figures/* results/*.csv
 	cd paper && latexmk -C

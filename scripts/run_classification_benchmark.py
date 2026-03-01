@@ -108,6 +108,7 @@ def load_and_prepare():
     prevalence = (clr_df > clr_df.median()).mean(axis=0)
     top_taxa = prevalence.nlargest(N_GLOBAL_TAXA).index.tolist()
     clr_df = clr_df[top_taxa]
+    labels = labels.loc[clr_df.index]
 
     print(f"  CLR matrix shape: {clr_df.shape}")
     return clr_df, labels

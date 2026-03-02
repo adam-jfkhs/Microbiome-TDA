@@ -62,8 +62,21 @@ This single, pre-analysis selection collapses the bootstrap iterations and
 all three comparisons onto a shared 80-node network, severing the artefactual
 coupling between sample composition and network dimensionality that would arise
 from per-subsample taxon selection.
-The robustness of this choice is evaluated exhaustively at $N \in \{50, 80, 120\}$
-(Section~\ref{subsec:sensitivity}).
+
+\textbf{Prevalence definition.}
+Standard presence--absence prevalence (the proportion of samples with a
+detected read for taxon $j$) is not applicable after \clr\ transformation
+because \clr\ maps structural zeros to large negative values rather than to
+zero, making every taxon formally ``present'' in every sample.
+We therefore define prevalence as the fraction of samples in which taxon $j$'s
+\clr\ value exceeds its own column-wise median---equivalently, the 50th-percentile
+exceedance rate.
+This selects taxa that are consistently in the upper half of their within-taxon
+abundance distribution, a natural analogue of detection-based prevalence that
+avoids compositional distortion.
+Sensitivity to the precise threshold (i.e., whether rank-selection at $N = 50$,
+$80$, or $120$ changes the conclusions) is evaluated in
+Section~\ref{subsec:sensitivity}.
 
 \subsection{Network construction and Vietoris--Rips filtration}
 \label{subsec:networks}

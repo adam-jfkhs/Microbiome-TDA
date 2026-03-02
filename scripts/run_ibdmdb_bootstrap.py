@@ -24,7 +24,6 @@ Methodological notes
 
 import sys
 import os
-import time
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
@@ -33,15 +32,10 @@ import pandas as pd
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from scipy.stats import wilcoxon
 
 from src.data.ibdmdb_loader import load_ibdmdb, ibdmdb_group_ids
 from src.data.preprocess import filter_low_abundance, clr_transform
-from src.networks.cooccurrence import spearman_correlation_matrix
-from src.networks.distance import correlation_distance
-from src.tda.filtration import prepare_distance_matrix
-from src.tda.homology import compute_persistence, filter_infinite, persistence_summary
-from src.tda.features import betti_curve, persistence_entropy
+from src.analysis.bootstrap import FEATURES, select_global_taxa, tda_features, paired_resample_test
 from src.analysis.statistics import fdr_correction
 
 # ── Configuration ─────────────────────────────────────────────────────────────
@@ -55,11 +49,6 @@ RESULTS_DIR = os.path.join(os.path.dirname(__file__), "..", "results")
 os.makedirs(FIGURE_DIR, exist_ok=True)
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
-FEATURES_TO_TEST = [
-    "h1_count", "h1_entropy", "h1_total_persistence",
-    "h1_mean_lifetime", "h1_max_lifetime", "max_betti1",
-]
-
 COMPARISONS = [
     "ibd_vs_nonibd",
     "cd_vs_nonibd",
@@ -70,121 +59,37 @@ COMPARISONS = [
 ]
 
 
-# ── Helpers (identical to AGP v2) ─────────────────────────────────────────────
+# ── Longitudinal de-duplication ────────────────────────────────────────────────
 
-def select_global_taxa(clr_df, n=N_GLOBAL_TAXA):
-    prevalence = (clr_df > clr_df.median()).mean(axis=0)
-    top = prevalence.nlargest(n).index.tolist()
-    print(f"Global taxa selected: {len(top)} (from {clr_df.shape[1]} total)")
-    return top
+def one_per_subject(ids, metadata, subject_col="Participant ID", seed=SEED):
+    """Return a subset of ids with at most one sample per subject.
 
+    For subjects with multiple longitudinal samples, one is chosen uniformly at
+    random (seeded for reproducibility).  This sensitivity check tests whether
+    treating IBDMDB timepoints as independent inflates effective sample size.
 
-def tda_features_fixed_taxa(clr_subset, global_taxa):
-    subset = clr_subset[global_taxa]
-    corr_matrix, _ = spearman_correlation_matrix(subset)
-    dist_df = correlation_distance(corr_matrix)
-    dist_matrix = prepare_distance_matrix(dist_df)
-    result = compute_persistence(dist_matrix, maxdim=1)
+    Parameters
+    ----------
+    ids : Iterable of sample identifiers (index values in metadata).
+    metadata : DataFrame indexed by sample ID, must contain subject_col.
+    subject_col : Column name for subject/participant identifier.
+    seed : RNG seed.
 
-    dgms = result["dgms"]
-    finite_dgms = filter_infinite(dgms)
-    summary = persistence_summary(dgms)
+    Returns
+    -------
+    List of sample IDs — one per unique subject, in the intersection of ids
+    with metadata.index.
+    """
+    rng_local = np.random.default_rng(seed)
+    meta_sub = metadata.loc[[i for i in ids if i in metadata.index]]
+    if subject_col not in meta_sub.columns:
+        return list(meta_sub.index)   # no subject info; return as-is
 
-    h1_entropy = persistence_entropy(dgms[1])
-    _, betti1 = betti_curve(dgms[1], num_points=200)
-
-    finite_h1 = finite_dgms[1]
-    total_pers = (
-        float(np.sum(finite_h1[:, 1] - finite_h1[:, 0]))
-        if len(finite_h1) > 0 else 0.0
-    )
-
-    return {
-        "h1_count":             summary["H1"]["count"],
-        "h1_entropy":           h1_entropy,
-        "h1_total_persistence": total_pers,
-        "h1_mean_lifetime":     summary["H1"]["mean_lifetime"],
-        "h1_max_lifetime":      summary["H1"]["max_lifetime"],
-        "max_betti1":           int(betti1.max()),
-    }
-
-
-def paired_resample_test(clr_df, ids_a, ids_b, global_taxa,
-                         n_iter, subsample_size, n_perm, rng, label=""):
-    ids_a = list(ids_a)
-    ids_b = list(ids_b)
-    n_a = min(subsample_size, len(ids_a))
-    n_b = min(subsample_size, len(ids_b))
-
-    if n_a < 20 or n_b < 20:
-        print(f"  SKIP {label}: too few samples (n_a={n_a}, n_b={n_b})")
-        return None, None
-
-    print(f"  {label}: {len(ids_a)} vs {len(ids_b)} | drawing {n_a} vs {n_b} per iter × {n_iter}")
-
-    deltas = {feat: [] for feat in FEATURES_TO_TEST}
-    feat_a_all = {feat: [] for feat in FEATURES_TO_TEST}
-    feat_b_all = {feat: [] for feat in FEATURES_TO_TEST}
-
-    t0 = time.time()
-    for i in range(n_iter):
-        boot_a = rng.choice(ids_a, size=n_a, replace=False)
-        boot_b = rng.choice(ids_b, size=n_b, replace=False)
-
-        fa = tda_features_fixed_taxa(clr_df.loc[boot_a].reset_index(drop=True), global_taxa)
-        fb = tda_features_fixed_taxa(clr_df.loc[boot_b].reset_index(drop=True), global_taxa)
-
-        for feat in FEATURES_TO_TEST:
-            deltas[feat].append(fa[feat] - fb[feat])
-            feat_a_all[feat].append(fa[feat])
-            feat_b_all[feat].append(fb[feat])
-
-        if (i + 1) % 50 == 0:
-            elapsed = time.time() - t0
-            print(f"    iteration {i + 1}/{n_iter}  ({elapsed:.0f}s elapsed)")
-
-    rows = []
-    for feat in FEATURES_TO_TEST:
-        d = np.array(deltas[feat])
-        observed_stat = np.mean(d)
-
-        count_extreme = 0
-        for _ in range(n_perm):
-            signs = rng.choice([-1, 1], size=len(d))
-            if abs(np.mean(d * signs)) >= abs(observed_stat):
-                count_extreme += 1
-        perm_p = (count_extreme + 1) / (n_perm + 1)
-
-        try:
-            _, wilcox_p = wilcoxon(d, alternative="two-sided")
-        except ValueError:
-            wilcox_p = 1.0
-
-        vals_a = np.array(feat_a_all[feat])
-        vals_b = np.array(feat_b_all[feat])
-        pooled_std = np.sqrt(
-            ((len(vals_a) - 1) * vals_a.var(ddof=1) + (len(vals_b) - 1) * vals_b.var(ddof=1))
-            / (len(vals_a) + len(vals_b) - 2)
-        )
-        cohens_d = float((vals_a.mean() - vals_b.mean()) / pooled_std) if pooled_std > 0 else 0.0
-
-        rows.append({
-            "feature":            feat,
-            "mean_a":             round(vals_a.mean(), 4),
-            "mean_b":             round(vals_b.mean(), 4),
-            "mean_delta":         round(observed_stat, 4),
-            "cohens_d":           round(cohens_d, 4),
-            "wilcoxon_p":         round(wilcox_p, 6),
-            "permutation_p":      round(perm_p, 6),
-            "n_iter":             n_iter,
-            "n_a":                len(ids_a),
-            "n_b":                len(ids_b),
-            "subsample_a":        n_a,
-            "subsample_b":        n_b,
-        })
-
-    raw = {"deltas": deltas, "feat_a": feat_a_all, "feat_b": feat_b_all}
-    return pd.DataFrame(rows), raw
+    selected = []
+    for _, grp in meta_sub.groupby(subject_col, sort=False):
+        chosen = rng_local.choice(grp.index.tolist())
+        selected.append(chosen)
+    return selected
 
 
 def plot_delta_distributions(deltas, comp_name, label_a, label_b, results_df):
@@ -243,11 +148,15 @@ def main():
     print("\nSelecting global taxa...")
     global_taxa = select_global_taxa(clr_df, n=N_GLOBAL_TAXA)
 
-    # Report biomarker availability
-    calp = meta["Tube B:Fecal Calprotectin"].notna().sum()
+    # Report biomarker and longitudinal availability
+    calp = meta["fecalcal"].notna().sum() if "fecalcal" in meta.columns else 0
     hbi_n = meta["hbi"].notna().sum()
     sccai_n = meta["sccai"].notna().sum()
+    n_subjects = meta["Participant ID"].nunique() if "Participant ID" in meta.columns else None
     print(f"\nBiomarker availability: calprotectin={calp}, HBI={hbi_n}, SCCAI={sccai_n}")
+    if n_subjects is not None:
+        print(f"Unique participants: {n_subjects} ({len(meta)} samples → "
+              f"{len(meta) / n_subjects:.1f} timepoints/subject on average)")
 
     # Run comparisons
     all_results = []
@@ -323,6 +232,49 @@ def main():
     print(f"FDR-significant (perm):  {all_df['sig_perm_fdr'].sum()}/{len(all_df)}")
     print(f"FDR-significant (wilcox): {all_df['sig_wilcox_fdr'].sum()}/{len(all_df)}")
     print("=" * 70)
+
+    # ── Longitudinal sensitivity check ────────────────────────────────────────
+    # IBDMDB is a longitudinal study; treating timepoints as independent
+    # inflates effective sample size.  This check subsamples one random
+    # timepoint per participant and re-runs the primary ibd_vs_nonibd
+    # comparison to confirm that the finding is not an artefact of
+    # within-subject temporal correlation.
+    print(f"\n{'=' * 70}")
+    print("LONGITUDINAL SENSITIVITY CHECK — one timepoint per subject")
+    print(f"{'=' * 70}")
+
+    if "Participant ID" not in meta.columns:
+        print("  Skipping: 'Participant ID' column not found in metadata.")
+    else:
+        ids_a_all, ids_b_all, la, lb = ibdmdb_group_ids(meta, "ibd_vs_nonibd")
+        ids_a_all = [i for i in ids_a_all if i in clr_df.index]
+        ids_b_all = [i for i in ids_b_all if i in clr_df.index]
+
+        ids_a_1ps = one_per_subject(ids_a_all, meta)
+        ids_b_1ps = one_per_subject(ids_b_all, meta)
+        print(f"  IBD: {len(ids_a_all)} timepoints → {len(ids_a_1ps)} subjects")
+        print(f"  nonIBD: {len(ids_b_all)} timepoints → {len(ids_b_1ps)} subjects")
+
+        subsample_1ps = min(SUBSAMPLE_SIZE, len(ids_a_1ps), len(ids_b_1ps))
+        sens_df, _ = paired_resample_test(
+            clr_df, ids_a_1ps, ids_b_1ps, global_taxa,
+            n_iter=N_ITERATIONS, subsample_size=subsample_1ps,
+            n_perm=N_PERMUTATIONS, rng=np.random.default_rng(SEED + 1),
+            label="IBD vs nonIBD (1 timepoint/subject)",
+            min_samples=10,
+        )
+        if sens_df is not None:
+            sens_df["comparison"] = "ibd_vs_nonibd_1ps"
+            out_1ps = os.path.join(RESULTS_DIR, "ibdmdb_bootstrap_1ps.csv")
+            sens_df.to_csv(out_1ps, index=False)
+            print(f"\n  1-per-subject results saved to {out_1ps}")
+            print(f"  {'Feature':<28} {'Cohen d':>8} {'perm-p':>8}")
+            print(f"  {'─' * 50}")
+            for _, row in sens_df.iterrows():
+                sig = "*" if row["permutation_p"] < 0.05 else ""
+                print(f"  {row['feature']:<28} {row['cohens_d']:>8.3f} "
+                      f"{row['permutation_p']:>8.4f} {sig}")
+        print("=" * 70)
 
 
 if __name__ == "__main__":

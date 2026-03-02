@@ -6,7 +6,7 @@
 \contentsline {subsection}{\numberline {2.1}Dataset provenance}{6}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Preprocessing}{7}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}Global taxon-set selection}{7}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}Network construction and Vietoris--Rips filtration}{7}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.4}Network construction and Vietoris--Rips filtration}{8}{subsection.2.4}%
 \contentsline {subsection}{\numberline {2.5}Persistent homology computation}{8}{subsection.2.5}%
 \contentsline {subsection}{\numberline {2.6}Scalar topological features}{8}{subsection.2.6}%
 \contentsline {subsection}{\numberline {2.7}Paired bootstrap design}{8}{subsection.2.7}%
@@ -14,8 +14,8 @@
 \contentsline {paragraph}{FDR policy (pre-specified).}{9}{equation.2.3}%
 \contentsline {subsection}{\numberline {2.9}Covariate matching}{9}{subsection.2.9}%
 \contentsline {subsection}{\numberline {2.10}Taxa-size sensitivity}{9}{subsection.2.10}%
-\contentsline {subsection}{\numberline {2.11}Implementation and reproducibility}{9}{subsection.2.11}%
-\contentsline {section}{\numberline {3}Results}{9}{section.3}%
+\contentsline {subsection}{\numberline {2.11}Implementation and reproducibility}{10}{subsection.2.11}%
+\contentsline {section}{\numberline {3}Results}{10}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Cohort structure and group partitioning}{10}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}IBD is associated with systematic attenuation of co-occurrence loop structure}{10}{subsection.3.2}%
 \contentsline {paragraph}{Comparison with Shannon $\alpha $-diversity.}{12}{table.caption.3}%

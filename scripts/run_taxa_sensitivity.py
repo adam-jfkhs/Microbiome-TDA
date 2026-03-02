@@ -27,15 +27,10 @@ import pandas as pd
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from scipy.stats import wilcoxon
 
 from src.data.loaders import load_agp
 from src.data.preprocess import filter_low_abundance, clr_transform
-from src.networks.cooccurrence import spearman_correlation_matrix
-from src.networks.distance import correlation_distance
-from src.tda.filtration import prepare_distance_matrix
-from src.tda.homology import compute_persistence, filter_infinite, persistence_summary
-from src.tda.features import betti_curve, persistence_entropy
+from src.analysis.bootstrap import FEATURES, tda_features, paired_resample_test, make_strata, matched_ids
 from src.analysis.statistics import fdr_correction
 
 # ── Configuration ──────────────────────────────────────────────────────────────
@@ -49,11 +44,6 @@ FIGURE_DIR = os.path.join(os.path.dirname(__file__), "..", "figures")
 RESULTS_DIR = os.path.join(os.path.dirname(__file__), "..", "results")
 os.makedirs(FIGURE_DIR, exist_ok=True)
 os.makedirs(RESULTS_DIR, exist_ok=True)
-
-FEATURES = [
-    "h1_count", "h1_entropy", "h1_total_persistence",
-    "h1_mean_lifetime", "h1_max_lifetime", "max_betti1",
-]
 
 FEATURE_LABELS = {
     "h1_count":            "H1 count",
@@ -71,129 +61,6 @@ COMPARISONS_DEF = {
 }
 
 
-# ── TDA pipeline ───────────────────────────────────────────────────────────────
-
-def tda_features(clr_subset, taxa_list):
-    """Run TDA on clr_subset restricted to taxa_list. Returns feature dict."""
-    subset = clr_subset[taxa_list]
-    corr_matrix, _ = spearman_correlation_matrix(subset)
-    dist_df = correlation_distance(corr_matrix)
-    dist_matrix = prepare_distance_matrix(dist_df)
-    result = compute_persistence(dist_matrix, maxdim=1)
-
-    dgms = result["dgms"]
-    finite_dgms = filter_infinite(dgms)
-    summary = persistence_summary(dgms)
-    h1_entropy = persistence_entropy(dgms[1])
-    _, betti1 = betti_curve(dgms[1], num_points=200)
-    finite_h1 = finite_dgms[1]
-    total_pers = (
-        float(np.sum(finite_h1[:, 1] - finite_h1[:, 0]))
-        if len(finite_h1) > 0 else 0.0
-    )
-    return {
-        "h1_count":            summary["H1"]["count"],
-        "h1_entropy":          h1_entropy,
-        "h1_total_persistence": total_pers,
-        "h1_mean_lifetime":    summary["H1"]["mean_lifetime"],
-        "h1_max_lifetime":     summary["H1"]["max_lifetime"],
-        "max_betti1":          int(betti1.max()),
-    }
-
-
-# ── Paired resampling ──────────────────────────────────────────────────────────
-
-def paired_resample_test(clr_df, ids_a, ids_b, taxa_list,
-                         n_iter, subsample_size, n_perm, rng, label=""):
-    """200 paired iterations; sign-flip permutation + Wilcoxon."""
-    ids_a, ids_b = list(ids_a), list(ids_b)
-    n_a = min(subsample_size, len(ids_a))
-    n_b = min(subsample_size, len(ids_b))
-
-    deltas = {f: [] for f in FEATURES}
-    vals_a  = {f: [] for f in FEATURES}
-    vals_b  = {f: [] for f in FEATURES}
-
-    for i in range(n_iter):
-        boot_a = rng.choice(ids_a, size=n_a, replace=False)
-        boot_b = rng.choice(ids_b, size=n_b, replace=False)
-        fa = tda_features(clr_df.loc[boot_a].reset_index(drop=True), taxa_list)
-        fb = tda_features(clr_df.loc[boot_b].reset_index(drop=True), taxa_list)
-        for f in FEATURES:
-            deltas[f].append(fa[f] - fb[f])
-            vals_a[f].append(fa[f])
-            vals_b[f].append(fb[f])
-
-    rows = []
-    for f in FEATURES:
-        d = np.array(deltas[f])
-        obs = np.mean(d)
-
-        # Sign-flip permutation (PRIMARY)
-        count = sum(
-            abs(np.mean(d * rng.choice([-1, 1], size=len(d)))) >= abs(obs)
-            for _ in range(n_perm)
-        )
-        perm_p = (count + 1) / (n_perm + 1)
-
-        # Wilcoxon (SECONDARY / confirmatory only)
-        try:
-            _, wilcox_p = wilcoxon(d, alternative="two-sided")
-        except ValueError:
-            wilcox_p = 1.0
-
-        a_arr = np.array(vals_a[f])
-        b_arr = np.array(vals_b[f])
-        pooled = np.sqrt(
-            ((len(a_arr) - 1) * a_arr.var(ddof=1) + (len(b_arr) - 1) * b_arr.var(ddof=1))
-            / (len(a_arr) + len(b_arr) - 2)
-        )
-        cohens_d = float((a_arr.mean() - b_arr.mean()) / pooled) if pooled > 0 else 0.0
-
-        rows.append({
-            "feature":       f,
-            "mean_a":        round(a_arr.mean(), 4),
-            "mean_b":        round(b_arr.mean(), 4),
-            "cohens_d":      round(cohens_d, 4),
-            "perm_p":        round(perm_p, 6),
-            "wilcox_p":      round(wilcox_p, 6),
-            "n_ids_a":       len(ids_a),
-            "n_ids_b":       len(ids_b),
-        })
-
-    return pd.DataFrame(rows)
-
-
-# ── Confounder matching ────────────────────────────────────────────────────────
-
-def make_strata(meta):
-    age = pd.to_numeric(meta["AGE"], errors="coerce")
-    bmi = pd.to_numeric(meta["BMI"], errors="coerce")
-    sex = meta["SEX"].where(meta["SEX"].isin(["female", "male"]), other=np.nan)
-    age_bin = pd.cut(age, bins=[0, 25, 40, 60, 200], labels=["<25", "25-40", "40-60", ">60"])
-    bmi_bin = pd.cut(bmi, bins=[0, 25, 30, 200], labels=["<25", "25-30", ">30"])
-    strata = age_bin.astype(str) + "|" + sex.astype(str) + "|" + bmi_bin.astype(str)
-    strata[age.isna() | bmi.isna() | sex.isna()] = np.nan
-    return strata
-
-
-def matched_ids(ids_a, ids_b, strata):
-    s = strata.dropna()
-    a_valid = [i for i in ids_a if i in s.index]
-    b_valid = [i for i in ids_b if i in s.index]
-    rng_local = np.random.default_rng(SEED + 99)
-    ma, mb = [], []
-    for stratum in s.loc[a_valid].unique():
-        a_s = [i for i in a_valid if s.get(i) == stratum]
-        b_s = [i for i in b_valid if s.get(i) == stratum]
-        if not a_s or not b_s:
-            continue
-        b_sample = rng_local.choice(b_s, size=min(len(a_s) * 3, len(b_s)), replace=False).tolist()
-        ma.extend(a_s)
-        mb.extend(b_sample)
-    return ma, mb
-
-
 def apply_fdr_18(df):
     """Apply BH-FDR across exactly 18 tests (3 comparisons × 6 features).
 
@@ -202,7 +69,7 @@ def apply_fdr_18(df):
     Wilcoxon p-values are NOT used for FDR.
     """
     assert len(df) == 18, f"Expected 18 rows for FDR, got {len(df)}"
-    p = df["perm_p"].values
+    p = df["permutation_p"].values
     n = len(p)
     order = np.argsort(p)
     adj = np.zeros(n)
@@ -356,7 +223,7 @@ def main():
             # Full groups
             print(f"\n  [{comp_name}] Full — {la} (n={len(g['ids_a'])}) "
                   f"vs {lb} (n={len(g['ids_b'])})")
-            df_full = paired_resample_test(
+            df_full, _ = paired_resample_test(
                 clr_df, g["ids_a"], g["ids_b"], taxa_list,
                 N_ITERATIONS, SUBSAMPLE_SIZE, N_PERMUTATIONS, rng,
                 label=f"{comp_name}/full/N={n_taxa}",
@@ -370,7 +237,7 @@ def main():
             ma, mb = matched[comp_name]["ids_a"], matched[comp_name]["ids_b"]
             if len(ma) >= SUBSAMPLE_SIZE and len(mb) >= SUBSAMPLE_SIZE:
                 print(f"  [{comp_name}] Matched — {la} (n={len(ma)}) vs {lb} (n={len(mb)})")
-                df_match = paired_resample_test(
+                df_match, _ = paired_resample_test(
                     clr_df, ma, mb, taxa_list,
                     N_ITERATIONS, SUBSAMPLE_SIZE, N_PERMUTATIONS, rng,
                     label=f"{comp_name}/matched/N={n_taxa}",
@@ -410,7 +277,7 @@ def main():
         print(f"\nSubset: {subset}")
         sub = results[results["subset"] == subset]
         # Count sig per comparison × n_taxa
-        pivot_nsig = sub.groupby(["comparison", "n_taxa"])["sig_fdr18"].sum().unstack("n_taxa")
+        pivot_nsig = sub.groupby(["comparison", "n_taxa"])["sig_fdr18"].sum().unstack("n_taxa")  # noqa: E501
         print(f"  Number of FDR-significant features (out of 6):")
         print(pivot_nsig.to_string())
 
@@ -457,7 +324,7 @@ def main():
     ibd_full = results[(results["comparison"] == "ibd") & (results["subset"] == "full")]
     print(
         ibd_full[["n_taxa", "feature", "mean_a", "mean_b", "cohens_d",
-                  "perm_p", "perm_p_fdr18", "sig_fdr18", "wilcox_p"]]
+                  "permutation_p", "perm_p_fdr18", "sig_fdr18", "wilcoxon_p"]]
         .sort_values(["feature", "n_taxa"])
         .to_string(index=False)
     )

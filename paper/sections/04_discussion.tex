@@ -148,14 +148,17 @@ Strain-level co-occurrence heterogeneity within named genera may both inflate
 and obscure loop structure, and interoperability with genus-level literature
 is impaired.
 
-\paragraph{Limited diversity-metric benchmark.}
-We report a Shannon $\alpha$-diversity comparison (Section~\ref{subsec:ibd_results})
-showing that topological features yield 1.5--4.7$\times$ larger effect sizes
-than Shannon $d = 0.51$.
-However, we did not assess UniFrac $\beta$-diversity, nor did we test whether
-topological features explain variance in clinical outcomes \emph{beyond} what
-simpler metrics already capture (e.g., via classification AUC comparison).
-This is the most practically important open question.
+\paragraph{Diversity-metric benchmark (addressed).}
+Section~\ref{subsec:classification} extends the original Shannon benchmark to
+include Aitchison $\beta$-diversity (Euclidean distance in CLR space;
+phylogeny-free analog of weighted UniFrac) and Bray--Curtis dissimilarity,
+both embedded via nested PCoA with no test-fold leakage.
+Aitchison-PCoA(10) achieves AUC $= 0.734$ (LR), outperforming Shannon
+($0.688$) and topology scalars ($0.668$), and the six H$_1$ scalars do not
+improve over Aitchison when combined.
+The remaining benchmark gap is whether richer topological representations
+(persistence images, kernel embeddings) can close the AUC gap to
+Aitchison-PCoA; that question is deferred to future work.
 
 \paragraph{Single cohort (addressed in part).}
 All primary \agp\ results originate from a self-recruited citizen-science

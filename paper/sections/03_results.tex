@@ -579,76 +579,145 @@ Sections~\ref{subsec:ibd_results}--\ref{subsec:ibdmdb}.
 \end{figure}
 
 %─────────────────────────────────────────────────────────────────────────────
-\subsection{Classification benchmark: topology vs.\ diversity metrics}
+\subsection{Classification benchmark: topology vs.\ $\alpha$- and $\beta$-diversity}
 \label{subsec:classification}
 %─────────────────────────────────────────────────────────────────────────────
 
 To quantify the discriminative value of topological features relative to
-conventional diversity metrics, we trained logistic-regression and random-forest
-classifiers on the \agp\ \ibd\ binary label using three feature sets:
-Shannon diversity alone, the six H$_1$ topological features alone, and the
-combined set.
-All models were evaluated under stratified 5-fold cross-validation; performance
-is reported as mean $\pm$ SD area under the ROC curve (AUC).
+established microbiome diversity metrics---and directly address the comparison
+flagged in the Discussion as ``the most practically important open question''---we
+extended the classification benchmark to include two \textbf{$\beta$-diversity
+baselines} alongside Shannon $\alpha$-diversity.
+
+\paragraph{Feature sets and methods.}
+Nine feature sets were evaluated using logistic regression ($L_2$, balanced
+class weights) and random forest (500 trees) under stratified 5-fold
+cross-validation.
+The two $\beta$-diversity embeddings are:
+\begin{itemize}[leftmargin=*, itemsep=1pt]
+  \item \textbf{Aitchison-PCoA(10).}
+  Euclidean distance in CLR space is the theoretically principled metric for
+  compositional data, providing a phylogeny-free analog of weighted
+  UniFrac~\citep{aitchison1982statistical}.
+  Embedded into $k = 10$ principal coordinates.
+  \item \textbf{BC-PCoA(10).}
+  Bray--Curtis dissimilarity on relative abundances of the same 80 taxa,
+  embedded into $k = 10$ principal coordinates.
+\end{itemize}
+To prevent information leakage, PCoA was \emph{re-fitted on training samples
+only} in each CV fold; test samples were projected via Gower's (1968)
+out-of-sample formula.
+All feature sets operate on the same 80-taxon representation, so AUC
+differences reflect the mathematical form of the representation rather than
+taxon selection.
 
 \begin{table}[H]
 \centering
 \caption{%
-  \textbf{Classification benchmark: 5-fold cross-validated AUC for IBD vs.\ healthy
-  prediction (AGP, $n = 3{,}249$).}
+  \textbf{Extended classification benchmark: 5-fold cross-validated AUROC for
+  IBD vs.\ healthy prediction (AGP, $n = 3{,}249$).}
+  PCoA($k{=}10$) is fitted on the training fold only (Gower out-of-sample
+  projection; no test-fold leakage).
   LR = logistic regression; RF = random forest.
+  Best result per classifier in \textbf{bold}.
 }
 \label{tab:classification}
+\small
+\setlength{\tabcolsep}{7pt}
 \begin{tabular}{llcc}
 \toprule
-Classifier & Feature set & Mean AUC & SD \\
+\textbf{Clf} & \textbf{Feature set} & \textbf{Mean AUC} & \textbf{SD} \\
 \midrule
-LR & Shannon only           & 0.685 & 0.020 \\
-LR & Topology only          & 0.668 & 0.036 \\
-LR & Topology + Shannon     & \textbf{0.696} & 0.036 \\
+LR & Shannon only                        & 0.688 & 0.019 \\
+LR & Topology only                       & 0.668 & 0.036 \\
+LR & Topology + Shannon                  & 0.697 & 0.037 \\
+LR & BC-PCoA(10)                         & 0.683 & 0.044 \\
+LR & Aitchison-PCoA(10)                  & 0.734 & 0.027 \\
+LR & BC-PCoA + Topology                  & 0.693 & 0.045 \\
+LR & Aitchison-PCoA + Topology           & 0.728 & 0.027 \\
+LR & BC-PCoA + Topology + Shannon        & 0.702 & 0.045 \\
+LR & Aitchison-PCoA + Topology + Shannon & \textbf{0.735} & 0.022 \\
 \midrule
-RF & Shannon only           & 0.575 & 0.020 \\
-RF & Topology only          & 0.632 & 0.033 \\
-RF & Topology + Shannon     & 0.650 & 0.050 \\
+RF & Shannon only                        & 0.563 & 0.045 \\
+RF & Topology only                       & 0.632 & 0.033 \\
+RF & Topology + Shannon                  & 0.645 & 0.058 \\
+RF & BC-PCoA(10)                         & 0.599 & 0.044 \\
+RF & Aitchison-PCoA(10)                  & \textbf{0.703} & 0.035 \\
+RF & BC-PCoA + Topology                  & 0.650 & 0.053 \\
+RF & Aitchison-PCoA + Topology           & 0.696 & 0.026 \\
+RF & BC-PCoA + Topology + Shannon        & 0.666 & 0.056 \\
+RF & Aitchison-PCoA + Topology + Shannon & 0.702 & 0.038 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Three observations stand out.
-First, Shannon diversity alone achieves AUC $= 0.69$ under logistic regression,
-consistent with the moderate effect size ($d = 0.51$) reported in
-Section~\ref{subsec:ibd_results}---Shannon is a non-trivial baseline, but weaker
-than the primary topological features ($d = 0.75$--$2.38$) by a factor of
-1.5--4.7$\times$.
-Second, topology-only features under logistic regression (AUC $= 0.67$) fall
-just below Shannon, reflecting that the six scalar features compress the full
-persistence diagram into a relatively coarse representation; dimension-reduction
-approaches such as persistence images or kernel embeddings are expected to widen
-this gap.
-Third, combining topology with Shannon yields the highest AUC in both classifiers
-(LR: $0.696$; RF: $0.650$), confirming that topological and compositional
-features are partially complementary---they carry non-redundant discriminative
-information about the \ibd\ microbiome state.
+\paragraph{Results.}
+Four observations stand out (Table~\ref{tab:classification},
+Figure~\ref{fig:classification_roc}).
+
+\textit{Aitchison-PCoA is the strongest single predictor.}
+Aitchison-PCoA(10) achieves LR AUC $= 0.734$ and RF AUC $= 0.703$,
+outperforming Shannon diversity (LR: $0.688$; RF: $0.563$) and topology
+scalars alone (LR: $0.668$; RF: $0.632$).
+Aitchison distance captures the full pairwise co-occurrence geometry of all
+80 taxa simultaneously; Shannon is a per-sample marginal summary and the six
+H$_1$ scalars compress persistence diagrams into coarse statistics.
+
+\textit{Bray--Curtis PCoA performs comparably to Shannon.}
+BC-PCoA(10) achieves LR: $0.683$; RF: $0.599$, substantially below
+Aitchison-PCoA.
+This is consistent with theoretical expectations: Aitchison distance is
+the natural metric for compositional data, while Bray--Curtis on relative
+abundances lacks the log-ratio invariance that makes Aitchison distance
+appropriate for CLR-transformed microbiome data.
+
+\textit{Topology scalars do not improve over Aitchison when combined.}
+Aitchison-PCoA + Topology achieves LR: $0.728$, RF: $0.696$---both slightly
+below Aitchison alone ($0.734$, $0.703$).
+The full combination (Aitchison + Topology + Shannon) reaches LR: $0.735$
+($+0.001$ over Aitchison alone, within a single SD of $\pm 0.022$).
+This indicates that the structural information captured by the six H$_1$
+scalars is largely subsumed by the full distance geometry that Aitchison PCoA
+encodes.
+
+\textit{Topology scalars outperform Shannon under random forest.}
+RF AUC: Topology $0.632$ vs.\ Shannon $0.563$.
+The relational, multi-taxon nature of topological features provides
+discriminative signal that single-sample diversity indices cannot access.
+
+\paragraph{Predictive vs.\ interpretive value.}
+These results distinguish two types of contribution.
+Predictively, Aitchison beta-diversity (10 PCoA axes, logistic regression,
+AUC $= 0.734$) is the strongest feature set tested.
+The six H$_1$ scalars do not add over this baseline, reflecting their coarse
+compression of the full persistence diagram.
+Interpretively, topology provides what PCoA coordinates do not: identification
+of \emph{which structural property} of the co-occurrence graph is lost in
+\ibd\ (loops, not merely taxon abundances), attribution of loop loss to
+specific taxa (Section~\ref{subsec:attribution}), and tracking of topological
+simplification against a continuous inflammation biomarker
+(Section~\ref{subsec:ibdmdb}).
+These mechanistic properties cannot be recovered from a PCoA embedding, even
+one with superior predictive AUC.
+The classification benchmark quantifies information content as a secondary
+validation; it does not exhaust the analytical value of topology.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.78\textwidth]{figures/classification_roc.png}
+  \includegraphics[width=\textwidth]{figures/classification_roc_v2.png}
   \caption{%
-    \textbf{ROC curves for IBD classification (logistic regression,
-    5-fold cross-validation).}
-    Shannon diversity alone (dashed), topology alone (dotted), and the
-    combined feature set (solid) are shown with their respective mean AUC
-    values.
-    The combined feature set outperforms either single-modality set,
-    demonstrating that topological features provide complementary
-    discriminative information beyond Shannon entropy.
+    \textbf{ROC curves for IBD classification (5-fold stratified CV,
+    AGP, $n = 3{,}249$).}
+    \textit{Left}: Logistic regression; \textit{Right}: Random forest.
+    Each curve is the mean over 5 folds; shaded bands are $\pm$1 SD.
+    Aitchison-PCoA(10) (fitted on training fold, Gower projection for test)
+    achieves the highest single-modality AUROC in both classifiers ($0.734$,
+    $0.703$).
+    Adding topology scalars to Aitchison-PCoA does not improve AUC,
+    indicating that the six H$_1$ scalars are largely subsumed by the full
+    Aitchison distance geometry.
+    Topology scalars outperform Shannon under random forest ($0.632$ vs.\
+    $0.563$), confirming that they carry non-Shannon relational information.
   }
   \label{fig:classification_roc}
 \end{figure}
-
-These results confirm that co-occurrence loop structure is a discriminative
-signal for \ibd\ status, and that it adds measurable value on top of conventional
-alpha diversity.
-The AUC values reported here are not intended as a clinical classifier; the
-objective is to quantify the information content of topological descriptors
-relative to a well-understood baseline.

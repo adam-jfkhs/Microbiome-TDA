@@ -94,11 +94,13 @@ This paper makes seven specific claims:
   as top anchors in IBDMDB WGS data, providing named biological candidates for
   the observed loop collapse (Section~\ref{subsec:attribution}).
 
-  \item \textbf{Classification benchmark:} Logistic-regression classifiers
-  using topological features alone achieve AUC $= 0.67$ for \ibd\ prediction;
-  combined with Shannon diversity the AUC rises to $0.70$, confirming that
-  topology carries non-redundant discriminative information relative to
-  conventional alpha diversity (Section~\ref{subsec:classification}).
+  \item \textbf{Classification benchmark:} An extended benchmark comparing
+  topology against both $\alpha$-diversity (Shannon) and $\beta$-diversity
+  (Aitchison-PCoA, BC-PCoA) establishes that Aitchison-PCoA(10) is the
+  strongest single predictor (AUC $= 0.734$, logistic regression), while
+  topology scalars outperform Shannon under random forest and provide
+  mechanistic interpretability that distance-based embeddings cannot supply
+  (Section~\ref{subsec:classification}).
 \end{enumerate}
 
 \noindent

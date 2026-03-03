@@ -45,11 +45,16 @@ find that:
   Seven genera appear in both top-20 lists, providing named biological
   candidates for the loop collapse.
 
-  \item \textbf{Topological features are complementary to Shannon diversity
-  in classification.}
-  Logistic regression using topology alone achieves AUC $= 0.67$;
-  the combined set reaches $0.70$, confirming non-redundant discriminative
-  information relative to conventional alpha diversity.
+  \item \textbf{An extended classification benchmark clarifies topology's role.}
+  Aitchison $\beta$-diversity (10 PCoA axes, no test-fold leakage) is the
+  strongest single predictor (AUC $= 0.734$, logistic regression), exceeding
+  Shannon ($0.688$) and topology scalars alone ($0.668$).
+  Topology scalars do not improve over Aitchison when combined, indicating that
+  the six H$_1$ scalars are largely subsumed by the full Aitchison distance
+  geometry in prediction.
+  The mechanistic value of topology---loop attribution, biomarker correlation,
+  structural interpretability---is distinct from and not captured by AUC
+  comparisons alone.
 
 \end{enumerate}
 

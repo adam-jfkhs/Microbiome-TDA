@@ -101,7 +101,7 @@ def plot_delta_distributions(deltas, comp_name, label_a, label_b, results_df):
         fontsize=12, fontweight="bold",
     )
 
-    for idx, feat in enumerate(FEATURES_TO_TEST):
+    for idx, feat in enumerate(FEATURES):
         ax = axes.flat[idx]
         d = deltas[feat]
         ax.hist(d, bins=25, alpha=0.75, color="#1565c0",

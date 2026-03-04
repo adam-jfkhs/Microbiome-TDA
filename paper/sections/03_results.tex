@@ -291,37 +291,37 @@ Table~\ref{tab:sensitivity_summary} compresses these results into a
 
 To address the single-cohort limitation of the \agp\ analysis, we replicated
 the bootstrap pipeline on the IBDMDB multi-omics dataset~\citep{lloydprice2019multi},
-a clinical longitudinal study of 106 subjects (599 Crohn's disease,
-375 ulcerative colitis, 364 non-\ibd\ controls) followed for
-approximately one year.
-We used 1,338 shotgun metagenomics samples with species-level
-\textsc{MetaPhlAn}2 abundances; the same \clr\ transform and global top-80
-taxa selection was applied.
+a clinical longitudinal study of 106 subjects (80 \ibd\ [CD+UC], 26 non-\ibd)
+followed for approximately one year.
+We used 1{,}338 longitudinal metagenomics samples in total
+(599 Crohn's disease, 375 UC, and 364 non-\ibd\ timepoints;
+the parenthetical figures are sample counts, not subject counts)
+with species-level \textsc{MetaPhlAn}2 abundances; the same \clr\ transform
+and global top-80 taxa selection was applied.
 Bootstrap subsampling used $n = 60$ per group per iteration.
 Because IBDMDB is a longitudinal study, multiple timepoint samples from the
 same subject are present in the dataset; no within-subject deduplication was
-applied, so individual bootstrap draws may include repeated observations from
-the same participant.
-This constitutes a potential pseudoreplication issue and is acknowledged as
-a limitation of the IBDMDB validation; replication using one randomly selected
-sample per subject per comparison is deferred to future work.
+applied for the primary analysis, so individual bootstrap draws may include
+repeated observations from the same participant.
+Section~\ref{subsubsec:ibdmdb_1ps} below reports the one-sample-per-subject
+sensitivity check, which reveals an important caveat for the IBD vs.\ non-IBD
+comparison.
 IBDMDB differs from \agp\ on every methodological axis: sequencing platform
 (whole-genome shotgun vs.\ 16S amplicon), bioinformatics pipeline, study
 design (clinical vs.\ citizen-science), and population (recruited IBD patients
 vs.\ self-reported community participants).
-Concordance across all these differences constitutes a stringent replication test.
 
-\subsubsection*{Replication of the IBD topological-simplification finding}
+\subsubsection*{IBD vs.\ non-IBD comparison: full-dataset results}
+\label{subsubsec:ibdmdb_full}
 
-Table~\ref{tab:ibdmdb_results} reports the primary replication comparison
-(IBD vs.\ non-IBD) and the Crohn's-only and UC-only breakdowns.
-The \ibd\ finding replicates cleanly: all six features were FDR-significant
-($p_\text{FDR} = 0.003$ at the permutation floor) with effect sizes ranging
-from $d = -0.52$ (max Betti-1) to $d = -1.46$ (total persistence).
-Direction is uniformly negative---IBD microbiomes generate fewer, shorter,
-and less energetically diverse co-occurrence loops than non-IBD controls---
-reproducing the \agp\ result in every qualitative respect despite the
-platform and population differences.
+Table~\ref{tab:ibdmdb_results} reports the primary IBD vs.\ non-IBD comparison
+and the Crohn's-only and UC-only breakdowns in the \emph{full} longitudinal
+dataset (all 1,338 timepoints, no deduplication).
+All six features are FDR-significant ($p_\text{FDR} = 0.003$ at the
+permutation floor) with effect sizes ranging from $d = -0.52$ (max Betti-1) to
+$d = -1.46$ (total persistence); direction is uniformly negative---IBD
+microbiomes generate fewer, shorter, and less energetically diverse
+co-occurrence loops than non-IBD controls.
 
 Breaking down by diagnosis subtype reveals an informative asymmetry.
 Crohn's disease produces the strongest signal: all six features are
@@ -335,6 +335,91 @@ disease involves deeper and more diffuse microbial disruption than
 ulcerative colitis, which is confined to the colon and can present with
 near-normal microbiome composition during clinical
 remission~\citep{halfvarson2017dynamics,gevers2014treatment}.
+
+\subsubsection*{One-sample-per-subject sensitivity check}
+\label{subsubsec:ibdmdb_1ps}
+
+To assess whether the full-dataset IBD vs.\ non-IBD comparison is an artefact
+of pseudoreplication, we re-ran the primary \texttt{ibd\_vs\_nonibd} bootstrap
+using exactly one randomly selected timepoint per participant (seed-fixed for
+reproducibility): 974 IBD timepoints → 80 subjects; 364 non-IBD timepoints →
+26 subjects; bootstrap subsample $n = 26$ (the limiting group size) per
+iteration.
+
+The result is striking: \textbf{the direction of effect reverses for 5 of 6
+features} (Table~\ref{tab:ibdmdb_1ps}).
+Where the full dataset shows IBD below non-IBD on every feature ($d = -0.52$
+to $-1.46$), the one-sample-per-subject analysis shows IBD \emph{above}
+non-IBD on five features ($d = +0.61$ to $+1.22$, all at the minimum
+permutation $p = 0.002$).
+Only max Betti-1 is non-significant ($d = +0.13$, $p = 0.21$).
+
+This reversal exposes a sampling-frequency bias inherent to IBDMDB's
+longitudinal design.
+IBDMDB subjects with more active disease are sampled at higher frequency
+(mean 12.2 timepoints per subject, range 3--25); subjects who visited the
+clinic more often (and thus contributed more samples) tend to be those with
+more severe or refractory disease---precisely the individuals with the lowest
+topological complexity.
+The full-dataset bootstrap therefore overweights active-disease timepoints,
+pulling the IBD mean down relative to what would be observed at a single
+randomly selected visit.
+When each subject contributes equally (one timepoint), IBD subjects' mean
+h$_1$ count is 40.3 vs.\ 38.0 for non-IBD controls---the opposite direction
+from the full-dataset result (35.5 vs.\ 40.8).
+
+Two further caveats apply to this comparison.
+First, with only 26 non-IBD subjects (all included in every bootstrap
+draw at $n = 26$), the non-IBD mean is not resampled and the test is
+underpowered for detecting departures from the full-dataset estimate.
+Second, IBDMDB's non-IBD controls are recruited from the same clinical
+settings as IBD patients (potentially family members or clinic staff),
+which may make them an unrepresentative healthy comparison group relative to
+the community-recruited \agp\ cohort.
+
+\begin{table}[H]
+\centering
+\caption{%
+  \textbf{IBDMDB one-sample-per-subject sensitivity check (IBD vs.\ non-IBD).}
+  One randomly selected timepoint per participant; 80 IBD subjects,
+  26 non-IBD subjects; bootstrap subsample $n = 26$, 200 iterations,
+  500 permutations.
+  The direction of effect is \emph{reversed} relative to the full-dataset
+  analysis (Table~\ref{tab:ibdmdb_results}) for 5 of 6 features,
+  indicating that the full-dataset result reflects overrepresentation
+  of active-disease timepoints rather than a stable subject-level difference.
+}
+\label{tab:ibdmdb_1ps}
+\small
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Feature} & \textbf{Mean IBD} & \textbf{Mean non-IBD} & \textbf{Cohen's $d$} & \textbf{Perm. $p$} \\
+\midrule
+H$_1$ count                 & 40.30 & 38.00 & +0.608 & 0.002 \\
+H$_1$ entropy               &  3.35 &  3.28 & +0.611 & 0.002 \\
+Total persistence           &  2.40 &  2.09 & +0.982 & 0.002 \\
+Mean lifetime               & 0.060 & 0.055 & +0.791 & 0.002 \\
+Max lifetime                & 0.199 & 0.169 & +1.219 & 0.002 \\
+Max Betti-1                 & 14.31 & 14.00 & +0.129 & 0.206 \\
+\midrule
+\multicolumn{5}{l}{\textit{Full-dataset reference (IBD $d$ direction):
+  all features $d < 0$ (IBD $<$ non-IBD), all FDR-significant.}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Implications for the IBDMDB validation.}
+The one-sample-per-subject check demonstrates that the IBDMDB IBD vs.\
+non-IBD topological comparison is \textbf{not a robust cross-cohort
+replication} of the \agp\ finding: it is sensitive to whether subjects
+are weighted by their number of clinic visits.
+The more interpretable IBDMDB evidence comes from the within-IBD biomarker
+comparisons (Section below), which compare timepoints drawn from the
+\emph{same} subjects and are therefore unaffected by between-subject sampling
+frequency.
+The primary cross-sectional \agp\ finding---each subject contributes exactly
+one sample---remains unaffected by this issue.
 
 \begin{table}[H]
 \centering
@@ -357,34 +442,34 @@ remission~\citep{halfvarson2017dynamics,gevers2014treatment}.
   & \textbf{Cohen's $d$} & \boldmath$p_\text{FDR}$ \\
 \midrule
 \multirow{3}{*}{H1 count}
-  & IBD vs.\ nonIBD  & 35.5 & 40.8 & $-$0.96$^\star$ & 0.003 \\
-  & CD vs.\ nonIBD   & 33.2 & 40.9 & $-$1.50$^\star$ & 0.003 \\
-  & UC vs.\ nonIBD   & 39.5 & 40.4 & $-$0.17         & 0.114 \\
+  & IBD vs.\ non-IBD  & 35.5 & 40.8 & $-$0.96$^\star$ & 0.003 \\
+  & CD vs.\ non-IBD   & 33.2 & 40.9 & $-$1.50$^\star$ & 0.003 \\
+  & UC vs.\ non-IBD   & 39.5 & 40.4 & $-$0.17         & 0.114 \\
 \addlinespace
 \multirow{3}{*}{H1 entropy}
-  & IBD vs.\ nonIBD  & 3.196 & 3.316 & $-$0.73$^\star$ & 0.003 \\
-  & CD vs.\ nonIBD   & 3.108 & 3.317 & $-$1.28$^\star$ & 0.003 \\
-  & UC vs.\ nonIBD   & 3.300 & 3.315 & $-$0.10         & 0.341 \\
+  & IBD vs.\ non-IBD  & 3.196 & 3.316 & $-$0.73$^\star$ & 0.003 \\
+  & CD vs.\ non-IBD   & 3.108 & 3.317 & $-$1.28$^\star$ & 0.003 \\
+  & UC vs.\ non-IBD   & 3.300 & 3.315 & $-$0.10         & 0.341 \\
 \addlinespace
 \multirow{3}{*}{Total persistence}
-  & IBD vs.\ nonIBD  & 1.668 & 2.189 & $-$1.46$^\star$ & 0.003 \\
-  & CD vs.\ nonIBD   & 1.659 & 2.226 & $-$1.46$^\star$ & 0.003 \\
-  & UC vs.\ nonIBD   & 2.106 & 2.216 & $-$0.28$^\star$ & 0.010 \\
+  & IBD vs.\ non-IBD  & 1.668 & 2.189 & $-$1.46$^\star$ & 0.003 \\
+  & CD vs.\ non-IBD   & 1.659 & 2.226 & $-$1.46$^\star$ & 0.003 \\
+  & UC vs.\ non-IBD   & 2.106 & 2.216 & $-$0.28$^\star$ & 0.010 \\
 \addlinespace
 \multirow{3}{*}{Mean lifetime}
-  & IBD vs.\ nonIBD  & 0.047 & 0.054 & $-$0.96$^\star$ & 0.003 \\
-  & CD vs.\ nonIBD   & 0.050 & 0.054 & $-$0.56$^\star$ & 0.003 \\
-  & UC vs.\ nonIBD   & 0.053 & 0.055 & $-$0.22$^\star$ & 0.040 \\
+  & IBD vs.\ non-IBD  & 0.047 & 0.054 & $-$0.96$^\star$ & 0.003 \\
+  & CD vs.\ non-IBD   & 0.050 & 0.054 & $-$0.56$^\star$ & 0.003 \\
+  & UC vs.\ non-IBD   & 0.053 & 0.055 & $-$0.22$^\star$ & 0.040 \\
 \addlinespace
 \multirow{3}{*}{Max lifetime}
-  & IBD vs.\ nonIBD  & 0.159 & 0.197 & $-$1.23$^\star$ & 0.003 \\
-  & CD vs.\ nonIBD   & 0.175 & 0.196 & $-$0.67$^\star$ & 0.003 \\
-  & UC vs.\ nonIBD   & 0.189 & 0.194 & $-$0.17         & 0.096 \\
+  & IBD vs.\ non-IBD  & 0.159 & 0.197 & $-$1.23$^\star$ & 0.003 \\
+  & CD vs.\ non-IBD   & 0.175 & 0.196 & $-$0.67$^\star$ & 0.003 \\
+  & UC vs.\ non-IBD   & 0.189 & 0.194 & $-$0.17         & 0.096 \\
 \addlinespace
 \multirow{3}{*}{Max Betti-1}
-  & IBD vs.\ nonIBD  & 12.7 & 14.4  & $-$0.52$^\star$ & 0.003 \\
-  & CD vs.\ nonIBD   & 11.6 & 14.6  & $-$0.95$^\star$ & 0.003 \\
-  & UC vs.\ nonIBD   & 14.8 & 14.5  & $+$0.09         & 0.395 \\
+  & IBD vs.\ non-IBD  & 12.7 & 14.4  & $-$0.52$^\star$ & 0.003 \\
+  & CD vs.\ non-IBD   & 11.6 & 14.6  & $-$0.95$^\star$ & 0.003 \\
+  & UC vs.\ non-IBD   & 14.8 & 14.5  & $+$0.09         & 0.395 \\
 \bottomrule
 \end{tabular}
 \end{table}

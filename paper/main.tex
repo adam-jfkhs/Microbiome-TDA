@@ -184,11 +184,13 @@ diversity under 5-fold cross-validation.
 \noindent\textbf{Results.}
 \Ibd\ ($n = 165$ vs.\ $n = 3{,}084$ healthy) was associated with
 systematically lower topological complexity across all six features
-(Cohen's $d = 0.75$--$2.38$; $p_{\text{FDR}} < 0.005$ at all taxa sizes),
+(Cohen's $|d| = 0.75$--$2.38$; $p_{\text{FDR}} < 0.005$ at all taxa sizes),
 fully preserved after covariate matching.
-The \ibd\ topological-simplification finding replicated in IBDMDB
-(cross-platform, WGS) and correlated with fecal calprotectin, linking loop
-collapse to a continuous inflammation biomarker.
+In IBDMDB (cross-platform, WGS), a one-sample-per-subject sensitivity check
+reveals that the full-dataset IBD vs.\ non-IBD comparison is driven by
+overrepresentation of active-disease timepoints; the within-IBD calprotectin
+comparison, which is unaffected by this sampling bias, confirms that loop
+structure tracks a continuous inflammation biomarker.
 Leave-one-out attribution identified \textit{Oscillospira} and
 \textit{Blautia} as the dominant loop anchors in healthy \agp\ networks,
 with cross-dataset replication of \textit{Bacteroides}-clade importance in
@@ -240,6 +242,36 @@ The American Gut Project (AGP) data used in this study are publicly
 available via the European Nucleotide Archive (accession ERP012803) and
 through the redbiom query interface (\url{https://redbiom.readthedocs.io}).
 The IBDMDB validation data are available at \url{https://ibdmdb.org}.
+
+%─────────────────────────────────────────────────────────────────────────────
+\newpage
+\section*{Supplementary Material}
+\label{sec:supplementary}
+
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{S\arabic{figure}}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/sensitivity_matched_heatmap.png}
+  \caption{%
+    \textbf{Supplementary Figure~S1: Covariate-matched sensitivity analysis
+    heatmap across taxon-set sizes.}
+    Each cell shows Cohen's $d$ (IBD minus healthy; signed) for one
+    feature $\times$ taxon-set-size combination after age/sex/BMI matching.
+    Rows = six \Hone\ scalar features; columns = $N \in \{50, 80, 120\}$ taxa.
+    Three panels correspond to the three subsets analysed: IBD vs.\ healthy
+    (primary), plant-based diet vs.\ non-plant-based, and antibiotic-recent
+    vs.\ antibiotic-naïve.
+    Stars denote FDR-significance ($\star\,p_\text{FDR} < 0.05$,
+    $\star\!\star\,p_\text{FDR} < 0.01$, $\star\!\star\!\star\,p_\text{FDR} < 0.001$).
+    IBD retains 18/18 significant cells ($|d| = 0.81$--$2.56$) across all
+    taxon-set sizes after matching, confirming robustness to covariate
+    imbalance and taxon-set choice.
+    Antibiotic recency produces 0/6 significant features at $N = 80$.
+  }
+  \label{fig:S1}
+\end{figure}
 
 %─────────────────────────────────────────────────────────────────────────────
 \newpage

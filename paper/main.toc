@@ -28,17 +28,18 @@
 \contentsline {paragraph}{Feature sets and methods.}{19}{subsection.3.8}%
 \contentsline {paragraph}{Results.}{20}{table.caption.12}%
 \contentsline {paragraph}{Predictive vs.\ interpretive value.}{20}{table.caption.12}%
-\contentsline {section}{\numberline {4}Discussion}{21}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Loop collapse as a structural correlate of IBD dysbiosis}{21}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Structural reorganization versus abundance enrichment in diet}{22}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}The antibiotic null}{22}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Relation to prior topological analyses of microbiome data}{23}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}Limitations}{23}{subsection.4.5}%
-\contentsline {paragraph}{Cross-sectional topology.}{23}{subsection.4.5}%
-\contentsline {paragraph}{ASV-level resolution.}{23}{subsection.4.5}%
-\contentsline {paragraph}{Diversity-metric benchmark (addressed).}{23}{subsection.4.5}%
-\contentsline {paragraph}{Single cohort (addressed in part).}{23}{subsection.4.5}%
-\contentsline {paragraph}{Loop attribution completed; biological validation pending.}{24}{subsection.4.5}%
-\contentsline {paragraph}{Inflammatory biomarker data (partially addressed).}{24}{subsection.4.5}%
-\contentsline {paragraph}{Bootstrap non-independence.}{24}{subsection.4.5}%
-\contentsline {section}{\numberline {5}Conclusion}{24}{section.5}%
+\contentsline {paragraph}{Precision-recall analysis and threshold-dependent metrics.}{21}{figure.caption.13}%
+\contentsline {section}{\numberline {4}Discussion}{23}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Loop collapse as a structural correlate of IBD dysbiosis}{23}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Structural reorganization versus abundance enrichment in diet}{24}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}The antibiotic null}{24}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Relation to prior topological analyses of microbiome data}{25}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Limitations}{25}{subsection.4.5}%
+\contentsline {paragraph}{Cross-sectional topology.}{25}{subsection.4.5}%
+\contentsline {paragraph}{ASV-level resolution.}{25}{subsection.4.5}%
+\contentsline {paragraph}{Diversity-metric benchmark (addressed).}{25}{subsection.4.5}%
+\contentsline {paragraph}{Single cohort (addressed in part).}{25}{subsection.4.5}%
+\contentsline {paragraph}{Loop attribution completed; biological validation pending.}{26}{subsection.4.5}%
+\contentsline {paragraph}{Inflammatory biomarker data (partially addressed).}{26}{subsection.4.5}%
+\contentsline {paragraph}{Bootstrap non-independence.}{26}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Conclusion}{26}{section.5}%

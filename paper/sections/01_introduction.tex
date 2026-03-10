@@ -1,0 +1,123 @@
+%=============================================================================
+\section{Introduction}
+\label{sec:introduction}
+%=============================================================================
+
+Characterizing the human gut microbiome has, for two decades, meant counting
+taxa and summarizing their relative proportions~\citep{hmp2012structure,
+turnbaugh2007human}.
+This reductionist accounting has proven clinically informative
+(\textit{Faecalibacterium prausnitzii} depletion, Proteobacteria blooms,
+enterotype discretization), yet it systematically discards the relational
+fabric that gives a microbial community its functional identity: the web of
+cross-feeding dependencies, competitive exclusions, and syntrophic partnerships
+that collectively determine what a community \emph{does} rather than merely
+what it \emph{contains}.
+Co-occurrence networks partially recover this information by encoding pairwise
+correlational structure, but their standard reductions (edge density, modularity
+index, clustering coefficient) remain insensitive to higher-dimensional
+topological organization: the loops, multi-node cycles, and nested connectivity
+motifs that govern resilience and metabolic redundancy.
+
+\subsection{Why topology, and why now}
+
+Persistent homology~\citep{carlsson2009topology,edelsbrunner2008persistent}
+offers a mathematically precise vocabulary for this organizational structure.
+Rather than selecting a single correlation threshold and analyzing the
+resulting binary network---a choice that discards information above and below
+that cutoff simultaneously---Vietoris--Rips filtration tracks topological features
+(\textit{connected components, loops, cavities}) as they nucleate and
+extinguish across the full spectrum of correlation distances.
+The resulting persistence diagram encodes both \emph{which} features appear
+and \emph{how robustly} they persist, the latter being the operative
+summary statistic: features that survive across a wide filtration range reflect
+strong, multiply-reinforced co-occurrence relationships rather than chance
+statistical fluctuations.
+Persistence-derived descriptors such as Betti curves, persistence entropy,
+and total persistence have demonstrated discriminative power in neuroscience,
+protein folding, materials microstructure analysis, and biological aggregation
+modelling~\citep{wasserman2018topological,bubenik2015statistical,ghrist2008barcodes,topaz2015topological},
+but their deployment on microbial co-occurrence networks has remained
+limited~\citep{camara2017topological,liao2019tmap}.
+
+\subsection{Inflammatory bowel disease as a topological stress test}
+
+Inflammatory bowel disease (Crohn's disease and ulcerative colitis) provides
+an exceptionally well-characterized perturbation of
+gut microbial ecology~\citep{petersen2014defining}.
+The compositional signature is reproducible across cohorts: contracted
+\textit{Lachnospiraceae} and \textit{Ruminococcaceae} abundance, reduced
+butyrate-producing capacity, elevated Proteobacteria, diminished colonization
+resistance~\citep{gevers2014treatment,halfvarson2017dynamics,ley2006microbial}.
+What this signature does not address is whether these compositional shifts
+\emph{dismantle the loop structure} of the co-occurrence network: whether
+the metabolic cross-feeding circuits that butyrate producers anchor collapse
+when those organisms are numerically depleted, leaving behind a topologically
+impoverished interaction landscape.
+This is the mechanistic hypothesis our analysis tests empirically.
+
+\subsection{Contributions}
+
+This paper makes seven specific claims:
+
+\begin{enumerate}[leftmargin=*, itemsep=3pt]
+  \item \textbf{Methodological:} A paired bootstrap design for comparing
+  persistence diagrams at scale, using sign-flip label permutation as the null
+  and a globally pre-fixed taxon set to decouple topological signal from
+  feature-space selection noise (Section~\ref{sec:methods}).
+
+  \item \textbf{Empirical:} Across 3,409 \agp\ stool samples, \ibd\ is
+  associated with systematic reduction in co-occurrence loop structure---fewer
+  cycles, shorter-lived cycles, lower peak cycle density---with effect sizes
+  ($d = 0.75$--$2.38$) large enough to be unambiguous
+  (Section~\ref{subsec:ibd_results}).
+
+  \item \textbf{Robustness:} The \ibd\ finding survives covariate matching
+  on age, sex, and BMI and is statistically indistinguishable across taxon-set
+  sizes $N \in \{50, 80, 120\}$, ruling out demographic confounding,
+  taxa-selection artefact, and numerical instability as alternative
+  explanations (Section~\ref{subsec:sensitivity}).
+
+  \item \textbf{Cross-platform replication:} The \ibd\ topological-simplification
+  signal replicates in the IBDMDB multi-omics cohort using whole-genome
+  shotgun sequencing---a different platform, different population, and
+  independent preprocessing pipeline (Section~\ref{subsec:ibdmdb}).
+
+  \item \textbf{Biomarker grounding:} Topological features correlate with
+  fecal calprotectin and clinical activity scores (HBI, SCCAI) in IBDMDB,
+  linking loop collapse to a continuous, objective inflammation marker rather
+  than a binary diagnostic label (Section~\ref{subsec:ibdmdb}).
+
+  \item \textbf{Taxon-level attribution:} A leave-one-out pipeline identifies
+  \textit{Oscillospira} and \textit{Blautia} as dominant loop anchors in
+  healthy \agp\ networks, with \textit{Bacteroides}-clade species replicated
+  as top anchors in IBDMDB WGS data, providing named biological candidates for
+  the observed loop collapse (Section~\ref{subsec:attribution}).
+
+  \item \textbf{Classification benchmark:} An extended benchmark comparing
+  topology against both $\alpha$-diversity (Shannon) and $\beta$-diversity
+  (Aitchison-PCoA, BC-PCoA) establishes that Aitchison-PCoA(10) is the
+  strongest single predictor (AUC $= 0.734$, logistic regression), while
+  topology scalars outperform Shannon under random forest and provide
+  mechanistic interpretability that distance-based embeddings cannot supply
+  (Section~\ref{subsec:classification}).
+\end{enumerate}
+
+\noindent
+\textbf{Calibration note.} A pre-specified FDR policy (18-test
+Benjamini--Hochberg correction, sign-flip primary $p$-values only, full and
+matched subsets corrected independently) is stated before any result is
+examined (Section~\ref{subsec:stats}).
+
+The paper proceeds as follows.
+Section~\ref{sec:methods} details dataset provenance, preprocessing, network
+construction, the persistent homology pipeline, and the full statistical
+framework.
+Section~\ref{sec:results} reports findings for \ibd, diet, antibiotic recency,
+IBDMDB replication, calprotectin grounding, taxon attribution, and the
+classification benchmark.
+Section~\ref{sec:discussion} situates the \ibd\ result in the IBD biology
+literature, qualifies the diet finding, argues for restraint regarding
+antibiotics, and enumerates the study's limitations without euphemism.
+Section~\ref{sec:conclusion} closes with a minimal interpretation and a
+specific agenda for genuinely open follow-on work.

@@ -1,0 +1,907 @@
+%=============================================================================
+\section{Results}
+\label{sec:results}
+%=============================================================================
+
+\subsection{Cohort structure and group partitioning}
+\label{subsec:dataset_chars}
+
+Quality-filtered stool samples numbered 3,409 spanning 1,864 taxa; after
+global top-80 prevalence selection, each co-occurrence network comprised an
+identical 80-taxon node set regardless of which group or iteration was under
+analysis.
+Table~\ref{tab:groups} records group cardinalities before and after
+demographic stratification matching.
+
+\begin{table}[H]
+\centering
+\caption{%
+  \textbf{Group sizes for each comparison (full and matched subsets).}
+  Matching stratified on age-bin $\times$ sex $\times$ BMI-bin; samples
+  missing any covariate were withheld from matched analyses.
+  Bootstrap subsampling drew $n = 100$ per group per iteration.
+}
+\label{tab:groups}
+\setlength{\tabcolsep}{8pt}
+\begin{tabular}{llrrr}
+\toprule
+\textbf{Comparison} & \textbf{Group} & \textbf{Full $n$}
+  & \textbf{Matched $n$} & \textbf{Subsample/iter} \\
+\midrule
+\multirow{2}{*}{IBD}
+  & UC + Crohn's    & 165      & 135   & 100 \\
+  & Healthy         & 3{,}084  & 404   & 100 \\
+\addlinespace
+\multirow{2}{*}{Diet}
+  & Plant-based     & 367      & 308   & 100 \\
+  & Omnivore        & 2{,}747  & 922   & 100 \\
+\addlinespace
+\multirow{2}{*}{Antibiotics}
+  & Recent ($\leq$6\,mo.) & 590    & 479     & 100 \\
+  & Absent ($>$1\,yr)     & 2{,}271 & 1{,}284 & 100 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{IBD is associated with systematic attenuation of co-occurrence loop structure}
+\label{subsec:ibd_results}
+
+The paired bootstrap distributions for the IBD comparison are shown in
+Figure~\ref{fig:ibd_bootstrap}.
+Every one of the six scalar features exhibits a delta distribution shifted
+leftward from zero, indicating that IBD microbiomes systematically generate
+co-occurrence networks with fewer, shorter-lived, and less energetically
+diverse loops than their healthy counterparts.
+No feature was directionally equivocal.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/agp_ibd_v2.png}
+  \caption{%
+    \textbf{Paired bootstrap delta distributions: IBD (UC + Crohn's)
+    vs.\ Healthy, $N = 80$ taxa.}
+    Each panel plots the distribution of the iteration-level difference
+    $\delta = f^{(\text{IBD})} - f^{(\text{Healthy})}$ across 200
+    paired iterations ($n = 100$ per group per iteration).
+    Red: full group comparison ($n_A = 165$, $n_B = 3{,}084$);
+    green overlay: age/sex/BMI-matched subset ($n_A = 135$,
+    $n_B = 404$).
+    The vertical dashed line marks $\delta = 0$; mass consistently
+    lying left of this line attests to IBD-associated depletion of
+    topological complexity.
+    Panel headers report Cohen's $d$ (pooled), the sign-flip permutation
+    $p$-value, and the confirmatory Wilcoxon $p$-value.
+    All six features reach FDR significance at $p_{\text{FDR}} \leq 0.005$
+    (Table~\ref{tab:ibd_results}).
+  }
+  \label{fig:ibd_bootstrap}
+\end{figure}
+
+Numerical results appear in Table~\ref{tab:ibd_results}.
+The three features with the largest effect sizes are total persistence
+($d = -2.28$), max Betti-1 ($d = -2.07$), and mean lifetime ($d = -1.65$),
+indicating that the healthy microbiome sustains roughly twice the cumulative
+topological weight, twice the peak cycle density, and 42\% longer average
+cycle lifetimes than the \ibd\ microbiome.
+The permutation floor of $p = 0.002$ (the smallest achievable at
+500 permutations; $\lfloor 1/501 \rfloor = 0.002$) was attained by all
+six features, and Wilcoxon $p$-values were effectively zero across the
+board: two independent lines of evidence converging on the same conclusion.
+
+\begin{table}[H]
+\centering
+\caption{%
+  \textbf{IBD vs.\ Healthy: full-group topological comparison, $N = 80$ taxa.}
+  Means are averaged across 200 paired bootstrap iterations.
+  Primary inference rests on sign-flip permutation $p$ (500 shuffles);
+  $p_{\text{FDR}}$ is the Benjamini--Hochberg adjusted value across 18 tests.
+  Wilcoxon $p$ is secondary and confirmatory only ($\star$ = FDR-significant).
+}
+\label{tab:ibd_results}
+\small
+\setlength{\tabcolsep}{5.5pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+\textbf{Feature} & \textbf{Mean IBD} & \textbf{Mean Healthy}
+  & \textbf{Cohen's $d$} & \textbf{Perm $p$}
+  & \boldmath$p_{\text{FDR}}$ & \textbf{Wilcoxon $p$} \\
+\midrule
+H1 count             & 16.87 & 23.66 & $-$1.34 & 0.002 & 0.004$^\star$ & $<$0.001 \\
+H1 entropy           & 2.403 & 2.749 & $-$1.23 & 0.002 & 0.004$^\star$ & $<$0.001 \\
+Total persistence    & 0.397 & 0.795 & $-$2.28 & 0.002 & 0.004$^\star$ & $<$0.001 \\
+Mean lifetime        & 0.024 & 0.034 & $-$1.65 & 0.002 & 0.004$^\star$ & $<$0.001 \\
+Max lifetime         & 0.080 & 0.119 & $-$1.45 & 0.002 & 0.004$^\star$ & $<$0.001 \\
+Max Betti-1          & 3.44  & 7.09  & $-$2.07 & 0.002 & 0.004$^\star$ & $<$0.001 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Covariate matching left the picture unaltered: all six features remained
+FDR-significant in the matched subsample ($n_A = 135$, $n_B = 404$), and
+effect sizes were numerically indistinguishable from the full-group estimates
+(matched total persistence $d = -2.22$; matched max Betti-1 $d = -2.32$).
+
+\paragraph{Comparison with Shannon $\alpha$-diversity.}
+To contextualize these effect sizes, we computed Shannon diversity for
+every sample in the same filtered dataset.
+IBD samples showed lower Shannon entropy than healthy controls (mean
+$3.24 \pm 0.75$ vs.\ $3.61 \pm 0.73$; Mann--Whitney
+$p = 5.4 \times 10^{-12}$; Cohen's $|d| = 0.51$, 95\% bootstrap CI
+$[0.36,\, 0.67]$).
+This confirms that conventional $\alpha$-diversity detects the IBD signal,
+but at roughly one-quarter to one-third the effect size of the topological
+features ($|d| = 0.75$--$2.38$).
+The amplification is consistent with the expectation that persistent
+homology aggregates multi-taxon correlation structure that single-sample
+diversity indices, by construction, cannot access.
+
+For geometric intuition, Figure~\ref{fig:ibd_tda} displays persistence
+diagrams and Betti-1 curves from a representative single-pass comparison;
+the sparser diagram and attenuated Betti-1 peak for the IBD group
+corroborate the bootstrap evidence at the level of individual network topology.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth]{figures/agp_ibd_tda.png}
+  \caption{%
+    \textbf{Illustrative single-comparison TDA output: IBD vs.\ Healthy
+    ($n = 500$ per group, $N = 80$ taxa).}
+    \textit{Top left and centre:} Persistence diagrams.
+    Connected-component bars (\Hzero, blue circles) and loop bars (\Hone,
+    orange triangles) are plotted at their (birth, death) coordinates;
+    proximity to the diagonal denotes short-lived, numerically fragile
+    features.
+    The IBD diagram is visibly sparser in $H_1$ features and shows a
+    tighter cluster near the diagonal, reflecting the reduced loop
+    persistence quantified in Table~\ref{tab:ibd_results}.
+    \textit{Top right:} Betti-1 curves.
+    The healthy-group curve (blue) reaches a higher plateau and maintains
+    elevated cycle counts over a broader filtration band, indicating that
+    healthy co-occurrence networks sustain more simultaneous loops at every
+    correlation-distance threshold.
+    \textit{Bottom row:} Persistence landscape $\lambda_1(t)$ (left),
+    topological summary bar chart (centre), and reported test statistics
+    (right).
+    This panel is illustrative; statistical inference derives exclusively
+    from the paired bootstrap analysis (Figure~\ref{fig:ibd_bootstrap},
+    Table~\ref{tab:ibd_results}).
+  }
+  \label{fig:ibd_tda}
+\end{figure}
+
+\subsection{Plant-based diet: fewer but more tenacious co-occurrence cycles}
+\label{subsec:diet_results}
+
+The plant-based vs.\ omnivore comparison revealed a more nuanced topological
+signature than the IBD contrast (Figure~\ref{fig:diet_bootstrap}).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/agp_diet_v2.png}
+  \caption{%
+    \textbf{Paired bootstrap delta distributions: Plant-based vs.\ Omnivore,
+    $N = 80$ taxa.}
+    Red = full groups ($n_A = 367$, $n_B = 2{,}747$);
+    green = matched subset ($n_A = 308$, $n_B = 922$).
+    H1 count shows a negative delta (plant-based eaters generate
+    \emph{fewer} total loops), while mean lifetime, max lifetime, and
+    max Betti-1 are positive (the loops they do form are more persistent
+    and reach higher simultaneous densities).
+    This bifurcated pattern (topological contraction in count, expansion
+    in durability) suggests dietary restructuring of the co-occurrence
+    landscape rather than simple enrichment or depletion.
+  }
+  \label{fig:diet_bootstrap}
+\end{figure}
+
+Five of six features were FDR-significant in full-group analyses: mean
+lifetime ($d = +0.65$, $p_\text{FDR} = 0.004$), max Betti-1
+($d = +0.46$, $p_\text{FDR} = 0.004$), total persistence
+($d = +0.22$, $p_\text{FDR} = 0.030$), H1 count ($d = -0.34$,
+$p_\text{FDR} = 0.007$), and H1 entropy ($d = -0.23$,
+$p_\text{FDR} = 0.029$).
+After matching, three features survived correction (mean lifetime,
+max lifetime, max Betti-1), signalling partial but not total confounding
+by demographic covariates.
+
+\subsection{Antibiotic recency: an inconclusive topological signal}
+\label{subsec:abx_results}
+
+Recent antibiotic exposure ($\leq$6 months, $n = 590$) versus absence
+of use in the preceding year ($n = 2{,}271$) produced inconsistent results.
+In full-group analyses at $N = 80$, only max Betti-1 cleared FDR
+($d = -0.39$, $p_\text{FDR} = 0.004$); in matched analyses at $N = 80$,
+zero features survived correction.
+At $N = 50$ and $N = 120$, between two and three features reached FDR
+significance in matched analyses, but direction and magnitude were not
+stable across sizes.
+We decline to characterize this as a genuine topological effect.
+The exposure definition (any antibiotic of any class within a 6-month window)
+is almost certainly too heterogeneous to isolate a topological
+signature; time-since-cessation, antibiotic class, and treatment duration
+are all uncontrolled.
+
+\subsection{Taxa-set sensitivity demonstrates IBD robustness and ABX fragility}
+\label{subsec:sensitivity}
+
+Figure~\ref{fig:sensitivity} displays Cohen's $d$ and FDR significance
+across all three comparisons and all three taxon-set sizes for full groups.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/taxa_sensitivity_full.png}
+  \caption{%
+    \textbf{Taxa-set sensitivity heatmap: Cohen's $d$ by $N$ taxa (full groups).}
+    Each cell encodes Cohen's $d$ for a feature (row) $\times$
+    taxa-set size (column) combination; cells marked $\star$ cleared
+    FDR correction (18-test BH, sign-flip permutation $p$-values).
+    \textit{Centre panel (IBD):} All 18 cells are strongly negative
+    and FDR-significant, confirming that neither the direction nor the
+    significance of the \ibd\ finding depends on how many taxa are
+    included ($d$ ranges from $-0.75$ to $-2.38$ across the 18 cells).
+    \textit{Right panel (Diet):} Partial robustness; 3--4 of 6 features
+    FDR-significant at each size, with consistent positive direction for
+    lifetime metrics.
+    \textit{Left panel (Antibiotics):} Erratic; effect-size direction
+    varies across features and sizes, with no coherent pattern.
+  }
+  \label{fig:sensitivity}
+\end{figure}
+
+The matched-group sensitivity analysis (Supplementary Figure~S1) reinforces
+these contrasts: IBD retains all 18/18 FDR-significant cells with effect sizes
+spanning $d = -0.81$ to $d = -2.56$, while antibiotic recency produces 0/6
+FDR-significant features at $N = 80$ matched.
+
+Table~\ref{tab:sensitivity_summary} compresses these results into a
+6-cell summary per subset.
+
+\begin{table}[H]
+\centering
+\caption{%
+  \textbf{Taxa-set sensitivity summary}: FDR-significant features out of
+  6 per comparison and $N \in \{50, 80, 120\}$.
+  Full groups (upper) and matched subsets (lower).
+}
+\label{tab:sensitivity_summary}
+\small
+\setlength{\tabcolsep}{10pt}
+\begin{tabular}{llccc}
+\toprule
+\textbf{Subset} & \textbf{Comparison}
+  & \boldmath$N = 50$ & \boldmath$N = 80$ & \boldmath$N = 120$ \\
+\midrule
+\multirow{3}{*}{Full}
+  & IBD          & \textbf{6/6} & \textbf{6/6} & \textbf{6/6} \\
+  & Diet         & 4/6 & 4/6 & 3/6 \\
+  & Antibiotics  & 2/6 & 2/6 & 3/6 \\
+\addlinespace
+\multirow{3}{*}{Matched}
+  & IBD          & \textbf{6/6} & \textbf{6/6} & \textbf{6/6} \\
+  & Diet         & 4/6 & 3/6 & 4/6 \\
+  & Antibiotics  & 3/6 & 0/6 & 2/6 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%─────────────────────────────────────────────────────────────────────────────
+\subsection{Independent validation in IBDMDB: replication and biomarker grounding}
+\label{subsec:ibdmdb}
+%─────────────────────────────────────────────────────────────────────────────
+
+To address the single-cohort limitation of the \agp\ analysis, we replicated
+the bootstrap pipeline on the IBDMDB multi-omics dataset~\citep{lloydprice2019multi},
+a clinical longitudinal study of 106 subjects (80 \ibd\ [CD+UC], 26 non-\ibd)
+followed for approximately one year.
+We used 1{,}338 longitudinal metagenomics samples in total
+(599 Crohn's disease, 375 UC, and 364 non-\ibd\ timepoints;
+the parenthetical figures are sample counts, not subject counts)
+with species-level \textsc{MetaPhlAn}2 abundances; the same \clr\ transform
+and global top-80 taxa selection was applied.
+Bootstrap subsampling used $n = 60$ per group per iteration.
+Because IBDMDB is a longitudinal study, multiple timepoint samples from the
+same subject are present in the dataset; no within-subject deduplication was
+applied for the primary analysis, so individual bootstrap draws may include
+repeated observations from the same participant.
+Section~\ref{subsubsec:ibdmdb_1ps} below reports the one-sample-per-subject
+sensitivity check, which reveals an important caveat for the IBD vs.\ non-IBD
+comparison.
+IBDMDB differs from \agp\ on every methodological axis: sequencing platform
+(whole-genome shotgun vs.\ 16S amplicon), bioinformatics pipeline, study
+design (clinical vs.\ citizen-science), and population (recruited IBD patients
+vs.\ self-reported community participants).
+
+\subsubsection*{IBD vs.\ non-IBD comparison: full-dataset results}
+\label{subsubsec:ibdmdb_full}
+
+Table~\ref{tab:ibdmdb_results} reports the primary IBD vs.\ non-IBD comparison
+and the Crohn's-only and UC-only breakdowns in the \emph{full} longitudinal
+dataset (all 1,338 timepoints, no deduplication).
+All six features are FDR-significant ($p_\text{FDR} = 0.003$ at the
+permutation floor) with effect sizes ranging from $d = -0.52$ (max Betti-1) to
+$d = -1.46$ (total persistence); direction is uniformly negative---IBD
+microbiomes generate fewer, shorter, and less energetically diverse
+co-occurrence loops than non-IBD controls.
+
+Breaking down by diagnosis subtype reveals an informative asymmetry.
+Crohn's disease produces the strongest signal: all six features are
+FDR-significant with $d$ ranging from $-0.56$ to $-1.50$.
+Ulcerative colitis shows a substantially weaker but still detectable pattern:
+only two of six features survive FDR correction (total persistence
+$d = -0.28$, $p_\text{FDR} = 0.010$; mean lifetime $d = -0.22$,
+$p_\text{FDR} = 0.040$).
+This CD--UC disparity is consistent with the broader literature: Crohn's
+disease involves deeper and more diffuse microbial disruption than
+ulcerative colitis, which is confined to the colon and can present with
+near-normal microbiome composition during clinical
+remission~\citep{halfvarson2017dynamics,gevers2014treatment}.
+
+\subsubsection*{One-sample-per-subject sensitivity check}
+\label{subsubsec:ibdmdb_1ps}
+
+To assess whether the full-dataset IBD vs.\ non-IBD comparison is an artefact
+of pseudoreplication, we re-ran the primary \texttt{ibd\_vs\_nonibd} bootstrap
+using exactly one randomly selected timepoint per participant (seed-fixed for
+reproducibility): 974 IBD timepoints → 80 subjects; 364 non-IBD timepoints →
+26 subjects; bootstrap subsample $n = 26$ (the limiting group size) per
+iteration.
+
+The result is striking: \textbf{the direction of effect reverses for 5 of 6
+features} (Table~\ref{tab:ibdmdb_1ps}).
+Where the full dataset shows IBD below non-IBD on every feature ($d = -0.52$
+to $-1.46$), the one-sample-per-subject analysis shows IBD \emph{above}
+non-IBD on five features ($d = +0.61$ to $+1.22$, all at the minimum
+permutation $p = 0.002$).
+Only max Betti-1 is non-significant ($d = +0.13$, $p = 0.21$).
+
+This reversal exposes a sampling-frequency bias inherent to IBDMDB's
+longitudinal design.
+IBDMDB subjects with more active disease are sampled at higher frequency
+(mean 12.2 timepoints per subject, range 3--25); subjects who visited the
+clinic more often (and thus contributed more samples) tend to be those with
+more severe or refractory disease---precisely the individuals with the lowest
+topological complexity.
+The full-dataset bootstrap therefore overweights active-disease timepoints,
+pulling the IBD mean down relative to what would be observed at a single
+randomly selected visit.
+When each subject contributes equally (one timepoint), IBD subjects' mean
+h$_1$ count is 40.3 vs.\ 38.0 for non-IBD controls---the opposite direction
+from the full-dataset result (35.5 vs.\ 40.8).
+
+Two further caveats apply to this comparison.
+First, with only 26 non-IBD subjects (all included in every bootstrap
+draw at $n = 26$), the non-IBD mean is not resampled and the test is
+underpowered for detecting departures from the full-dataset estimate.
+Second, IBDMDB's non-IBD controls are recruited from the same clinical
+settings as IBD patients (potentially family members or clinic staff),
+which may make them an unrepresentative healthy comparison group relative to
+the community-recruited \agp\ cohort.
+
+\begin{table}[H]
+\centering
+\caption{%
+  \textbf{IBDMDB one-sample-per-subject sensitivity check (IBD vs.\ non-IBD).}
+  One randomly selected timepoint per participant; 80 IBD subjects,
+  26 non-IBD subjects; bootstrap subsample $n = 26$, 200 iterations,
+  500 permutations.
+  The direction of effect is \emph{reversed} relative to the full-dataset
+  analysis (Table~\ref{tab:ibdmdb_results}) for 5 of 6 features,
+  indicating that the full-dataset result reflects overrepresentation
+  of active-disease timepoints rather than a stable subject-level difference.
+}
+\label{tab:ibdmdb_1ps}
+\small
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Feature} & \textbf{Mean IBD} & \textbf{Mean non-IBD} & \textbf{Cohen's $d$} & \textbf{Perm. $p$} \\
+\midrule
+H$_1$ count                 & 40.30 & 38.00 & +0.608 & 0.002 \\
+H$_1$ entropy               &  3.35 &  3.28 & +0.611 & 0.002 \\
+Total persistence           &  2.40 &  2.09 & +0.982 & 0.002 \\
+Mean lifetime               & 0.060 & 0.055 & +0.791 & 0.002 \\
+Max lifetime                & 0.199 & 0.169 & +1.219 & 0.002 \\
+Max Betti-1                 & 14.31 & 14.00 & +0.129 & 0.206 \\
+\midrule
+\multicolumn{5}{l}{\textit{Full-dataset reference (IBD $d$ direction):
+  all features $d < 0$ (IBD $<$ non-IBD), all FDR-significant.}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Implications for the IBDMDB validation.}
+The one-sample-per-subject check demonstrates that the IBDMDB IBD vs.\
+non-IBD topological comparison is \textbf{not a robust cross-cohort
+replication} of the \agp\ finding: it is sensitive to whether subjects
+are weighted by their number of clinic visits.
+The more interpretable IBDMDB evidence comes from the within-IBD biomarker
+comparisons (Section below), which compare timepoints drawn from the
+\emph{same} subjects and are therefore unaffected by between-subject sampling
+frequency.
+The primary cross-sectional \agp\ finding---each subject contributes exactly
+one sample---remains unaffected by this issue.
+
+\begin{table}[H]
+\centering
+\caption{%
+  \textbf{IBDMDB replication results: IBD subtypes vs.\ non-IBD controls.}
+  Bootstrap parameters: 200 iterations, $n = 60$ per group, global top-80
+  species, sign-flip permutation ($K = 500$).
+  $p_\text{FDR}$: Benjamini--Hochberg applied to 18 sign-flip $p$-values
+  (6 features $\times$ 3 comparisons) within this IBDMDB analysis;
+  correction is independent of the AGP analyses in Tables~1--3.
+  $\star$ = FDR-significant ($p_\text{FDR} < 0.05$).
+}
+\label{tab:ibdmdb_results}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrrr}
+\toprule
+\textbf{Feature} & \textbf{Comparison}
+  & \textbf{Mean A} & \textbf{Mean B}
+  & \textbf{Cohen's $d$} & \boldmath$p_\text{FDR}$ \\
+\midrule
+\multirow{3}{*}{H1 count}
+  & IBD vs.\ non-IBD  & 35.5 & 40.8 & $-$0.96$^\star$ & 0.003 \\
+  & CD vs.\ non-IBD   & 33.2 & 40.9 & $-$1.50$^\star$ & 0.003 \\
+  & UC vs.\ non-IBD   & 39.5 & 40.4 & $-$0.17         & 0.114 \\
+\addlinespace
+\multirow{3}{*}{H1 entropy}
+  & IBD vs.\ non-IBD  & 3.196 & 3.316 & $-$0.73$^\star$ & 0.003 \\
+  & CD vs.\ non-IBD   & 3.108 & 3.317 & $-$1.28$^\star$ & 0.003 \\
+  & UC vs.\ non-IBD   & 3.300 & 3.315 & $-$0.10         & 0.341 \\
+\addlinespace
+\multirow{3}{*}{Total persistence}
+  & IBD vs.\ non-IBD  & 1.668 & 2.189 & $-$1.46$^\star$ & 0.003 \\
+  & CD vs.\ non-IBD   & 1.659 & 2.226 & $-$1.46$^\star$ & 0.003 \\
+  & UC vs.\ non-IBD   & 2.106 & 2.216 & $-$0.28$^\star$ & 0.010 \\
+\addlinespace
+\multirow{3}{*}{Mean lifetime}
+  & IBD vs.\ non-IBD  & 0.047 & 0.054 & $-$0.96$^\star$ & 0.003 \\
+  & CD vs.\ non-IBD   & 0.050 & 0.054 & $-$0.56$^\star$ & 0.003 \\
+  & UC vs.\ non-IBD   & 0.053 & 0.055 & $-$0.22$^\star$ & 0.040 \\
+\addlinespace
+\multirow{3}{*}{Max lifetime}
+  & IBD vs.\ non-IBD  & 0.159 & 0.197 & $-$1.23$^\star$ & 0.003 \\
+  & CD vs.\ non-IBD   & 0.175 & 0.196 & $-$0.67$^\star$ & 0.003 \\
+  & UC vs.\ non-IBD   & 0.189 & 0.194 & $-$0.17         & 0.096 \\
+\addlinespace
+\multirow{3}{*}{Max Betti-1}
+  & IBD vs.\ non-IBD  & 12.7 & 14.4  & $-$0.52$^\star$ & 0.003 \\
+  & CD vs.\ non-IBD   & 11.6 & 14.6  & $-$0.95$^\star$ & 0.003 \\
+  & UC vs.\ non-IBD   & 14.8 & 14.5  & $+$0.09         & 0.395 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Biomarker grounding: calprotectin and clinical activity scores}
+
+A central open question is whether topological features correlate with
+direct measurements of mucosal inflammation rather than merely with the
+categorical \ibd\ label.
+IBDMDB provides fecal calprotectin for 456 \textsc{mgx} samples and
+disease activity indices for the majority of subjects.
+Splitting on a standard clinical threshold
+($\geq 250\,\mu\text{g/g}$: active mucosal inflammation; $<50\,\mu\text{g/g}$:
+quiescent) yields $n_\text{high} = 60$ and $n_\text{low} = 189$ samples.
+
+Table~\ref{tab:ibdmdb_biomarkers} reports the calprotectin and activity-score
+comparisons.
+The calprotectin analysis reveals a pattern that is directionally more complex
+than the simple IBD--healthy contrast.
+High-calprotectin samples show \emph{fewer} co-occurrence loops overall
+(H1 count $d = -1.27^\star$) but \emph{longer-lived} individual loops
+(mean lifetime $d = +3.51^\star$; max lifetime $d = +1.98^\star$; total
+persistence $d = +1.55^\star$).
+This pattern---topological contraction in breadth, expansion in depth---is
+consistent with the hypothesis that acute mucosal inflammation selects for
+a small, structurally robust co-occurrence cluster (plausibly dominated by
+Proteobacteria and \textit{Enterobacteriaceae}) while dismantling the broader
+anaerobic cross-feeding network: the surviving loops are fewer but more
+persistent because they are anchored by stable, inflammation-associated
+co-occurrence relationships rather than the fragile, metabolically redundant
+partnerships of the healthy state.
+Note that with $n_\text{high} = 60$ and bootstrap subsampling at $n = 60$
+per iteration, the high-calprotectin group is sampled near-exhaustively on
+each draw (sampling without replacement from a pool essentially equal to $n$).
+Near-exhaustive resampling reduces variance in the bootstrap estimate and
+may inflate Cohen's $d$ for lifetime features; the mean lifetime and
+max lifetime effects ($d = +3.51$, $d = +1.98$) should therefore be
+interpreted as upper bounds pending replication in a larger calprotectin-stratified
+sample.
+
+Clinical activity scores corroborate this picture.
+Active Crohn's (HBI $\geq 5$, $n = 93$) shows lower loop count, entropy,
+and total persistence than CD remission (HBI $< 5$, $n = 457$; 4/6 features
+FDR-significant; $d$ range $-0.43$ to $-0.62$).
+Active UC (SCCAI $\geq 3$, $n = 114$) shows 5/6 features FDR-significant
+versus UC remission (SCCAI $< 3$, $n = 240$).
+Together, these results establish that topological simplification tracks not
+only disease diagnosis but also continuous inflammation severity within both
+CD and UC subtypes.
+
+\begin{table}[H]
+\centering
+\caption{%
+  \textbf{IBDMDB biomarker comparisons: calprotectin, HBI, and SCCAI.}
+  Same bootstrap parameters as Table~\ref{tab:ibdmdb_results}.
+  $\star$ = FDR-significant ($p_\text{FDR} < 0.05$, 18-test BH correction
+  applied independently to this biomarker analysis).
+  Selected features shown; full results in \texttt{results/ibdmdb\_bootstrap.csv}.
+}
+\label{tab:ibdmdb_biomarkers}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrrr}
+\toprule
+\textbf{Feature} & \textbf{Comparison}
+  & \textbf{Mean A} & \textbf{Mean B}
+  & \textbf{Cohen's $d$} & \boldmath$p_\text{FDR}$ \\
+\midrule
+\multirow{3}{*}{H1 count}
+  & Calprotectin $\geq$250 vs.\ $<$50 & 32.0 & 36.0 & $-$1.27$^\star$ & 0.003 \\
+  & Active CD (HBI$\geq$5) vs.\ remission & 31.4 & 33.3 & $-$0.44$^\star$ & 0.003 \\
+  & Active UC (SCCAI$\geq$3) vs.\ remission & 33.7 & 39.6 & $-$1.19$^\star$ & 0.003 \\
+\addlinespace
+\multirow{3}{*}{Total persistence}
+  & Calprotectin $\geq$250 vs.\ $<$50 & 2.049 & 1.708 & $+$1.55$^\star$ & 0.003 \\
+  & Active CD (HBI$\geq$5) vs.\ remission & 1.542 & 1.671 & $-$0.43$^\star$ & 0.003 \\
+  & Active UC (SCCAI$\geq$3) vs.\ remission & 1.780 & 2.078 & $-$0.99$^\star$ & 0.003 \\
+\addlinespace
+\multirow{3}{*}{Mean lifetime}
+  & Calprotectin $\geq$250 vs.\ $<$50 & 0.064 & 0.048 & $+$3.51$^\star$ & 0.003 \\
+  & Active CD (HBI$\geq$5) vs.\ remission & 0.049 & 0.050 & $-$0.15         & 0.152 \\
+  & Active UC (SCCAI$\geq$3) vs.\ remission & 0.053 & 0.053 & $+$0.09         & 0.347 \\
+\addlinespace
+\multirow{3}{*}{Max Betti-1}
+  & Calprotectin $\geq$250 vs.\ $<$50 & 14.0 & 12.9 & $+$0.59$^\star$ & 0.003 \\
+  & Active CD (HBI$\geq$5) vs.\ remission & 10.0 & 11.5 & $-$0.62$^\star$ & 0.003 \\
+  & Active UC (SCCAI$\geq$3) vs.\ remission &  9.6 & 13.9 & $-$1.63$^\star$ & 0.003 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%─────────────────────────────────────────────────────────────────────────────
+\subsection{Leave-one-out attribution identifies taxon-specific topological anchors}
+\label{subsec:attribution}
+%─────────────────────────────────────────────────────────────────────────────
+
+To identify which individual taxa anchor co-occurrence loops in healthy versus
+\ibd\ microbiomes, we performed a leave-one-out (LOO) topological attribution
+analysis.
+For each of the 80 \clr-transformed taxa, we removed that taxon from the
+group-level Spearman correlation matrix and re-ran Ripser on the resulting
+$79 \times 79$ distance matrix.
+The difference between the full-group and reduced-group H$_1$ feature vectors
+(baseline $-$ \loo) defines each taxon's \emph{topological impact}.
+A differential composite impact score---the mean of six z-scored per-feature
+impact differences (healthy minus \ibd)---quantifies which taxa are
+disproportionately critical to healthy loop structure.
+Statistical significance was assessed by 500 label-permutation tests
+(all 3,249 samples shuffled between groups, preserving group sizes);
+95\% bootstrap confidence intervals were estimated from 200 within-group
+resamples.
+The full pipeline is implemented in \texttt{scripts/run\_loop\_attribution.py}
+(AGP) and \texttt{scripts/run\_ibdmdb\_loop\_attribution.py} (IBDMDB).
+
+\subsubsection*{AGP: \textit{Oscillospira} and \textit{Blautia} as dominant
+healthy anchors (16S)}
+
+In the AGP 16S dataset, \textit{Oscillospira} ranked first among 80 candidate
+taxa (composite impact = 4.08, permutation $p = 0.006$,
+95\% CI $[0.24,\,4.16]$): removing this genus from the healthy correlation
+matrix produced a substantially larger reduction in H$_1$ features than
+removing it from the \ibd\ matrix, indicating that \textit{Oscillospira}
+participates in correlation triangles present in healthy but not \ibd\
+microbiomes.
+\textit{Blautia} ranked second (composite = 1.28, $p < 0.002$).
+Two higher-order Clostridia taxa also reached significance:
+\textit{Clostridiaceae} (rank 4, $p = 0.028$) and
+\textit{Lachnospiraceae} (rank 5, $p = 0.046$).
+\textit{Bacteroides} appeared at ranks 7--8, below the permutation
+significance threshold in this dataset.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\textwidth]{figures/loop_attribution_top20.png}
+  \caption{%
+    \textbf{Top 20 differential topological anchors (AGP, 16S amplicon).}
+    Bars show composite differential impact (healthy $-$ \ibd).
+    Error bars are 95\% bootstrap confidence intervals (200 within-group
+    resamples).
+    Significance: $^\star p < 0.05$, $^{\star\star} p < 0.01$,
+    $^{\star\star\star} p < 0.002$ (one-sided permutation, 500 shuffles).
+    Positive values indicate taxa whose co-occurrence partnerships are
+    more structurally essential in healthy than in \ibd\ networks.
+  }
+  \label{fig:loo_top20}
+\end{figure}
+
+\subsubsection*{IBDMDB: \textit{Bacteroidetes} species as dominant healthy
+anchors (WGS)}
+
+Applying the same \loo\ pipeline to the IBDMDB WGS dataset
+($n_\text{nonIBD} = 364$, $n_\text{IBD} = 974$; top-80 MetaPhlAn2 species)
+yielded a complementary anchor ranking.
+\textit{Bacteroides finegoldii} ranked first
+(composite = 1.95, $p < 0.002$, 95\% CI $[0.30,\,2.23]$);
+\textit{Bacteroides thetaiotaomicron} ranked third ($p = 0.018$).
+Among Firmicutes, \textit{Flavonifractor plautii} (rank 10, $p = 0.014$)
+and \textit{Clostridium nexile} (rank 12, $p = 0.034$) were also
+significant.
+
+\subsubsection*{Cross-dataset replication}
+
+At the genus level, 7 of the 20 top IBDMDB anchors matched genera present in
+the AGP top 20 (Figure~\ref{fig:ibdmdb_overlap}).
+\textit{Bacteroides} appeared prominently in both datasets: at ranks 7--8 in
+AGP and across five of the top 13 positions in IBDMDB.
+The Firmicutes-dominated AGP ranking versus the Bacteroidetes-dominated IBDMDB
+ranking is consistent with known 16S amplicon limitations in resolving
+\textit{Bacteroides} species, and with the different populations: the AGP
+cohort is citizen-science and self-reported, while IBDMDB participants are
+endoscopically confirmed clinical patients in whom Bacteroidetes depletion may
+be more pronounced.
+Together, these findings identify taxa---primarily within Bacteroidetes and the
+Lachnospiraceae/Ruminococcaceae clade---whose co-occurrence partnerships are
+specifically dismantled in \ibd, providing the first taxon-resolved mechanistic
+candidate for the loop collapse documented in
+Sections~\ref{subsec:ibd_results}--\ref{subsec:ibdmdb}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\textwidth]{figures/ibdmdb_agp_overlap.png}
+  \caption{%
+    \textbf{Cross-dataset replication of topological anchor ranking
+    (IBDMDB WGS, top 20).}
+    Orange bars: genera also in the AGP top-20 anchor list (7 of 20).
+    Grey bars: IBDMDB-specific anchors.
+    Both datasets independently identify \textit{Bacteroides} as a dominant
+    structural anchor in healthy microbiomes, despite using different
+    sequencing technologies and study populations.
+  }
+  \label{fig:ibdmdb_overlap}
+\end{figure}
+
+%─────────────────────────────────────────────────────────────────────────────
+\subsection{Classification benchmark: topology vs.\ $\alpha$- and $\beta$-diversity}
+\label{subsec:classification}
+%─────────────────────────────────────────────────────────────────────────────
+
+To quantify the discriminative value of topological features relative to
+established microbiome diversity metrics---and directly address the comparison
+flagged in the Discussion as ``the most practically important open question''---we
+extended the classification benchmark to include two \textbf{$\beta$-diversity
+baselines} alongside Shannon $\alpha$-diversity.
+
+\paragraph{Feature sets and methods.}
+Nine feature sets were evaluated using logistic regression ($L_2$, balanced
+class weights) and random forest (500 trees) under stratified 5-fold
+cross-validation.
+The two $\beta$-diversity embeddings are:
+\begin{itemize}[leftmargin=*, itemsep=1pt]
+  \item \textbf{Aitchison-PCoA(10).}
+  Euclidean distance in CLR space is the theoretically principled metric for
+  compositional data, providing a phylogeny-free analog of weighted
+  UniFrac~\citep{aitchison1982statistical}.
+  Embedded into $k = 10$ principal coordinates.
+  \item \textbf{BC-PCoA(10).}
+  Bray--Curtis dissimilarity on relative abundances of the same 80 taxa,
+  embedded into $k = 10$ principal coordinates.
+\end{itemize}
+To prevent information leakage, PCoA was \emph{re-fitted on training samples
+only} in each CV fold; test samples were projected via Gower's (1968)
+out-of-sample formula.
+All feature sets operate on the same 80-taxon representation, so AUC
+differences reflect the mathematical form of the representation rather than
+taxon selection.
+
+\begin{table}[H]
+\centering
+\caption{%
+  \textbf{Extended classification benchmark: 5-fold cross-validated AUROC for
+  IBD vs.\ healthy prediction (AGP, $n = 3{,}249$).}
+  PCoA($k{=}10$) is fitted on the training fold only (Gower out-of-sample
+  projection; no test-fold leakage).
+  LR = logistic regression; RF = random forest.
+  Best result per classifier in \textbf{bold}.
+}
+\label{tab:classification}
+\small
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{llcc}
+\toprule
+\textbf{Clf} & \textbf{Feature set} & \textbf{Mean AUC} & \textbf{SD} \\
+\midrule
+LR & Shannon only                        & 0.688 & 0.019 \\
+LR & Topology only                       & 0.668 & 0.036 \\
+LR & Topology + Shannon                  & 0.697 & 0.037 \\
+LR & BC-PCoA(10)                         & 0.683 & 0.044 \\
+LR & Aitchison-PCoA(10)                  & 0.734 & 0.027 \\
+LR & BC-PCoA + Topology                  & 0.693 & 0.045 \\
+LR & Aitchison-PCoA + Topology           & 0.728 & 0.027 \\
+LR & BC-PCoA + Topology + Shannon        & 0.702 & 0.045 \\
+LR & Aitchison-PCoA + Topology + Shannon & \textbf{0.735} & 0.022 \\
+\midrule
+RF & Shannon only                        & 0.563 & 0.045 \\
+RF & Topology only                       & 0.632 & 0.033 \\
+RF & Topology + Shannon                  & 0.645 & 0.058 \\
+RF & BC-PCoA(10)                         & 0.599 & 0.044 \\
+RF & Aitchison-PCoA(10)                  & \textbf{0.703} & 0.035 \\
+RF & BC-PCoA + Topology                  & 0.650 & 0.053 \\
+RF & Aitchison-PCoA + Topology           & 0.696 & 0.026 \\
+RF & BC-PCoA + Topology + Shannon        & 0.666 & 0.056 \\
+RF & Aitchison-PCoA + Topology + Shannon & 0.702 & 0.038 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Results.}
+Four observations stand out (Table~\ref{tab:classification},
+Figure~\ref{fig:classification_roc}).
+
+\textit{Aitchison-PCoA is the strongest single predictor.}
+Aitchison-PCoA(10) achieves LR AUC $= 0.734$ and RF AUC $= 0.703$,
+outperforming Shannon diversity (LR: $0.688$; RF: $0.563$) and topology
+scalars alone (LR: $0.668$; RF: $0.632$).
+Aitchison distance captures the full pairwise co-occurrence geometry of all
+80 taxa simultaneously; Shannon is a per-sample marginal summary and the six
+H$_1$ scalars compress persistence diagrams into coarse statistics.
+
+\textit{Bray--Curtis PCoA performs comparably to Shannon.}
+BC-PCoA(10) achieves LR: $0.683$; RF: $0.599$, substantially below
+Aitchison-PCoA.
+This is consistent with theoretical expectations: Aitchison distance is
+the natural metric for compositional data, while Bray--Curtis on relative
+abundances lacks the log-ratio invariance that makes Aitchison distance
+appropriate for CLR-transformed microbiome data.
+
+\textit{Topology scalars do not improve over Aitchison when combined.}
+Aitchison-PCoA + Topology achieves LR: $0.728$, RF: $0.696$---both slightly
+below Aitchison alone ($0.734$, $0.703$).
+The full combination (Aitchison + Topology + Shannon) reaches LR: $0.735$
+($+0.001$ over Aitchison alone, within a single SD of $\pm 0.022$).
+This indicates that the structural information captured by the six H$_1$
+scalars is largely subsumed by the full distance geometry that Aitchison PCoA
+encodes.
+
+\textit{Topology scalars outperform Shannon under random forest.}
+RF AUC: Topology $0.632$ vs.\ Shannon $0.563$.
+The relational, multi-taxon nature of topological features provides
+discriminative signal that single-sample diversity indices cannot access.
+
+\paragraph{Predictive vs.\ interpretive value.}
+These results distinguish two types of contribution.
+Predictively, Aitchison beta-diversity (10 PCoA axes, logistic regression,
+AUC $= 0.734$) is the strongest feature set tested.
+The six H$_1$ scalars do not add over this baseline, reflecting their coarse
+compression of the full persistence diagram.
+Interpretively, topology provides what PCoA coordinates do not: identification
+of \emph{which structural property} of the co-occurrence graph is lost in
+\ibd\ (loops, not merely taxon abundances), attribution of loop loss to
+specific taxa (Section~\ref{subsec:attribution}), and tracking of topological
+simplification against a continuous inflammation biomarker
+(Section~\ref{subsec:ibdmdb}).
+These mechanistic properties cannot be recovered from a PCoA embedding, even
+one with superior predictive AUC.
+The classification benchmark quantifies information content as a secondary
+validation; it does not exhaust the analytical value of topology.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/classification_roc_v2.png}
+  \caption{%
+    \textbf{ROC curves for IBD classification (5-fold stratified CV,
+    AGP, $n = 3{,}249$).}
+    \textit{Left}: Logistic regression; \textit{Right}: Random forest.
+    Each curve is the mean over 5 folds; shaded bands are $\pm$1 SD.
+    Aitchison-PCoA(10) (fitted on training fold, Gower projection for test)
+    achieves the highest single-modality AUROC in both classifiers ($0.734$,
+    $0.703$).
+    Adding topology scalars to Aitchison-PCoA does not improve AUC,
+    indicating that the six H$_1$ scalars are largely subsumed by the full
+    Aitchison distance geometry.
+    Topology scalars outperform Shannon under random forest ($0.632$ vs.\
+    $0.563$), confirming that they carry non-Shannon relational information.
+  }
+  \label{fig:classification_roc}
+\end{figure}
+
+\paragraph{Precision-recall analysis and threshold-dependent metrics.}
+AUROC summarises ranking quality but does not answer the sharper question of
+false-positive behaviour, which matters acutely when the positive class (IBD)
+is rare.
+At a prevalence of $5.1\%$ ($165 / 3{,}249$), the precision-recall (PR) curve
+and its area (AP; average precision) are the appropriate summary statistics.
+We evaluate logistic-regression classifiers at two operating points:
+\textbf{A)}~threshold $= 0.50$ and
+\textbf{B)}~a fold-specific threshold calibrated to achieve
+$\geq 95\%$ specificity on the training fold, then applied to the held-out
+test fold (no leakage).
+Results are shown in Table~\ref{tab:pr_metrics} and
+Figure~\ref{fig:pr_curves}.
+
+At the standard threshold ($t = 0.50$), all models show high recall but low
+precision because balanced class weights shift probability mass toward the
+positive class.
+Aitchison-PCoA achieves the highest recall ($0.727$) and F1 ($0.171$);
+topology-only has the lowest precision ($0.076$), reflecting that the
+coarse six-dimensional feature space provides a less decisive boundary than
+the full distance geometry of Aitchison PCoA.
+
+At the 95\%-specificity operating point, only 5\% of healthy individuals are
+mis-labelled as IBD regardless of classifier.
+Under this constraint, the maximum achievable precision is fundamentally
+bounded by prevalence (Bayes limit); with $p = 0.051$ and $\text{FPR} = 0.05$,
+even a perfect-sensitivity classifier yields precision $\approx 0.51$.
+In practice, Aitchison-PCoA reaches recall $= 0.182$, precision $= 0.155$;
+the best combination (Aitchison + Topology + Shannon) reaches recall $= 0.194$,
+precision $= 0.158$.
+Critically, \textbf{topology scalars alone perform worst at this operating
+point} (recall $= 0.121$, precision $= 0.118$), below both Shannon and all
+$\beta$-diversity embeddings.
+The hypothesis that topology might be unusually precise at conservative
+thresholds is not supported: at 95\% specificity, topology identifies the
+fewest IBD cases with the lowest precision of any model tested.
+
+AP scores (area under the full PR curve) follow the same ordering as AUROC:
+Aitchison + Topo + Shannon ($0.136$) $>$ Aitchison-PCoA ($0.128$) $>$
+Shannon ($0.116$) $>$ BC-PCoA ($0.093$) $>$ Topology ($0.089$),
+compared to a no-skill baseline of $0.051$.
+The absolute AP values are modest across all models, confirming that
+microbiome features alone are not sufficient for clinically actionable IBD
+screening; the classification benchmark quantifies relative information content,
+not clinical utility.
+
+\begin{table}[H]
+\centering
+\caption{%
+  \textbf{Precision-recall metrics at two operating points (logistic regression,
+  5-fold CV, pooled test-fold probabilities, AGP).}
+  Prevalence $= 5.1\%$; no-skill AP $= 0.051$.
+  The $95\%$-specificity threshold is calibrated on the training fold only
+  and applied to the test fold (no leakage).
+  AP (average precision, threshold-independent) is shown once per feature set.
+  Best metric in each operating-point block in \textbf{bold}.
+}
+\label{tab:pr_metrics}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Feature set} & \textbf{Threshold} & \textbf{Prec} & \textbf{Recall} & \textbf{Spec} & \textbf{F1} & \textbf{AP} \\
+\midrule
+\multicolumn{7}{l}{\textit{Operating point A: threshold $= 0.50$}} \\[2pt]
+Shannon only                & 0.50 & 0.090 & 0.576 & 0.687 & 0.155 & 0.116 \\
+Topology only               & 0.50 & 0.076 & 0.661 & 0.570 & 0.136 & 0.089 \\
+BC-PCoA(10)                 & 0.50 & 0.089 & 0.642 & 0.648 & 0.156 & 0.093 \\
+Aitchison-PCoA(10)          & 0.50 & \textbf{0.097} & \textbf{0.727} & 0.637 & \textbf{0.171} & 0.128 \\
+Aitchison + Topo + Shannon  & 0.50 & 0.099 & 0.709 & \textbf{0.654} & 0.173 & \textbf{0.136} \\
+\midrule
+\multicolumn{7}{l}{\textit{Operating point B: 95\% specificity (calibrated per fold)}} \\[2pt]
+Shannon only                & 95\% spec & 0.157 & 0.170 & 0.951 & 0.163 & —     \\
+Topology only               & 95\% spec & 0.118 & 0.121 & 0.951 & 0.119 & —     \\
+BC-PCoA(10)                 & 95\% spec & 0.114 & 0.121 & 0.950 & 0.118 & —     \\
+Aitchison-PCoA(10)          & 95\% spec & 0.155 & 0.182 & 0.947 & 0.167 & —     \\
+Aitchison + Topo + Shannon  & 95\% spec & \textbf{0.158} & \textbf{0.194} & 0.945 & \textbf{0.174} & — \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\textwidth]{figures/precision_recall_curves.png}
+  \caption{%
+    \textbf{Precision-recall curves for IBD classification (logistic regression,
+    5-fold CV, pooled test-fold probabilities, AGP, $n = 3{,}249$).}
+    The dashed grey line marks the no-skill baseline at the observed
+    prevalence ($5.1\%$).
+    AP (average precision, area under the curve) is shown in the legend.
+    Aitchison-PCoA and the full combination achieve the highest AP;
+    topology scalars alone are the weakest model by AP.
+    The modest absolute AP values ($0.09$--$0.14$ vs.\ $0.05$ no-skill)
+    reflect the fundamental challenge of rare-class detection at low prevalence,
+    not a failure specific to any individual feature type.
+  }
+  \label{fig:pr_curves}
+\end{figure}

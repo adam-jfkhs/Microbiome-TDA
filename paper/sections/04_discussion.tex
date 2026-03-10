@@ -1,0 +1,220 @@
+%=============================================================================
+\section{Discussion}
+\label{sec:discussion}
+%=============================================================================
+
+\subsection{Loop collapse as a structural correlate of IBD dysbiosis}
+
+The scale of the \ibd\ finding warrants careful reading before
+biological interpretation.
+Effect sizes spanning $d = 0.75$--$2.38$ are unusual in microbiome
+research; Shannon diversity differences between \ibd\ and healthy cohorts
+typically reach $d \approx 0.3$--$0.6$.
+The amplification observed here reflects several features of the
+topology-via-bootstrap approach.
+First, persistent homology integrates correlation structure across all
+taxa simultaneously: a perturbation affecting five co-occurring taxa
+simultaneously depresses loop count, loop lifetime, and loop density
+together, whereas alpha diversity registers only additive taxon loss.
+Second, the paired bootstrap harvests the typical IBD--healthy contrast
+over 200 independent draws, so the observed $d$ reflects the expected
+contrast between one randomly drawn patient panel and one randomly drawn
+healthy panel, rather than a contrast between two centralized estimates.
+Under this framing, a large $d$ implies that the topological gap is
+visible at virtually any randomly selected subsample, not merely in the
+aggregate.
+
+The direction of the finding is consistent with known IBD compositional
+pathology.
+Butyrate-producing Firmicutes (\textit{Faecalibacterium},
+\textit{Roseburia}, \textit{Lachnospiraceae}) occupy dense, multi-partner
+co-occurrence neighborhoods in healthy gut networks; their depletion in
+\ibd\ would be expected to dissolve the loops anchored around
+them~\citep{gevers2014treatment,halfvarson2017dynamics}.
+Whether these particular taxa drive the loop collapse, or whether the
+entire gram-positive anaerobe compartment contracts uniformly, is directly
+addressed by the \loo\ attribution in Section~\ref{subsec:attribution}:
+\textit{Oscillospira} and \textit{Blautia} emerge as the dominant
+differential anchors in the AGP 16S data.
+
+A more mechanistic reading is that the healthy gut co-occurrence graph
+approximates a modular, redundant architecture: butyrate producers and
+fiber-degrading specialists form mutually reinforcing exchange loops in
+which each partner both consumes the metabolic byproducts of others and
+releases substrates that sustain them.
+Persistent loops in the $H_1$ sense require at least three taxa forming
+a correlation triangle strong enough to survive across a wide filtration
+range; the co-occurrence architecture of butyrate producers plausibly
+satisfies this criterion.
+When these taxa are depleted or become numerically erratic under
+\ibd-associated inflammation, the triangles dissolve before they
+consolidate, producing a persistence diagram with lower total mass and
+shorter feature lifetimes.
+What remains is not necessarily a sparser network in the edge-count
+sense---Proteobacterial blooms can increase certain pairwise correlations
+in \ibd~\citep{halfvarson2017dynamics}---but a topologically impoverished
+one: shorter-lived, less reinforced cycles.
+This interpretation predicts that the Proteobacterial compartment, while
+elevated in \ibd, does not substitute structurally for the anaerobic
+Firmicutes it displaces---a prediction consistent with the \loo\ attribution
+finding that \textit{Clostridiaceae} and \textit{Lachnospiraceae}, not any
+Proteobacterial genus, are the significant healthy anchors in AGP
+(Section~\ref{subsec:attribution}).
+
+\subsection{Structural reorganization versus abundance enrichment in diet}
+
+The bifurcated diet signal (fewer total loops, longer-lived individual
+loops for plant-based eaters) resists a simple narrative.
+It is not that plant-based microbiomes are topologically richer in an
+unqualified sense; they appear to support a different \emph{architecture}:
+a sparser set of co-occurrence partnerships, but ones with more robust,
+threshold-spanning correlations.
+One mechanistic hypothesis consistent with this pattern is dietary
+fibre-driven selection: high-fibre diets enforce strong metabolic
+dependencies among a constrained set of fibre-degrading consortia
+(principally \textit{Prevotella}, \textit{Ruminococcus}, and
+\textit{Bifidobacterium} genera), producing persistent loops, while
+reducing the proliferation of opportunistic taxa whose co-occurrences
+are numerous but shallow~\citep{louis2017formation}.
+This is speculative; validating it would require superimposing fibre
+intake quantification on loop attribution.
+
+The partial attenuation of the diet signal after matching (3/6 features
+surviving FDR) counsels against strong claims.
+It is plausible that a fraction of the full-group diet effect is
+sociological, given that plant-based eaters in \agp\ are skewed toward higher
+education, younger age, and metropolitan residence, rather than purely
+physiological in origin.
+The three features that do survive matching (mean lifetime, max
+lifetime, max Betti-1) are precisely the ones reflecting loop durability,
+which are less susceptible to demographic covariates than loop count.
+
+\subsection{The antibiotic null}
+
+That a 6-month antibiotic history window produces no coherent topological
+signal after matching is not surprising, and should not be over-interpreted
+as evidence that antibiotics are topologically inert.
+The exposure category aggregates single-course amoxicillin prescriptions,
+prolonged prophylactic macrolide regimens, and fluoroquinolone treatment:
+perturbations that differ by orders of magnitude in their ecological
+destructiveness~\citep{petersen2014defining}.
+A better-powered analysis would stratify by antibiotic class and quantify
+time since last exposure as a continuous variable.
+
+\subsection{Relation to prior topological analyses of microbiome data}
+
+The deployment of persistent homology in microbiology is recent and sparse.
+C\'{a}mara~\citep{camara2017topological} surveyed the emerging application
+of $H_0$ and $H_1$ features to genomic and microbial data, identifying
+trajectory-level topology---tracking how network structure evolves across
+dense temporal sampling---as a particularly promising regime for small-$n$,
+longitudinal designs.
+Our design occupies the complementary regime: large cross-sectional $n$,
+sparse metadata, no temporal structure, but high statistical power for
+detecting mean differences between clinically defined groups.
+The two approaches are complementary rather than competing.
+
+More broadly, TDA has been applied to protein contact networks to predict
+folding stability~\citep{wasserman2018topological}, to neuroimaging data to
+map functional connectivity~\citep{bubenik2015statistical}, and to materials
+microstructure to predict fracture~\citep{ghrist2008barcodes}.
+In each domain, the practical justification for persistent homology over
+graph-theoretic alternatives is the same as here: the features of interest
+are not expressible as functions of individual edges, but emerge from the
+collective geometry of multi-node motifs that thresholding-based networks
+miss or misrepresent.
+The amplified effect sizes we observe relative to conventional alpha-diversity
+are consistent with this general principle: topological features aggregate
+information from many pairwise correlations simultaneously, producing a more
+sensitive readout of network-wide reorganization.
+The IBDMDB replication (Section~\ref{subsec:ibdmdb}) extends these results
+to a second dataset and shows that topological features are sensitive not
+only to the categorical disease label but to continuous biomarker severity,
+a property that prior applications of TDA in biology have not demonstrated
+in a clinical context.
+
+\subsection{Limitations}
+\label{subsec:limitations}
+
+\paragraph{Cross-sectional topology.}
+All \agp\ records are single-timepoint observations.
+The causal directionality (whether topological simplification precedes \ibd\
+onset, coincides with active inflammation, or lingers through clinical
+remission) cannot be resolved without longitudinal sampling.
+
+\paragraph{ASV-level resolution.}
+The pipeline operates on Deblur ASVs without genus-level aggregation.
+Strain-level co-occurrence heterogeneity within named genera may both inflate
+and obscure loop structure, and interoperability with genus-level literature
+is impaired.
+
+\paragraph{Diversity-metric benchmark (addressed).}
+Section~\ref{subsec:classification} extends the original Shannon benchmark to
+include Aitchison $\beta$-diversity (Euclidean distance in CLR space;
+phylogeny-free analog of weighted UniFrac) and Bray--Curtis dissimilarity,
+both embedded via nested PCoA with no test-fold leakage.
+Aitchison-PCoA(10) achieves AUC $= 0.734$ (LR), outperforming Shannon
+($0.688$) and topology scalars ($0.668$), and the six H$_1$ scalars do not
+improve over Aitchison when combined.
+The remaining benchmark gap is whether richer topological representations
+(persistence images, kernel embeddings) can close the AUC gap to
+Aitchison-PCoA; that question is deferred to future work.
+
+\paragraph{Single cohort (addressed in part).}
+All primary \agp\ results originate from a self-recruited citizen-science
+population with attendant ascertainment biases.
+Section~\ref{subsec:ibdmdb} reports an independent replication in the
+IBDMDB clinical cohort~\citep{lloydprice2019multi}, which uses a different
+sequencing platform, bioinformatics pipeline, and population (recruited IBD
+patients with endoscopic confirmation rather than self-reported community
+participants).
+The replication is qualitatively successful for the \ibd\ finding.
+Residual concerns include the possibility that both datasets share
+confounders related to medication (immunosuppressants, biologics) that
+are not controlled in either analysis.
+
+\paragraph{Loop attribution completed; biological validation pending.}
+Section~\ref{subsec:attribution} reports taxon-level \loo\ attribution in
+both datasets.
+The aggregate statistical claim (IBD has topologically simpler networks) is
+now paired with a taxon-resolved candidate list: \textit{Oscillospira},
+\textit{Blautia}, \textit{Lachnospiraceae}, and \textit{Clostridiaceae} in
+the AGP 16S data; \textit{Bacteroides finegoldii}, \textit{B.\ thetaiotaomicron},
+\textit{Flavonifractor plautii}, and \textit{Clostridium nexile} in the
+IBDMDB WGS data.
+The remaining gap is biological validation: whether these taxa truly form
+the cross-feeding exchange loops predicted by their composite scores, or
+whether their high scores reflect shared correlation partners that happen to
+track disease status, requires targeted metabolomic or in vitro co-culture
+experiments.
+
+\paragraph{Inflammatory biomarker data (partially addressed).}
+The \agp\ dataset contains no fecal calprotectin or other inflammatory
+biomarkers.
+The IBDMDB replication (Section~\ref{subsec:ibdmdb}) partially addresses
+this: calprotectin-stratified comparisons confirm that topological
+contraction in loop count tracks mucosal inflammation, while revealing
+a nuanced secondary pattern (longer-lived individual loops at high
+calprotectin) that warrants mechanistic investigation.
+Whether loop collapse reflects impaired butyrate-mediated Treg
+maintenance remains unresolved in either cohort.
+
+\paragraph{Bootstrap non-independence.}
+The 200 paired iterations are constructed from overlapping samples (a sample
+from the IBD group can appear in multiple iterations), so the deltas
+$\delta^{(1)}, \ldots, \delta^{(200)}$ are not strictly independent.
+For the IBD comparison, where the smaller group has $n_A = 165$
+and each iteration draws 100 without replacement, any two iterations
+share on average $100^2 / 165 \approx 61$ IBD samples; a conservative
+effective sample size for IBD-group-driven variation is therefore
+$n_\text{eff} \approx 165$ rather than 200.
+The healthy-group overlap is negligible by comparison
+($100^2 / 3{,}084 \approx 3$ shared samples per pair).
+The sign-flip permutation operates on the same correlated set of deltas
+and thereby conserves this correlation structure under the null, which is
+appropriate.
+However, the Wilcoxon signed-rank test assumes independence across the
+200 deltas; applying it to correlated observations inflates the test
+statistic and underestimates the $p$-value.
+This is one reason Wilcoxon results are treated as confirmatory only and
+never enter any FDR calculation.

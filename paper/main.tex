@@ -1,0 +1,315 @@
+%=============================================================================
+% Persistent Homology Reveals Topological Simplification in IBD-Associated Microbial Co-occurrence Networks
+% February 2026
+%=============================================================================
+
+\documentclass[11pt, a4paper]{article}
+
+% ── Encoding & fonts ──────────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}            % Times New Roman for text and math
+\usepackage{microtype}           % better typography, fewer overfull boxes
+
+% ── Mathematics ───────────────────────────────────────────────────────────────
+\usepackage{amsmath, amssymb, amsthm}
+
+% ── Page geometry ─────────────────────────────────────────────────────────────
+\usepackage[
+  a4paper,
+  top=25mm, bottom=28mm,
+  left=28mm, right=28mm,
+  headheight=14pt
+]{geometry}
+
+% ── Color ─────────────────────────────────────────────────────────────────────
+\usepackage[dvipsnames]{xcolor}
+\definecolor{darkblue}{RGB}{15, 52, 96}
+\definecolor{midblue}{RGB}{52, 120, 180}
+\definecolor{lightgray}{RGB}{245, 245, 248}
+\definecolor{accentred}{RGB}{180, 50, 40}
+\definecolor{linkblue}{RGB}{30, 100, 200}
+
+% ── Hyperlinks ────────────────────────────────────────────────────────────────
+\usepackage[
+  colorlinks = true,
+  linkcolor  = darkblue,
+  citecolor  = midblue,
+  urlcolor   = linkblue,
+  pdftitle   = {Persistent Homology Reveals Topological Simplification in IBD-Associated Microbial Co-occurrence Networks},
+  pdfauthor  = {Adam Levine},
+  pdfsubject = {Microbiome Topology; TDA; IBD; American Gut Project},
+  pdfkeywords= {persistent homology; microbiome; IBD; co-occurrence networks; topological data analysis},
+  bookmarksnumbered = true
+]{hyperref}
+
+% ── Headers & footers ─────────────────────────────────────────────────────────
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyhead[L]{\small\textcolor{darkblue}{\textit{Levine — Microbiome TDA}}}
+\fancyhead[R]{\small\textcolor{darkblue}{\textit{February 2026 · Preprint}}}
+\fancyfoot[C]{\small\textcolor{gray}{\thepage}}
+\fancyfoot[L]{\small\textcolor{gray}{Persistent Homology in IBD-Associated Microbiome Networks}}
+\fancyfoot[R]{\small\textcolor{gray}{\href{https://github.com/adam-jfkhs/Microbiome-TDA}{github.com/adam-jfkhs/Microbiome-TDA}}}
+
+% Plain style for title page
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0.4pt}
+  \fancyfoot[C]{\small\textcolor{gray}{\thepage}}
+  \fancyfoot[R]{\small\textcolor{gray}{\href{https://github.com/adam-jfkhs/Microbiome-TDA}{github.com/adam-jfkhs/Microbiome-TDA}}}
+}
+
+% ── Figures & tables ──────────────────────────────────────────────────────────
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{multirow}
+
+\captionsetup{
+  labelfont = {bf, color=darkblue},
+  textfont  = {small},
+  margin    = 8pt,
+  skip      = 6pt
+}
+
+% ── Line spacing & paragraph ──────────────────────────────────────────────────
+\usepackage{setspace}
+\setstretch{1.15}
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{14pt}
+
+% ── References ────────────────────────────────────────────────────────────────
+\usepackage[numbers, sort&compress]{natbib}
+
+% ── Misc ──────────────────────────────────────────────────────────────────────
+\usepackage{enumitem}
+\usepackage{lipsum}           % placeholder text — remove when writing is done
+
+% ── Section styling ───────────────────────────────────────────────────────────
+\usepackage{titlesec}
+\titleformat{\section}
+  {\large\bfseries\color{darkblue}}
+  {\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}
+  {\normalsize\bfseries\color{midblue}}
+  {\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+  {\normalsize\itshape\color{darkblue}}
+  {\thesubsubsection}{1em}{}
+
+% ── Custom commands ───────────────────────────────────────────────────────────
+\newcommand{\pval}[1]{\ensuremath{p = #1}}
+\newcommand{\fdrpval}[1]{\ensuremath{p_{\text{FDR}} = #1}}
+\newcommand{\cohend}[1]{\ensuremath{d = #1}}
+\newcommand{\Hone}{\ensuremath{H_1}}
+\newcommand{\Hzero}{\ensuremath{H_0}}
+\newcommand{\agp}{\textsc{agp}}
+\newcommand{\clr}{\textsc{clr}}
+\newcommand{\vr}{\textsc{vr}}
+\newcommand{\tda}{\textsc{tda}}
+\newcommand{\ibd}{IBD}
+\newcommand{\Ibd}{IBD}
+\newcommand{\abx}{\textsc{abx}}
+\newcommand{\loo}{\textsc{loo}}
+\newcommand{\bh}{\textsc{bh}}
+\newcommand{\todo}[1]{\textcolor{accentred}{\textbf{[TODO: #1]}}}
+
+%=============================================================================
+% TITLE BLOCK
+%=============================================================================
+
+\title{%
+  \vspace{-10mm}
+  {\LARGE\bfseries\color{darkblue}
+    Persistent Homology Reveals Topological Simplification\\[4pt]
+    in IBD-Associated Microbial Co-occurrence Networks}\\[8pt]
+  {\large\normalfont\color{gray}
+    A Paired Bootstrap Analysis of the American Gut Project\\
+    with Covariate Matching and Taxa-Set Sensitivity Testing}
+}
+
+\author{%
+  \textbf{Adam Levine}\\[3pt]
+  \small\textit{Independent Researcher}\\[2pt]
+  \small\texttt{\href{mailto:adalevine@bmchsd.org}{adalevine@bmchsd.org}}\\[4pt]
+  \small\texttt{\href{https://github.com/adam-jfkhs/Microbiome-TDA}{github.com/adam-jfkhs/Microbiome-TDA}}
+}
+
+\date{%
+  \small\textbf{Preprint} · February 2026
+}
+
+%=============================================================================
+\begin{document}
+%=============================================================================
+
+\maketitle
+\thispagestyle{plain}
+
+%─────────────────────────────────────────────────────────────────────────────
+\begin{abstract}
+\noindent\textbf{Background.}
+Conventional diversity metrics are insensitive to the loop-level
+structure of microbial co-occurrence networks.
+Persistent homology, from topological data analysis (\tda), tracks how
+loops and other higher-order features form and dissolve across all
+correlation thresholds simultaneously.
+
+\noindent\textbf{Methods.}
+We applied persistent homology to Spearman co-occurrence networks from
+3,409 American Gut Project (\agp) stool samples (\clr-transformed;
+top-80 prevalent taxa).
+A paired bootstrap (200 iterations, $n = 100$/group) yielded distributions
+of six \Hone\ scalar features.
+Significance was assessed via sign-flip permutation (500 shuffles; primary)
+and Wilcoxon signed-rank (confirmatory), with Benjamini--Hochberg correction
+across 18 tests per subset.
+All analyses were repeated in age/sex/BMI-matched subsamples and at
+taxon-set sizes $N \in \{50, 80, 120\}$.
+The \agp\ finding was independently validated in the IBDMDB multi-omics
+cohort and grounded against fecal calprotectin.
+A leave-one-out topological attribution identified per-taxon contributions
+to loop structure.
+Classification benchmarking compared topological features against Shannon
+diversity under 5-fold cross-validation.
+
+\noindent\textbf{Results.}
+\Ibd\ ($n = 165$ vs.\ $n = 3{,}084$ healthy) was associated with
+systematically lower topological complexity across all six features
+(Cohen's $|d| = 0.75$--$2.38$; $p_{\text{FDR}} < 0.005$ at all taxa sizes),
+fully preserved after covariate matching.
+In IBDMDB (cross-platform, WGS), a one-sample-per-subject sensitivity check
+reveals that the full-dataset IBD vs.\ non-IBD comparison is driven by
+overrepresentation of active-disease timepoints; the within-IBD calprotectin
+comparison, which is unaffected by this sampling bias, confirms that loop
+structure tracks a continuous inflammation biomarker.
+Leave-one-out attribution identified \textit{Oscillospira} and
+\textit{Blautia} as the dominant loop anchors in healthy \agp\ networks,
+with cross-dataset replication of \textit{Bacteroides}-clade importance in
+IBDMDB.
+An extended classification benchmark against $\alpha$- and $\beta$-diversity
+established that Aitchison-PCoA (phylogeny-free compositional $\beta$-diversity)
+is the strongest single predictor (AUC $= 0.734$, logistic regression), while
+topology scalars outperform Shannon under random forest and provide mechanistic
+interpretability that distance-based embeddings do not supply.
+Plant-based diet showed moderately longer-lived loops ($d = 0.65$,
+$p_{\text{FDR}} = 0.004$); antibiotic recency produced limited signal.
+
+\noindent\textbf{Conclusions.}
+\Ibd-associated microbiomes are topologically simpler than healthy controls
+across two independent cohorts and two sequencing technologies, and this
+simplification tracks a clinical inflammation biomarker.
+Persistent homology provides a structurally informative complement to
+existing microbiome metrics, with taxon-level attribution bridging
+topological statistics and named biological interactions.
+
+\smallskip\noindent
+\textbf{Keywords:} persistent homology, gut microbiome, inflammatory bowel
+disease, co-occurrence networks, topological data analysis, American Gut
+Project, IBDMDB, calprotectin, leave-one-out attribution, bootstrap, FDR
+\end{abstract}
+
+\newpage
+\tableofcontents
+\newpage
+
+%─────────────────────────────────────────────────────────────────────────────
+
+\input{sections/01_introduction}
+\input{sections/02_methods}
+\input{sections/03_results}
+\input{sections/04_discussion}
+\input{sections/05_conclusion}
+
+%─────────────────────────────────────────────────────────────────────────────
+\section*{Ethical Oversight Statement}
+
+This study uses exclusively publicly available, de-identified datasets:
+the American Gut Project (AGP; ENA accession ERP012803), a citizen-science
+cohort released under CC0, and the Inflammatory Bowel Disease Multi-omics
+Database (IBDMDB; \url{https://ibdmdb.org}), released for open research use.
+No new human subjects research was conducted. No institutional ethics review
+is required for analyses of openly available, fully de-identified data of this
+type.
+
+%─────────────────────────────────────────────────────────────────────────────
+\section*{Competing Interests}
+
+The author declares no competing interests.
+
+%─────────────────────────────────────────────────────────────────────────────
+\section*{Grant Information}
+
+This work received no external funding. The author is an independent researcher.
+
+%─────────────────────────────────────────────────────────────────────────────
+\section*{AI Tools Declaration}
+
+Claude (Anthropic; claude-sonnet-4-6, accessed February--March 2026) was used
+during the preparation of this manuscript to assist with LaTeX formatting,
+editing of figure captions for consistency, and repository organisation.
+All scientific analyses, interpretations, statistical decisions, and written
+conclusions are solely the author's own work. The AI tool was not used to
+generate or interpret results, design methods, or draft the main body of the
+manuscript.
+
+%─────────────────────────────────────────────────────────────────────────────
+\section*{Data and Code Availability}
+
+All code, download scripts, result CSVs, and figure generation notebooks
+are publicly available at
+\url{https://github.com/adam-jfkhs/Microbiome-TDA}.
+Primary analysis entry points are
+\texttt{scripts/run\_agp\_bootstrap\_v2.py} (main bootstrap pipeline)
+and \texttt{scripts/run\_taxa\_sensitivity.py} (taxon-set sensitivity analysis).
+The American Gut Project (AGP) data used in this study are publicly
+available via the European Nucleotide Archive (accession ERP012803) and
+through the redbiom query interface (\url{https://redbiom.readthedocs.io}).
+The IBDMDB validation data are available at \url{https://ibdmdb.org}.
+
+%─────────────────────────────────────────────────────────────────────────────
+\newpage
+\section*{Supplementary Material}
+\label{sec:supplementary}
+
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{S\arabic{figure}}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/sensitivity_matched_heatmap.png}
+  \caption{%
+    \textbf{Supplementary Figure~S1: Covariate-matched sensitivity analysis
+    heatmap across taxon-set sizes.}
+    Each cell shows Cohen's $d$ (IBD minus healthy; signed) for one
+    feature $\times$ taxon-set-size combination after age/sex/BMI matching.
+    Rows = six \Hone\ scalar features; columns = $N \in \{50, 80, 120\}$ taxa.
+    Three panels correspond to the three subsets analysed: IBD vs.\ healthy
+    (primary), plant-based diet vs.\ non-plant-based, and antibiotic-recent
+    vs.\ antibiotic-naïve.
+    Stars denote FDR-significance ($\star\,p_\text{FDR} < 0.05$,
+    $\star\!\star\,p_\text{FDR} < 0.01$, $\star\!\star\!\star\,p_\text{FDR} < 0.001$).
+    IBD retains 18/18 significant cells ($|d| = 0.81$--$2.56$) across all
+    taxon-set sizes after matching, confirming robustness to covariate
+    imbalance and taxon-set choice.
+    Antibiotic recency produces 0/6 significant features at $N = 80$.
+  }
+  \label{fig:S1}
+\end{figure}
+
+%─────────────────────────────────────────────────────────────────────────────
+\newpage
+\bibliographystyle{unsrtnat}
+\bibliography{references}
+
+%=============================================================================
+\end{document}
+%=============================================================================

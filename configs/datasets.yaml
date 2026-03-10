@@ -1,0 +1,70 @@
+# Dataset paths and metadata configuration
+
+datasets:
+  hmp:
+    name: "Human Microbiome Project Phase 1"
+    otu_table: "data/raw/hmp/hmp1_otu_table.biom"
+    metadata: "data/raw/hmp/hmp1_metadata.tsv"
+    body_site_filter: "stool"
+    region: "v35"
+    description: "300 healthy adults, 18 body sites, multiple visits"
+
+  agp:
+    name: "American Gut Project"
+    otu_table: "data/raw/agp/agp_otu_table.biom"
+    metadata: "data/raw/agp/agp_metadata.tsv"
+    study_id: 10317
+    description: "10,000+ gut samples with lifestyle/health/diet/mental health metadata"
+
+  ibdmdb:
+    name: "Inflammatory Bowel Disease Multi-omics Database (HMP2)"
+    abundance_table: "data/raw/ibdmdb/taxonomic_profiles.tsv.gz"
+    metadata: "data/raw/ibdmdb/hmp2_metadata.csv"
+    data_type_filter: "metagenomics"
+    n_samples: 1338
+    n_subjects: 106
+    description: >
+      Longitudinal multi-omics study; 106 subjects (CD/UC/nonIBD) sampled
+      over ~1 year. MetaPhlAn2 species-level relative abundances. Clinical
+      metadata includes fecal calprotectin, CRP, HBI (Crohn's), SCCAI (UC).
+    biomarkers:
+      calprotectin: "Tube B:Fecal Calprotectin"
+      hbi: "hbi"
+      sccai: "sccai"
+    download: "bash scripts/download_ibdmdb.sh"
+
+  curatedmgd:
+    name: "curatedMetagenomicData"
+    abundance_table: "data/raw/curatedmgd/curated_abundance.tsv"
+    metadata: "data/raw/curatedmgd/curated_metadata.tsv"
+    description: "Multi-study metagenomic profiles (HMP, MetaHIT, CRC cohorts, global gut)"
+    studies:
+      - "HMP_2012"
+      - "LiJ_2017"
+      - "QinJ_2012"
+      - "ZellerG_2014"
+      - "FengQ_2015"
+      - "NielsenHB_2014"
+      - "KarlssonFH_2013"
+      - "VogtmannE_2016"
+      - "ThomasAM_2019_a"
+      - "PasolliBE_2019"
+
+# Processed data output paths
+processed:
+  otu_filtered: "data/processed/otu_filtered.csv"
+  otu_clr: "data/processed/otu_clr.csv"
+  correlation_matrix: "data/processed/correlation_matrix.csv"
+  distance_matrix: "data/processed/distance_matrix.csv"
+  taxonomy: "data/processed/taxonomy.csv"
+  nt_scores: "data/processed/neurotransmitter_scores.csv"
+  disruption_scores: "data/processed/disruption_scores.csv"
+
+# Results output paths
+results:
+  persistence_diagrams: "data/results/persistence_diagrams/"
+  topological_features: "data/results/topological_features.csv"
+  regime_changes: "data/results/regime_changes.csv"
+  classification_results: "data/results/classification_results.json"
+  nt_topology: "data/results/neurotransmitter_topology/"
+  disruption_topology: "data/results/disruption_topology/"

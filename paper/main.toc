@@ -1,0 +1,46 @@
+\contentsline {section}{\numberline {1}Introduction}{5}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Why topology, and why now}{5}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Inflammatory bowel disease as a topological stress test}{5}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Contributions}{5}{subsection.1.3}%
+\contentsline {section}{\numberline {2}Methods}{6}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Dataset provenance}{6}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Preprocessing}{7}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Global taxon-set selection}{7}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Network construction and Vietoris--Rips filtration}{8}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Persistent homology computation}{8}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Scalar topological features}{8}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}Paired bootstrap design}{8}{subsection.2.7}%
+\contentsline {subsection}{\numberline {2.8}Sign-flip label permutation}{9}{subsection.2.8}%
+\contentsline {paragraph}{FDR policy (pre-specified).}{9}{equation.2.3}%
+\contentsline {subsection}{\numberline {2.9}Covariate matching}{9}{subsection.2.9}%
+\contentsline {subsection}{\numberline {2.10}Taxa-size sensitivity}{9}{subsection.2.10}%
+\contentsline {subsection}{\numberline {2.11}Implementation and reproducibility}{10}{subsection.2.11}%
+\contentsline {section}{\numberline {3}Results}{10}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Cohort structure and group partitioning}{10}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}IBD is associated with systematic attenuation of co-occurrence loop structure}{10}{subsection.3.2}%
+\contentsline {paragraph}{Comparison with Shannon $\alpha $-diversity.}{12}{table.caption.3}%
+\contentsline {subsection}{\numberline {3.3}Plant-based diet: fewer but more tenacious co-occurrence cycles}{13}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Antibiotic recency: an inconclusive topological signal}{13}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Taxa-set sensitivity demonstrates IBD robustness and ABX fragility}{14}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Independent validation in IBDMDB: replication and biomarker grounding}{14}{subsection.3.6}%
+\contentsline {paragraph}{Implications for the IBDMDB validation.}{16}{table.caption.8}%
+\contentsline {subsection}{\numberline {3.7}Leave-one-out attribution identifies taxon-specific topological anchors}{18}{subsection.3.7}%
+\contentsline {subsection}{\numberline {3.8}Classification benchmark: topology vs.\ $\alpha $- and $\beta $-diversity}{20}{subsection.3.8}%
+\contentsline {paragraph}{Feature sets and methods.}{20}{subsection.3.8}%
+\contentsline {paragraph}{Results.}{21}{table.caption.13}%
+\contentsline {paragraph}{Predictive vs.\ interpretive value.}{21}{table.caption.13}%
+\contentsline {paragraph}{Precision-recall analysis and threshold-dependent metrics.}{22}{figure.caption.14}%
+\contentsline {section}{\numberline {4}Discussion}{24}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Loop collapse as a structural correlate of IBD dysbiosis}{24}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Structural reorganization versus abundance enrichment in diet}{25}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}The antibiotic null}{25}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Relation to prior topological analyses of microbiome data}{26}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Limitations}{26}{subsection.4.5}%
+\contentsline {paragraph}{Cross-sectional topology.}{26}{subsection.4.5}%
+\contentsline {paragraph}{ASV-level resolution.}{26}{subsection.4.5}%
+\contentsline {paragraph}{Diversity-metric benchmark (addressed).}{26}{subsection.4.5}%
+\contentsline {paragraph}{Single cohort (addressed in part).}{26}{subsection.4.5}%
+\contentsline {paragraph}{Loop attribution completed; biological validation pending.}{27}{subsection.4.5}%
+\contentsline {paragraph}{Inflammatory biomarker data (partially addressed).}{27}{subsection.4.5}%
+\contentsline {paragraph}{Bootstrap non-independence.}{27}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Conclusion}{27}{section.5}%

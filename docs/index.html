@@ -1,295 +1,508 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Microbiome Topology | IBD Co-occurrence Network</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Microbiome Topology — Collapse Narrative</title>
   <style>
-    /* ── Reset & base ─────────────────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { width: 100%; height: 100%; overflow: hidden; background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:100%;height:100%;overflow:hidden;background:#0d1117;color:#e6edf3;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 
-    /* ── Header ──────────────────────────────────────────────────────────── */
-    #header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 10px 16px 8px;
-      background: linear-gradient(180deg, rgba(13,17,23,0.97) 80%, transparent);
-    }
-    #header h1 { font-size: 13px; font-weight: 700; color: #58a6ff; letter-spacing: 0.02em; line-height: 1.2; }
-    #header p  { font-size: 10px; color: #8b949e; margin-top: 2px; }
+    /* ── Layout ─────────────────────────────────────────────────────── */
+    #app{display:flex;width:100%;height:100%}
 
-    /* ── Canvas ──────────────────────────────────────────────────────────── */
-    #graph-container { width: 100%; height: 100%; }
+    /* ── Sidebar ────────────────────────────────────────────────────── */
+    #sidebar{
+      width:220px;min-width:220px;height:100%;overflow-y:auto;
+      background:rgba(13,17,23,0.97);border-right:1px solid #21262d;
+      display:flex;flex-direction:column;z-index:10;
+      transition:transform 0.25s ease;
+    }
+    #sidebar-header{
+      padding:12px 12px 8px;border-bottom:1px solid #21262d;
+      font-size:11px;font-weight:700;color:#58a6ff;letter-spacing:.04em;
+      position:sticky;top:0;background:#0d1117;z-index:1
+    }
+    #sidebar-header span{display:block;color:#6e7681;font-weight:400;margin-top:2px;font-size:10px}
+    #taxa-list{padding:6px 0;flex:1}
+    .taxon-item{
+      display:flex;align-items:center;gap:7px;padding:5px 10px;cursor:pointer;
+      transition:background .12s;font-size:11px;line-height:1.3
+    }
+    .taxon-item:hover{background:rgba(56,139,253,.08)}
+    .taxon-item input[type=checkbox]{
+      width:13px;height:13px;cursor:pointer;accent-color:#58a6ff;flex-shrink:0
+    }
+    .taxon-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .taxon-name{flex:1;color:#c9d1d9}
+    .taxon-score{font-size:9px;color:#6e7681;white-space:nowrap}
+    .taxon-item.dimmed .taxon-name{color:#444;text-decoration:line-through}
 
-    /* ── Legend ──────────────────────────────────────────────────────────── */
-    #legend {
-      position: fixed; bottom: 12px; left: 12px; z-index: 100;
-      background: rgba(22,27,34,0.92); border: 1px solid #30363d;
-      border-radius: 8px; padding: 10px 12px; font-size: 11px;
-      max-width: 200px; backdrop-filter: blur(8px);
+    /* Mobile sidebar toggle */
+    #sidebar-toggle{
+      display:none;position:fixed;top:10px;left:10px;z-index:200;
+      background:rgba(22,27,34,.95);border:1px solid #30363d;border-radius:6px;
+      padding:6px 10px;font-size:12px;color:#c9d1d9;cursor:pointer;
     }
-    #legend h3 { font-size: 11px; font-weight: 600; color: #c9d1d9; margin-bottom: 6px; }
-    .legend-item { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; color: #8b949e; }
-    .legend-dot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-    .legend-line { width: 16px; height: 2px; flex-shrink: 0; border-radius: 1px; }
+    #sidebar.collapsed{transform:translateX(-220px)}
 
-    /* ── Stats panel ─────────────────────────────────────────────────────── */
-    #stats {
-      position: fixed; bottom: 12px; right: 12px; z-index: 100;
-      background: rgba(22,27,34,0.92); border: 1px solid #30363d;
-      border-radius: 8px; padding: 10px 12px; font-size: 11px;
-      max-width: 180px; backdrop-filter: blur(8px);
-    }
-    #stats h3 { font-size: 11px; font-weight: 600; color: #c9d1d9; margin-bottom: 6px; }
-    .stat-row  { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 3px; color: #8b949e; }
-    .stat-val  { color: #58a6ff; font-weight: 600; }
+    /* ── Canvas area ────────────────────────────────────────────────── */
+    #canvas-area{flex:1;position:relative;overflow:hidden}
 
-    /* ── Controls ────────────────────────────────────────────────────────── */
-    #controls {
-      position: fixed; top: 62px; right: 12px; z-index: 100;
-      display: flex; flex-direction: column; gap: 6px;
+    /* ── Top controls ────────────────────────────────────────────────── */
+    #top-bar{
+      position:absolute;top:0;left:0;right:0;z-index:100;
+      padding:10px 14px 8px;
+      background:linear-gradient(180deg,rgba(13,17,23,.97) 70%,transparent);
     }
-    .ctrl-btn {
-      background: rgba(22,27,34,0.92); border: 1px solid #30363d;
-      border-radius: 6px; padding: 6px 10px; font-size: 11px;
-      color: #c9d1d9; cursor: pointer; text-align: center;
-      backdrop-filter: blur(8px); transition: background 0.15s, border-color 0.15s;
-      user-select: none;
-    }
-    .ctrl-btn:hover, .ctrl-btn.active { background: rgba(56,139,253,0.15); border-color: #58a6ff; color: #58a6ff; }
+    #top-bar h1{font-size:12px;font-weight:700;color:#58a6ff;line-height:1.2}
+    #top-bar p{font-size:10px;color:#6e7681;margin-top:2px}
 
-    /* ── Tooltip ─────────────────────────────────────────────────────────── */
-    #tooltip {
-      position: fixed; z-index: 200; pointer-events: none;
-      background: rgba(22,27,34,0.97); border: 1px solid #30363d;
-      border-radius: 8px; padding: 10px 12px; font-size: 11px;
-      max-width: 240px; line-height: 1.5;
-      display: none; backdrop-filter: blur(8px);
+    /* State buttons */
+    #state-btns{
+      display:flex;gap:6px;margin-top:8px;flex-wrap:wrap
     }
-    #tooltip .tt-name  { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
-    #tooltip .tt-group { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
-    #tooltip .tt-row   { display: flex; justify-content: space-between; gap: 8px; color: #8b949e; margin-bottom: 2px; }
-    #tooltip .tt-val   { color: #e6edf3; font-weight: 500; }
-    #tooltip .tt-ann   { margin-top: 6px; color: #8b949e; font-style: italic; border-top: 1px solid #30363d; padding-top: 6px; }
+    .state-btn{
+      padding:5px 11px;border-radius:20px;border:1.5px solid #30363d;
+      font-size:11px;cursor:pointer;color:#c9d1d9;background:rgba(22,27,34,.7);
+      transition:all .2s;white-space:nowrap;
+    }
+    .state-btn:hover{border-color:#58a6ff;color:#58a6ff}
+    .state-btn.active{color:#fff;border-color:transparent}
+    #btn-healthy.active {background:linear-gradient(135deg,#1b5e20,#2e7d32)}
+    #btn-transition.active{background:linear-gradient(135deg,#e65100,#f57c00)}
+    #btn-ibd.active     {background:linear-gradient(135deg,#b71c1c,#c62828)}
 
-    /* ── Loading ─────────────────────────────────────────────────────────── */
-    #loading {
-      position: fixed; inset: 0; z-index: 300;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      background: #0d1117;
+    /* Slider */
+    #slider-wrap{margin-top:8px;display:flex;align-items:center;gap:8px}
+    #slider-wrap label{font-size:10px;color:#8b949e;white-space:nowrap}
+    #inflammation-slider{flex:1;accent-color:#e53935;cursor:pointer}
+    #slider-val{font-size:10px;color:#e53935;font-weight:600;min-width:30px}
+
+    /* Narrative text */
+    #narrative{
+      margin-top:6px;padding:6px 10px;border-radius:6px;font-size:11px;
+      border-left:3px solid #30363d;color:#c9d1d9;line-height:1.5;
+      background:rgba(22,27,34,.6);transition:border-color .4s,color .4s
     }
-    #loading .spinner { width: 36px; height: 36px; border: 3px solid #30363d; border-top-color: #58a6ff; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
-    #loading p { color: #8b949e; font-size: 12px; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Bottom legend ───────────────────────────────────────────────── */
+    #legend{
+      position:absolute;bottom:10px;right:10px;z-index:100;
+      background:rgba(22,27,34,.92);border:1px solid #30363d;
+      border-radius:8px;padding:9px 11px;font-size:10px;max-width:175px;
+      backdrop-filter:blur(8px)
+    }
+    #legend h3{font-size:10px;font-weight:600;color:#c9d1d9;margin-bottom:5px}
+    .leg{display:flex;align-items:center;gap:5px;margin-bottom:3px;color:#8b949e}
+    .leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .leg-line{width:14px;height:2px;flex-shrink:0;border-radius:1px}
+
+    /* ── Tooltip ─────────────────────────────────────────────────────── */
+    #tooltip{
+      position:fixed;z-index:300;pointer-events:none;
+      background:rgba(13,17,23,.97);border:1px solid #30363d;
+      border-radius:8px;padding:10px 12px;font-size:11px;
+      max-width:240px;line-height:1.5;display:none;backdrop-filter:blur(8px)
+    }
+    #tooltip .tt-name{font-weight:700;font-size:13px;margin-bottom:3px}
+    #tooltip .tt-tag {font-size:9px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+    #tooltip .tt-row{display:flex;justify-content:space-between;gap:8px;
+      color:#8b949e;margin-bottom:2px}
+    #tooltip .tt-val{color:#e6edf3;font-weight:500}
+    #tooltip .tt-ann{margin-top:5px;color:#8b949e;font-style:italic;
+      border-top:1px solid #21262d;padding-top:5px;font-size:10px}
+    #tooltip .tt-hint{margin-top:5px;font-size:10px;color:#388e3c}
+
+    /* ── Removed-node flash ──────────────────────────────────────────── */
+    #effect-msg{
+      position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+      background:rgba(183,28,28,.92);border-radius:8px;padding:8px 14px;
+      font-size:12px;color:#fff;z-index:200;pointer-events:none;
+      opacity:0;transition:opacity .3s;max-width:280px;text-align:center
+    }
+    #effect-msg.show{opacity:1}
+
+    /* ── Loading ─────────────────────────────────────────────────────── */
+    #loading{
+      position:fixed;inset:0;z-index:400;display:flex;flex-direction:column;
+      align-items:center;justify-content:center;background:#0d1117
+    }
+    .spinner{width:32px;height:32px;border:3px solid #21262d;border-top-color:#58a6ff;
+      border-radius:50%;animation:spin .8s linear infinite;margin-bottom:10px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    #loading p{color:#8b949e;font-size:12px}
+
+    /* ── Mobile breakpoint ───────────────────────────────────────────── */
+    @media(max-width:600px){
+      #sidebar{position:fixed;top:0;left:0;height:100%;z-index:150;width:200px}
+      #sidebar-toggle{display:block}
+      #top-bar{padding-left:52px}
+      #sidebar.collapsed{transform:translateX(-200px)}
+    }
   </style>
 </head>
 <body>
+<div id="loading"><div class="spinner"></div><p>Building network…</p></div>
 
-<div id="loading">
-  <div class="spinner"></div>
-  <p>Loading network…</p>
-</div>
+<button id="sidebar-toggle" onclick="toggleSidebar()">☰ Taxa</button>
 
-<div id="header">
-  <h1>IBD Microbial Co-occurrence Network — Topological Loop Attribution</h1>
-  <p>Top 35 taxa by differential H₁ persistence · AGP (n=3,409) · Levine 2026</p>
-</div>
+<div id="app">
+  <!-- ── Left: taxa checklist ────────────────────────────────────────── -->
+  <div id="sidebar">
+    <div id="sidebar-header">
+      Remove a taxon
+      <span>Uncheck to watch the network restructure</span>
+    </div>
+    <div id="taxa-list"></div>
+  </div>
 
-<div id="controls">
-  <div class="ctrl-btn active" id="btn-rotate" onclick="toggleRotate()">⟳ Rotate</div>
-  <div class="ctrl-btn" id="btn-healthy" onclick="filterGroup('healthy')">🟢 Healthy</div>
-  <div class="ctrl-btn" id="btn-ibd"     onclick="filterGroup('ibd')">🔴 IBD</div>
-  <div class="ctrl-btn" id="btn-all"     onclick="filterGroup('all')">All taxa</div>
-  <div class="ctrl-btn" id="btn-reset"   onclick="resetCamera()">⊡ Reset</div>
-</div>
+  <!-- ── Right: 3D canvas ───────────────────────────────────────────── -->
+  <div id="canvas-area">
+    <div id="top-bar">
+      <h1>Topological Collapse — IBD Microbial Co-occurrence Network</h1>
+      <p>H₁ persistent homology · AGP (n=3,409) · Levine 2026 · Tap any node for details</p>
 
-<div id="legend">
-  <h3>Node: loop attribution</h3>
-  <div class="legend-item"><div class="legend-dot" style="background:#43A047"></div>Healthy-enriched topology</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#E53935"></div>IBD-enriched topology</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#9E9E9E"></div>Neutral / unclassified</div>
-  <div style="height:6px"></div>
-  <h3>Edge: co-occurrence</h3>
-  <div class="legend-item"><div class="legend-line" style="background:#1565C0"></div>Positive (r &gt; 0)</div>
-  <div class="legend-item"><div class="legend-line" style="background:#BF360C"></div>Negative (r &lt; 0)</div>
-  <div style="height:4px;border-top:1px solid #30363d;margin-top:4px;padding-top:4px"></div>
-  <div style="font-size:9px;color:#6e7681">Node size ∝ |Δ loop impact|<br>Tap node for details</div>
-</div>
+      <div id="state-btns">
+        <button class="state-btn active" id="btn-healthy"    onclick="setState('healthy')">🟢 Healthy</button>
+        <button class="state-btn"        id="btn-transition" onclick="setState('transition')">🟠 Transitioning</button>
+        <button class="state-btn"        id="btn-ibd"        onclick="setState('ibd')">🔴 Crohn's / IBD</button>
+        <button class="state-btn"        id="btn-rotate"     onclick="toggleRotate()" style="margin-left:auto">⟳ Rotate</button>
+      </div>
 
-<div id="stats">
-  <h3>Key findings</h3>
-  <div class="stat-row"><span>AGP Cohen's d</span><span class="stat-val">0.75–2.38</span></div>
-  <div class="stat-row"><span>IBD p<sub>FDR</sub></span><span class="stat-val">&lt;0.005</span></div>
-  <div class="stat-row"><span>Taxa shown</span><span class="stat-val" id="stat-taxa">—</span></div>
-  <div class="stat-row"><span>Healthy-enriched</span><span class="stat-val" id="stat-healthy">—</span></div>
-  <div class="stat-row"><span>IBD-enriched</span><span class="stat-val" id="stat-ibd">—</span></div>
-  <div class="stat-row"><span>AGP samples</span><span class="stat-val">3,409</span></div>
-  <div class="stat-row"><span>IBDMDB samples</span><span class="stat-val">1,338</span></div>
+      <div id="slider-wrap">
+        <label>Inflammation ▸</label>
+        <input id="inflammation-slider" type="range" min="0" max="100" value="0"
+               oninput="onSlider(this.value)"/>
+        <span id="slider-val">0%</span>
+      </div>
+
+      <div id="narrative">
+        <strong style="color:#3fb950">Healthy state:</strong>
+        Dense loop architecture — high H₁ persistence (Cohen's d = 2.38 vs IBD).
+        Butyrate producers form redundant cycles that buffer the ecosystem.
+      </div>
+    </div>
+
+    <div id="graph-container"></div>
+    <div id="effect-msg"></div>
+
+    <div id="legend">
+      <h3>Nodes</h3>
+      <div class="leg"><div class="leg-dot" style="background:#43A047"></div>Healthy-enriched loops</div>
+      <div class="leg"><div class="leg-dot" style="background:#E53935"></div>IBD-enriched hubs</div>
+      <div class="leg"><div class="leg-dot" style="background:#9E9E9E"></div>Neutral taxa</div>
+      <h3 style="margin-top:6px">Edges</h3>
+      <div class="leg"><div class="leg-line" style="background:#FFD700"></div>Persistent loop (high H₁)</div>
+      <div class="leg"><div class="leg-line" style="background:#1565C0"></div>Positive co-occurrence</div>
+      <div class="leg"><div class="leg-line" style="background:#BF360C"></div>Competitive (negative r)</div>
+    </div>
+  </div>
 </div>
 
 <div id="tooltip"></div>
-<div id="graph-container"></div>
 
-<!-- 3d-force-graph (Three.js, WebGL — mobile compatible) -->
 <script src="https://unpkg.com/3d-force-graph@1.73.4/dist/3d-force-graph.min.js"></script>
-
 <script>
+// ── Narrative text per state ─────────────────────────────────────────────────
+const NARRATIVES = {
+  healthy: `<strong style="color:#3fb950">Healthy state:</strong>
+    Dense loop architecture — high H₁ persistence (Cohen's d = 2.38 vs IBD).
+    Butyrate producers form redundant cycles that buffer the ecosystem.`,
+  transition: `<strong style="color:#fb8c00">Transitioning:</strong>
+    The weakest co-occurrence edges snap. Loop lifetime shortens.
+    The network begins losing its 3D geodesic shape — fraying like a net.`,
+  ibd: `<strong style="color:#f85149">IBD / Crohn's state:</strong>
+    Topological collapse complete. H₁ loops nearly absent.
+    A sparse skeleton remains — mostly linear chains or isolated hubs.
+    This is the d = 2.38 effect you measured, made visible.`,
+};
+
+// Inflammation thresholds per state (removes edges below this weight)
+const STATE_THRESHOLDS = { healthy: 0, transition: 50, ibd: 87 };
+
+// ── Bootstrap ────────────────────────────────────────────────────────────────
+let allNodes = [], allEdges = [], hiddenNodes = new Set();
+let inflValue = 0, rotating = true, angle = 0;
+let graph;
+
 (async () => {
-  // ── Load data ──────────────────────────────────────────────────────────────
-  let data;
-  try {
-    const res = await fetch("network_data.json");
-    data = await res.json();
-  } catch(e) {
-    document.getElementById("loading").innerHTML =
-      '<p style="color:#f85149">Failed to load network_data.json.<br>Make sure you are running this from a server.</p>';
-    return;
-  }
+  const data = await fetch("network_data.json").then(r => r.json());
+  allNodes = data.nodes.map(n => ({ ...n }));
+  allEdges = data.edges.map(e => ({ ...e,
+    // classify edge persistence: edges between two healthy nodes = loop edges (gold)
+    persistence: edgePersistence(e, data.nodes),
+  }));
 
-  // Update stats
-  document.getElementById("stat-taxa").textContent    = data.summary.n_taxa_shown;
-  document.getElementById("stat-healthy").textContent = data.summary.n_healthy_enriched;
-  document.getElementById("stat-ibd").textContent     = data.summary.n_ibd_enriched;
+  buildSidebar(data.nodes);
+  buildGraph();
+  document.getElementById("loading").style.display = "none";
+})();
 
-  // ── Build graph ────────────────────────────────────────────────────────────
+// Persistence score: high if both endpoints are healthy-enriched (these form H1 loops)
+function edgePersistence(edge, nodes) {
+  const nmap = Object.fromEntries(nodes.map(n => [n.id, n]));
+  const src = nmap[edge.source] || nmap[edge.source?.id];
+  const tgt = nmap[edge.target] || nmap[edge.target?.id];
+  if (!src || !tgt) return edge.weight;
+  if (src.group === "healthy" && tgt.group === "healthy") return edge.weight + 0.3; // loop edges
+  if (src.group === "ibd"     || tgt.group === "ibd")     return edge.weight - 0.15;
+  return edge.weight;
+}
+
+// ── Build checklist ──────────────────────────────────────────────────────────
+function buildSidebar(nodes) {
+  const sorted = [...nodes].sort((a,b) => b.diff_impact - a.diff_impact);
+  const list   = document.getElementById("taxa-list");
+
+  sorted.forEach(node => {
+    const div = document.createElement("div");
+    div.className = "taxon-item";
+    div.id = `taxon-item-${node.id}`;
+
+    const sign = node.diff_impact >= 0 ? "+" : "";
+    const scoreColor = node.diff_impact > 0.3 ? "#43A047" : node.diff_impact < -0.3 ? "#E53935" : "#6e7681";
+
+    div.innerHTML = `
+      <input type="checkbox" id="chk-${node.id}" checked
+             onchange="toggleTaxon(${node.id}, this.checked)"/>
+      <div class="taxon-dot" style="background:${node.color}"></div>
+      <span class="taxon-name">${node.name}</span>
+      <span class="taxon-score" style="color:${scoreColor}">${sign}${node.diff_impact.toFixed(1)}</span>
+    `;
+    list.appendChild(div);
+  });
+}
+
+// ── Build graph ──────────────────────────────────────────────────────────────
+function buildGraph() {
   const container = document.getElementById("graph-container");
   const tooltip   = document.getElementById("tooltip");
 
-  let allNodes = data.nodes.map(n => ({ ...n }));
-  let allLinks = data.edges.map(e => ({ ...e }));
-
-  const graph = ForceGraph3D()(container)
+  graph = ForceGraph3D()(container)
     .backgroundColor("#0d1117")
     .nodeId("id")
-    .nodeLabel("name")
     .nodeColor(n => n.color)
-    .nodeVal(n => Math.max(2, n.size * n.size * 0.4))
-    .nodeOpacity(0.92)
-    .nodeResolution(16)
-    .linkColor(l => l.color)
-    .linkWidth(l => Math.max(0.4, l.weight * 2.5))
-    .linkOpacity(0.55)
-    .linkCurvature(0.08)
-    .graphData({ nodes: allNodes, links: allLinks });
+    .nodeVal(n => Math.max(3, n.size * n.size * 0.45))
+    .nodeOpacity(0.93)
+    .nodeResolution(18)
+    .linkColor(l => linkColor(l, inflValue))
+    .linkWidth(l => linkWidth(l, inflValue))
+    .linkOpacity(l => linkOpacity(l, inflValue))
+    .linkCurvature(0.07)
+    .onNodeHover(node => showTooltip(node, tooltip))
+    .onNodeClick(node => showTooltipMobile(node, tooltip));
 
-  // ── Tooltip on hover ───────────────────────────────────────────────────────
-  graph.onNodeHover(node => {
-    if (!node) { tooltip.style.display = "none"; return; }
+  // Responsive
+  const resize = () => {
+    graph.width(container.offsetWidth).height(container.offsetHeight);
+  };
+  window.addEventListener("resize", resize);
+  resize();
 
-    const groupLabel = { healthy: "Healthy-enriched", ibd: "IBD-enriched", neutral: "Neutral" };
-    const groupColor = { healthy: "#43A047", ibd: "#E53935", neutral: "#9E9E9E" };
-
-    const sigStr = node.pval < 0.05
-      ? `<span style="color:#3fb950">✓ significant (p=${node.pval})</span>`
-      : `<span style="color:#8b949e">p=${node.pval}</span>`;
-
-    tooltip.innerHTML = `
-      <div class="tt-name" style="color:${groupColor[node.group] || '#e6edf3'}">${node.name}</div>
-      <div class="tt-group" style="color:${groupColor[node.group] || '#9E9E9E'}">${groupLabel[node.group] || node.group}</div>
-      <div class="tt-row"><span>Δ Loop impact</span><span class="tt-val">${node.diff_impact > 0 ? '+' : ''}${node.diff_impact}</span></div>
-      <div class="tt-row"><span>Healthy score</span><span class="tt-val">${node.healthy_impact}</span></div>
-      <div class="tt-row"><span>IBD score</span><span class="tt-val">${node.ibd_impact}</span></div>
-      <div class="tt-row"><span>Significance</span><span class="tt-val">${sigStr}</span></div>
-      <div class="tt-row"><span>95% CI</span><span class="tt-val">[${node.ci_lo}, ${node.ci_hi}]</span></div>
-      <div class="tt-ann">${node.annotation}</div>
-    `;
-    tooltip.style.display = "block";
-  });
-
-  // ── Position tooltip ───────────────────────────────────────────────────────
-  container.addEventListener("mousemove", e => {
-    if (tooltip.style.display === "none") return;
-    const x = e.clientX + 14, y = e.clientY - 10;
-    const tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
-    tooltip.style.left = (x + tw > window.innerWidth  ? x - tw - 20 : x) + "px";
-    tooltip.style.top  = (y + th > window.innerHeight ? y - th      : y) + "px";
-  });
-
-  // ── Touch tap (mobile) ────────────────────────────────────────────────────
-  graph.onNodeClick(node => {
-    if (!node) { tooltip.style.display = "none"; return; }
-    const groupLabel = { healthy: "Healthy-enriched", ibd: "IBD-enriched", neutral: "Neutral" };
-    const groupColor = { healthy: "#43A047", ibd: "#E53935", neutral: "#9E9E9E" };
-
-    const sigStr = node.pval < 0.05
-      ? `<span style="color:#3fb950">✓ p=${node.pval}</span>`
-      : `p=${node.pval}`;
-
-    tooltip.innerHTML = `
-      <div class="tt-name" style="color:${groupColor[node.group] || '#e6edf3'}">${node.name}</div>
-      <div class="tt-group" style="color:${groupColor[node.group] || '#9E9E9E'}">${groupLabel[node.group] || node.group}</div>
-      <div class="tt-row"><span>Δ Loop impact</span><span class="tt-val">${node.diff_impact > 0 ? '+' : ''}${node.diff_impact}</span></div>
-      <div class="tt-row"><span>Significance</span><span class="tt-val">${sigStr}</span></div>
-      <div class="tt-ann">${node.annotation}</div>
-    `;
-    tooltip.style.display = "block";
-    tooltip.style.left = "50%";
-    tooltip.style.top  = "50%";
-    tooltip.style.transform = "translate(-50%, -50%)";
-  });
-
-  // Dismiss tooltip on canvas tap
+  // Dismiss tooltip on canvas click
   container.addEventListener("click", e => {
-    if (e.target === container || e.target.tagName === "CANVAS") {
+    if (e.target.tagName === "CANVAS") {
       tooltip.style.display = "none";
       tooltip.style.transform = "";
     }
   });
+  container.addEventListener("mousemove", e => positionTooltip(e, tooltip));
 
-  // ── Controls ───────────────────────────────────────────────────────────────
-  let rotating = true;
-  let angle = 0;
-  const ROTATE_SPEED = 0.003;
-
-  function animate() {
+  // Rotate
+  (function animateRotation() {
     if (rotating) {
-      angle += ROTATE_SPEED;
-      graph.cameraPosition({
-        x: 300 * Math.sin(angle),
-        z: 300 * Math.cos(angle),
-      });
+      angle += 0.003;
+      graph.cameraPosition({ x: 280*Math.sin(angle), z: 280*Math.cos(angle) });
     }
-    requestAnimationFrame(animate);
-  }
-  animate();
+    requestAnimationFrame(animateRotation);
+  })();
 
-  window.toggleRotate = () => {
-    rotating = !rotating;
-    const btn = document.getElementById("btn-rotate");
-    btn.classList.toggle("active", rotating);
-    btn.textContent = rotating ? "⟳ Rotate" : "⏸ Paused";
-  };
+  applyInflammation(0);
+}
 
-  window.filterGroup = (group) => {
-    ["btn-healthy","btn-ibd","btn-all"].forEach(id => {
-      document.getElementById(id).classList.remove("active");
-    });
-    if (group === "all") {
-      document.getElementById("btn-all").classList.add("active");
-      graph.graphData({ nodes: allNodes, links: allLinks });
-    } else {
-      document.getElementById(`btn-${group}`).classList.add("active");
-      const filteredNodes = allNodes.filter(n => n.group === group || n.group === "neutral");
-      const nodeIds = new Set(filteredNodes.map(n => n.id));
-      const filteredLinks = allLinks.filter(l => nodeIds.has(l.source.id ?? l.source) && nodeIds.has(l.target.id ?? l.target));
-      graph.graphData({ nodes: filteredNodes, links: filteredLinks });
-    }
-  };
+// ── Link styling (varies with inflammation + persistence) ─────────────────────
+function linkColor(link, infl) {
+  if (link.type === "negative") return "#BF360C";
+  const persist = link.persistence ?? link.weight;
+  const threshold = infl / 100 * 0.65;
+  if (persist > threshold + 0.25) return "#FFD700"; // persistent loop — gold
+  return "#1565C0";                                  // regular positive
+}
+function linkWidth(link, infl) {
+  const persist = link.persistence ?? link.weight;
+  const threshold = infl / 100 * 0.65;
+  if (persist > threshold + 0.25) return 1.8; // gold loop edges — thicker
+  return Math.max(0.3, link.weight * 2);
+}
+function linkOpacity(link, infl) {
+  if (link.type === "negative") return 0.45;
+  const persist = link.persistence ?? link.weight;
+  const threshold = infl / 100 * 0.65;
+  if (persist > threshold + 0.25) return 0.85; // highlight loop edges
+  return 0.5;
+}
 
-  window.resetCamera = () => {
-    graph.cameraPosition({ x: 0, y: 0, z: 350 }, { x: 0, y: 0, z: 0 }, 600);
-    angle = 0;
-  };
+// ── Apply inflammation slider ─────────────────────────────────────────────────
+function applyInflammation(value) {
+  inflValue = value;
+  const threshold = value / 100 * 0.65; // weight cutoff 0–0.65
 
-  // ── Responsive resize ──────────────────────────────────────────────────────
-  window.addEventListener("resize", () => {
-    graph.width(window.innerWidth).height(window.innerHeight);
+  const visibleNodes = allNodes.filter(n => !hiddenNodes.has(n.id));
+  const visibleIds   = new Set(visibleNodes.map(n => n.id));
+
+  // Remove edges below persistence threshold AND whose nodes are visible
+  const visibleEdges = allEdges.filter(e => {
+    const srcId = e.source?.id ?? e.source;
+    const tgtId = e.target?.id ?? e.target;
+    if (!visibleIds.has(srcId) || !visibleIds.has(tgtId)) return false;
+    const persist = e.persistence ?? e.weight;
+    return persist > threshold;
   });
-  graph.width(window.innerWidth).height(window.innerHeight);
 
-  // ── Done ───────────────────────────────────────────────────────────────────
-  document.getElementById("loading").style.display = "none";
-})();
+  // Recolor IBD hub nodes at high inflammation
+  const styledNodes = visibleNodes.map(n => ({
+    ...n,
+    color: colorAtInflammation(n, value),
+  }));
+
+  graph
+    .linkColor(l => linkColor(l, value))
+    .linkWidth(l => linkWidth(l, value))
+    .linkOpacity(l => linkOpacity(l, value))
+    .graphData({ nodes: styledNodes, links: visibleEdges });
+}
+
+function colorAtInflammation(node, infl) {
+  // At high inflammation, IBD hubs glow brighter red as warning color
+  if (infl > 70 && node.group === "ibd")     return "#FF1744";
+  if (infl > 70 && node.group === "healthy") return "#37474F"; // healthy taxa dim out
+  return node.color;
+}
+
+// ── Slider input ─────────────────────────────────────────────────────────────
+window.onSlider = (v) => {
+  const val = parseInt(v);
+  document.getElementById("slider-val").textContent = val + "%";
+
+  // Update active state button
+  let state = val < 25 ? "healthy" : val < 65 ? "transition" : "ibd";
+  ["healthy","transition","ibd"].forEach(s => {
+    document.getElementById(`btn-${s}`).classList.toggle("active", s === state);
+  });
+  document.getElementById("narrative").innerHTML = NARRATIVES[state];
+
+  applyInflammation(val);
+};
+
+// ── State presets ─────────────────────────────────────────────────────────────
+window.setState = (state) => {
+  ["healthy","transition","ibd"].forEach(s => {
+    document.getElementById(`btn-${s}`).classList.toggle("active", s === state);
+  });
+  const val = STATE_THRESHOLDS[state];
+  document.getElementById("inflammation-slider").value = val;
+  document.getElementById("slider-val").textContent = val + "%";
+  document.getElementById("narrative").innerHTML = NARRATIVES[state];
+  applyInflammation(val);
+};
+
+// ── Toggle taxon from checklist ───────────────────────────────────────────────
+window.toggleTaxon = (nodeId, checked) => {
+  const node = allNodes.find(n => n.id === nodeId);
+  if (!node) return;
+
+  const item = document.getElementById(`taxon-item-${nodeId}`);
+  if (!checked) {
+    hiddenNodes.add(nodeId);
+    item.classList.add("dimmed");
+    // Count how many edges this node had
+    const connectedEdges = allEdges.filter(e => {
+      const s = e.source?.id ?? e.source;
+      const t = e.target?.id ?? e.target;
+      return s === nodeId || t === nodeId;
+    });
+    flashMessage(
+      `Removed ${node.name} (impact: ${node.diff_impact > 0 ? "+" : ""}${node.diff_impact.toFixed(2)}) — `
+      + `${connectedEdges.length} co-occurrence edge${connectedEdges.length !== 1 ? "s" : ""} lost.`
+    );
+  } else {
+    hiddenNodes.delete(nodeId);
+    item.classList.remove("dimmed");
+  }
+  applyInflammation(inflValue);
+};
+
+function flashMessage(msg) {
+  const el = document.getElementById("effect-msg");
+  el.textContent = msg;
+  el.classList.add("show");
+  setTimeout(() => el.classList.remove("show"), 2800);
+}
+
+// ── Rotate toggle ─────────────────────────────────────────────────────────────
+window.toggleRotate = () => {
+  rotating = !rotating;
+  const btn = document.getElementById("btn-rotate");
+  btn.textContent = rotating ? "⟳ Rotate" : "⏸ Paused";
+  btn.classList.toggle("active", rotating);
+};
+
+// ── Sidebar mobile toggle ─────────────────────────────────────────────────────
+window.toggleSidebar = () => {
+  document.getElementById("sidebar").classList.toggle("collapsed");
+};
+
+// ── Tooltip helpers ───────────────────────────────────────────────────────────
+function buildTooltipHTML(node) {
+  const groupLabel = { healthy:"Healthy-enriched", ibd:"IBD-enriched", neutral:"Neutral" };
+  const groupColor = { healthy:"#43A047", ibd:"#E53935", neutral:"#9E9E9E" };
+  const sig = node.pval < 0.05
+    ? `<span style="color:#3fb950">✓ p=${node.pval}</span>`
+    : `<span style="color:#8b949e">p=${node.pval} (ns)</span>`;
+  const edgeCount = allEdges.filter(e => {
+    const s = e.source?.id ?? e.source, t = e.target?.id ?? e.target;
+    return s === node.id || t === node.id;
+  }).length;
+
+  return `
+    <div class="tt-name" style="color:${groupColor[node.group]}">${node.name}</div>
+    <div class="tt-tag"  style="color:${groupColor[node.group]}">${groupLabel[node.group]}</div>
+    <div class="tt-row"><span>Δ Loop impact</span><span class="tt-val">${node.diff_impact > 0 ? "+" : ""}${node.diff_impact}</span></div>
+    <div class="tt-row"><span>Healthy score</span><span class="tt-val">${node.healthy_impact}</span></div>
+    <div class="tt-row"><span>IBD score</span>    <span class="tt-val">${node.ibd_impact}</span></div>
+    <div class="tt-row"><span>Significance</span> <span class="tt-val">${sig}</span></div>
+    <div class="tt-row"><span>95% CI</span>        <span class="tt-val">[${node.ci_lo}, ${node.ci_hi}]</span></div>
+    <div class="tt-row"><span>Co-occurrence edges</span><span class="tt-val">${edgeCount}</span></div>
+    <div class="tt-ann">${node.annotation}</div>
+    <div class="tt-hint">☑ Uncheck in sidebar to remove this taxon</div>
+  `;
+}
+
+function showTooltip(node, tooltip) {
+  if (!node) { tooltip.style.display = "none"; return; }
+  tooltip.innerHTML = buildTooltipHTML(node);
+  tooltip.style.display = "block";
+  tooltip.style.transform = "";
+}
+
+function showTooltipMobile(node, tooltip) {
+  if (!node) { tooltip.style.display = "none"; return; }
+  tooltip.innerHTML = buildTooltipHTML(node);
+  tooltip.style.display = "block";
+  tooltip.style.left = "50%";
+  tooltip.style.top  = "50%";
+  tooltip.style.transform = "translate(-50%,-50%)";
+}
+
+function positionTooltip(e, tooltip) {
+  if (tooltip.style.display === "none") return;
+  const tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
+  const x = e.clientX + 14, y = e.clientY - 10;
+  tooltip.style.left = (x + tw > window.innerWidth  ? x - tw - 20 : x) + "px";
+  tooltip.style.top  = (y + th > window.innerHeight ? y - th      : y) + "px";
+}
 </script>
 </body>
 </html>

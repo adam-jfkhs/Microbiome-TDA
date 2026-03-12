@@ -230,8 +230,11 @@ let graph;
 (async () => {
   const data = await fetch("network_data.json").then(r => r.json());
   allNodes = data.nodes.map(n => ({ ...n }));
-  allEdges = data.edges.map(e => ({ ...e,
-    // classify edge persistence: edges between two healthy nodes = loop edges (gold)
+  allEdges = data.edges.map(e => ({
+    ...e,
+    // Freeze original IDs before 3d-force-graph mutates source/target to objects
+    _src: e.source,
+    _tgt: e.target,
     persistence: edgePersistence(e, data.nodes),
   }));
 
@@ -352,13 +355,10 @@ function applyInflammation(value) {
   const visibleNodes = allNodes.filter(n => !hiddenNodes.has(n.id));
   const visibleIds   = new Set(visibleNodes.map(n => n.id));
 
-  // Remove edges below persistence threshold AND whose nodes are visible
+  // Use frozen _src/_tgt IDs (3d-force-graph mutates source/target to objects)
   const visibleEdges = allEdges.filter(e => {
-    const srcId = e.source?.id ?? e.source;
-    const tgtId = e.target?.id ?? e.target;
-    if (!visibleIds.has(srcId) || !visibleIds.has(tgtId)) return false;
-    const persist = e.persistence ?? e.weight;
-    return persist > threshold;
+    if (!visibleIds.has(e._src) || !visibleIds.has(e._tgt)) return false;
+    return (e.persistence ?? e.weight) > threshold;
   });
 
   // Recolor IBD hub nodes at high inflammation
@@ -418,11 +418,7 @@ window.toggleTaxon = (nodeId, checked) => {
     hiddenNodes.add(nodeId);
     item.classList.add("dimmed");
     // Count how many edges this node had
-    const connectedEdges = allEdges.filter(e => {
-      const s = e.source?.id ?? e.source;
-      const t = e.target?.id ?? e.target;
-      return s === nodeId || t === nodeId;
-    });
+    const connectedEdges = allEdges.filter(e => e._src === nodeId || e._tgt === nodeId);
     flashMessage(
       `Removed ${node.name} (impact: ${node.diff_impact > 0 ? "+" : ""}${node.diff_impact.toFixed(2)}) — `
       + `${connectedEdges.length} co-occurrence edge${connectedEdges.length !== 1 ? "s" : ""} lost.`
@@ -461,10 +457,7 @@ function buildTooltipHTML(node) {
   const sig = node.pval < 0.05
     ? `<span style="color:#3fb950">✓ p=${node.pval}</span>`
     : `<span style="color:#8b949e">p=${node.pval} (ns)</span>`;
-  const edgeCount = allEdges.filter(e => {
-    const s = e.source?.id ?? e.source, t = e.target?.id ?? e.target;
-    return s === node.id || t === node.id;
-  }).length;
+  const edgeCount = allEdges.filter(e => e._src === node.id || e._tgt === node.id).length;
 
   return `
     <div class="tt-name" style="color:${groupColor[node.group]}">${node.name}</div>

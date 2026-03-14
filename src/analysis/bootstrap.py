@@ -14,6 +14,8 @@ Effect sizes (Cohen's d) reported here are computed on per-iteration
 bootstrap-distribution values (200 values per group), not on the original
 sample-level observations.  This measures the effect size of the group-level
 network topology difference, which is the quantity of biological interest.
+When citing these values in a paper, note them as "bootstrap Cohen's d" to
+distinguish from conventional sample-level effect sizes.
 """
 
 import time

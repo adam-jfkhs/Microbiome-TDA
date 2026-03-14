@@ -77,12 +77,16 @@ def load_ibdmdb():
 
 
 def clr_transform(df):
-    """Row-wise CLR on relative abundances."""
-    ra = df.div(df.sum(axis=1), axis=0)
-    ra = ra.replace(0, np.nan)
-    log_ra = np.log(ra)
-    gm = log_ra.mean(axis=1)
-    return log_ra.subtract(gm, axis=0).fillna(0)
+    """Row-wise CLR on relative abundances with +0.5 pseudocount.
+
+    Uses the same pseudocount approach as src/data/preprocess.py to ensure
+    consistency across all analyses in this repo.
+    """
+    data = df.values + 0.5
+    log_data = np.log(data)
+    geo_mean = log_data.mean(axis=1, keepdims=True)
+    clr_data = log_data - geo_mean
+    return pd.DataFrame(clr_data, index=df.index, columns=df.columns)
 
 
 def select_taxa(tax_df, sample_ids, n=N_TAXA):

@@ -177,6 +177,11 @@ def compute_topology_features(clr_matrix: np.ndarray, k: int = K_NEIGHBOURS) -> 
     For sample i: find k nearest neighbours → Spearman correlation on those k
     neighbours × 80 taxa → distance matrix d = 1 − |r| → Ripser H₁ → 6 scalars.
 
+    Note (transductive computation): features are computed on the full dataset
+    before cross-validation; the k-NN neighbourhood for sample i may include
+    test-fold samples.  Labels are never observed during feature extraction, so
+    this is not label leakage, but should be disclosed in the Methods section.
+
     Returns ndarray (n_samples, 6).
     """
     n_samples = clr_matrix.shape[0]

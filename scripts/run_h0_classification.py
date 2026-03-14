@@ -123,6 +123,11 @@ def compute_h0h1_features(clr_matrix: np.ndarray, k: int = K_NEIGHBOURS) -> np.n
     """Per-sample 10-feature vector: [4 H₀ | 6 H₁].
 
     Same k-NN neighbourhood approach as existing benchmark.
+
+    Note (transductive computation): features are computed on the full dataset
+    before cross-validation; the k-NN neighbourhood for sample i may include
+    test-fold samples.  Labels are never observed during feature extraction, so
+    this is not label leakage, but should be disclosed in the Methods section.
     """
     n = clr_matrix.shape[0]
     out = np.zeros((n, 10), dtype=np.float32)

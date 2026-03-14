@@ -219,6 +219,53 @@ The entire pipeline (global taxa selection, paired bootstrap, sign-flip
 permutation, FDR correction, matched replication) was executed at
 $N \in \{50, 80, 120\}$ without alteration to any other parameter.
 
+\subsection{Classification benchmark}
+\label{subsec:classification}
+
+To situate the topological features within the broader predictive-modelling
+literature, we benchmarked nine feature sets against each other for
+binary IBD classification (healthy vs.\ IBD-positive):
+\begin{enumerate}[leftmargin=*, itemsep=2pt]
+  \item Shannon diversity only.
+  \item Topology only (6 $H_1$ scalars, per-sample k-NN neighbourhood TDA).
+  \item Topology + Shannon.
+  \item Aitchison PCoA(10): top-10 principal coordinates of the Euclidean
+        distance on CLR-80.
+  \item Bray--Curtis PCoA(10): top-10 principal coordinates of Bray--Curtis
+        dissimilarity on relative abundances of the same 80 taxa.
+  \item Aitchison PCoA + Topology.
+  \item Bray--Curtis PCoA + Topology.
+  \item Aitchison PCoA + Topology + Shannon.
+  \item Bray--Curtis PCoA + Topology + Shannon.
+\end{enumerate}
+
+\paragraph{Nested PCoA (no test-fold leakage).}
+For each cross-validation fold, PCoA was fitted on the training-fold distance
+matrix only. Test samples were projected into the training eigenvector space
+via Gower's~\citeyearpar{gower1968adding} out-of-sample formula, ensuring no
+test-fold information enters the feature representation.
+
+\paragraph{Cross-validation protocol.}
+All classifiers were evaluated with 5-fold stratified cross-validation
+(seed = 42).
+Two classifier families were used: $L_2$-penalised logistic regression and
+random forest (scikit-learn defaults).
+Features were standardised within each fold using a \texttt{StandardScaler}
+fitted on training samples only.
+Performance is reported as area under the receiver-operating curve
+(AUC-ROC), averaged across folds.
+
+\paragraph{Per-sample topology and transductive design note.}
+Per-sample $H_1$ features were computed using a $k$-nearest-neighbour
+neighbourhood ($k = 60$) constructed from the full sample set prior to
+cross-validation splitting.
+Consequently, test-sample neighbourhoods include training samples.
+This is a transductive rather than inductive design: labels are never
+seen during feature computation, so there is no label leakage, but the
+features are not strictly out-of-sample.
+All AUC values for topology-containing feature sets should be interpreted
+under this constraint.
+
 \subsection{Implementation and reproducibility}
 \label{subsec:repro}
 

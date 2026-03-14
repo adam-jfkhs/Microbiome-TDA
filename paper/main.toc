@@ -14,33 +14,37 @@
 \contentsline {paragraph}{FDR policy (pre-specified).}{9}{equation.2.3}%
 \contentsline {subsection}{\numberline {2.9}Covariate matching}{9}{subsection.2.9}%
 \contentsline {subsection}{\numberline {2.10}Taxa-size sensitivity}{9}{subsection.2.10}%
-\contentsline {subsection}{\numberline {2.11}Implementation and reproducibility}{10}{subsection.2.11}%
-\contentsline {section}{\numberline {3}Results}{10}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Cohort structure and group partitioning}{10}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}IBD is associated with systematic attenuation of co-occurrence loop structure}{10}{subsection.3.2}%
-\contentsline {paragraph}{Comparison with Shannon $\alpha $-diversity.}{12}{table.caption.3}%
-\contentsline {subsection}{\numberline {3.3}Plant-based diet: fewer but more tenacious co-occurrence cycles}{13}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Antibiotic recency: an inconclusive topological signal}{13}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}Taxa-set sensitivity demonstrates IBD robustness and ABX fragility}{14}{subsection.3.5}%
-\contentsline {subsection}{\numberline {3.6}Independent validation in IBDMDB: replication and biomarker grounding}{14}{subsection.3.6}%
-\contentsline {paragraph}{Implications for the IBDMDB validation.}{16}{table.caption.8}%
-\contentsline {subsection}{\numberline {3.7}Leave-one-out attribution identifies taxon-specific topological anchors}{18}{subsection.3.7}%
-\contentsline {subsection}{\numberline {3.8}Classification benchmark: topology vs.\ $\alpha $- and $\beta $-diversity}{20}{subsection.3.8}%
-\contentsline {paragraph}{Feature sets and methods.}{20}{subsection.3.8}%
-\contentsline {paragraph}{Results.}{21}{table.caption.13}%
-\contentsline {paragraph}{Predictive vs.\ interpretive value.}{21}{table.caption.13}%
-\contentsline {paragraph}{Precision-recall analysis and threshold-dependent metrics.}{22}{figure.caption.14}%
-\contentsline {section}{\numberline {4}Discussion}{24}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Loop collapse as a structural correlate of IBD dysbiosis}{24}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Structural reorganization versus abundance enrichment in diet}{25}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}The antibiotic null}{25}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Relation to prior topological analyses of microbiome data}{26}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}Limitations}{26}{subsection.4.5}%
-\contentsline {paragraph}{Cross-sectional topology.}{26}{subsection.4.5}%
-\contentsline {paragraph}{ASV-level resolution.}{26}{subsection.4.5}%
-\contentsline {paragraph}{Diversity-metric benchmark (addressed).}{26}{subsection.4.5}%
-\contentsline {paragraph}{Single cohort (addressed in part).}{26}{subsection.4.5}%
-\contentsline {paragraph}{Loop attribution completed; biological validation pending.}{27}{subsection.4.5}%
-\contentsline {paragraph}{Inflammatory biomarker data (partially addressed).}{27}{subsection.4.5}%
-\contentsline {paragraph}{Bootstrap non-independence.}{27}{subsection.4.5}%
-\contentsline {section}{\numberline {5}Conclusion}{27}{section.5}%
+\contentsline {subsection}{\numberline {2.11}Classification benchmark}{10}{subsection.2.11}%
+\contentsline {paragraph}{Nested PCoA (no test-fold leakage).}{10}{Item.19}%
+\contentsline {paragraph}{Cross-validation protocol.}{10}{Item.19}%
+\contentsline {paragraph}{Per-sample topology and transductive design note.}{10}{Item.19}%
+\contentsline {subsection}{\numberline {2.12}Implementation and reproducibility}{10}{subsection.2.12}%
+\contentsline {section}{\numberline {3}Results}{11}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Cohort structure and group partitioning}{11}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}IBD is associated with systematic attenuation of co-occurrence loop structure}{11}{subsection.3.2}%
+\contentsline {paragraph}{Comparison with Shannon $\alpha $-diversity.}{13}{table.caption.3}%
+\contentsline {subsection}{\numberline {3.3}Plant-based diet: fewer but more tenacious co-occurrence cycles}{14}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Antibiotic recency: an inconclusive topological signal}{14}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Taxa-set sensitivity demonstrates IBD robustness and ABX fragility}{15}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Independent validation in IBDMDB: replication and biomarker grounding}{15}{subsection.3.6}%
+\contentsline {paragraph}{Implications for the IBDMDB validation.}{17}{table.caption.8}%
+\contentsline {subsection}{\numberline {3.7}Leave-one-out attribution identifies taxon-specific topological anchors}{19}{subsection.3.7}%
+\contentsline {subsection}{\numberline {3.8}Classification benchmark: topology vs.\ $\alpha $- and $\beta $-diversity}{21}{subsection.3.8}%
+\contentsline {paragraph}{Feature sets and methods.}{21}{subsection.3.8}%
+\contentsline {paragraph}{Results.}{22}{table.caption.13}%
+\contentsline {paragraph}{Predictive vs.\ interpretive value.}{22}{table.caption.13}%
+\contentsline {paragraph}{Precision-recall analysis and threshold-dependent metrics.}{23}{figure.caption.14}%
+\contentsline {section}{\numberline {4}Discussion}{25}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Loop collapse as a structural correlate of IBD dysbiosis}{25}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Structural reorganization versus abundance enrichment in diet}{26}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}The antibiotic null}{26}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Relation to prior topological analyses of microbiome data}{27}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Limitations}{27}{subsection.4.5}%
+\contentsline {paragraph}{Cross-sectional topology.}{27}{subsection.4.5}%
+\contentsline {paragraph}{ASV-level resolution.}{27}{subsection.4.5}%
+\contentsline {paragraph}{Diversity-metric benchmark (addressed).}{27}{subsection.4.5}%
+\contentsline {paragraph}{Single cohort (addressed in part).}{27}{subsection.4.5}%
+\contentsline {paragraph}{Loop attribution completed; biological validation pending.}{28}{subsection.4.5}%
+\contentsline {paragraph}{Inflammatory biomarker data (partially addressed).}{28}{subsection.4.5}%
+\contentsline {paragraph}{Bootstrap non-independence.}{28}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Conclusion}{28}{section.5}%

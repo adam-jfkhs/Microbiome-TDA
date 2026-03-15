@@ -267,12 +267,19 @@ edited, and approved by the author prior to submission.
 %─────────────────────────────────────────────────────────────────────────────
 \section*{Data and Code Availability}
 
-All code, download scripts, result CSVs, and figure generation notebooks
+All code, download scripts, result CSVs, and figure generation scripts
 are publicly available at
 \url{https://github.com/adam-jfkhs/Microbiome-TDA}.
-Primary analysis entry points are
-\texttt{scripts/run\_agp\_bootstrap\_v2.py} (main bootstrap pipeline)
-and \texttt{scripts/run\_taxa\_sensitivity.py} (taxon-set sensitivity analysis).
+Primary analysis entry points:
+\texttt{run\_agp\_bootstrap\_v2.py} (main bootstrap pipeline),
+\texttt{run\_taxa\_sensitivity.py} (taxon-set sensitivity),
+\texttt{run\_ibdmdb\_bootstrap.py} (IBDMDB replication),
+\texttt{run\_loop\_attribution.py} and \texttt{run\_ibdmdb\_loop\_attribution.py}
+(taxon attribution),
+\texttt{run\_classification\_benchmark\_v2.py} and
+\texttt{run\_precision\_recall\_analysis.py} (classification benchmark),
+\texttt{run\_h0\_classification.py} ($H_0$ fragmentation features),
+and \texttt{run\_preflare\_pilot.py} (longitudinal pilot).
 The American Gut Project (AGP) data used in this study are publicly
 available via the European Nucleotide Archive (accession ERP012803) and
 through the redbiom query interface (\url{https://redbiom.readthedocs.io}).
@@ -285,7 +292,10 @@ The IBDMDB validation data are available at \url{https://ibdmdb.org}.
 
 \setcounter{figure}{0}
 \renewcommand{\thefigure}{S\arabic{figure}}
+\setcounter{table}{0}
+\renewcommand{\thetable}{S\arabic{table}}
 
+%─── S1: Sensitivity heatmap ────────────────────────────────────────────────
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figures/sensitivity_matched_heatmap.png}
@@ -307,6 +317,235 @@ The IBDMDB validation data are available at \url{https://ibdmdb.org}.
   }
   \label{fig:S1}
 \end{figure}
+
+%─── S2: Persistence diagrams ───────────────────────────────────────────────
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/agp_persistence_diagrams.png}
+  \caption{%
+    \textbf{Supplementary Figure~S2: Representative \Hone\ persistence
+    diagrams for AGP healthy and IBD groups.}
+    Each point represents a single topological feature (a co-occurrence
+    loop) born at correlation distance $b$ (x-axis) and dying at
+    distance $d$ (y-axis).
+    Longer-lived features (larger $d - b$) lie further above the diagonal.
+    Healthy microbiomes (blue) accumulate more features and have greater
+    total off-diagonal mass than IBD microbiomes (red), visually
+    confirming the loop-collapse signal quantified in the scalar
+    features.
+    Diagrams were computed by Ripser on the Vietoris--Rips filtration of
+    the CLR-Spearman distance matrix for a representative bootstrap
+    iteration at $N = 80$ taxa.
+  }
+  \label{fig:S2}
+\end{figure}
+
+%─── S3: Betti curves ───────────────────────────────────────────────────────
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/agp_betti_curves.png}
+  \caption{%
+    \textbf{Supplementary Figure~S3: Betti-1 curves across the Vietoris--Rips
+    filtration (AGP, $N = 80$ taxa).}
+    The Betti-1 number (count of active loops) is plotted against
+    correlation distance threshold for healthy (blue) and IBD (red)
+    groups, averaged over 200 bootstrap iterations.
+    Shaded bands are $\pm 1$ SD.
+    The healthy curve peaks at a higher value and persists at elevated
+    levels over a wider range of thresholds, consistent with a
+    co-occurrence network that contains more and longer-lived cycles.
+    The gap between curves is largest at intermediate thresholds
+    ($r \approx 0.4$--$0.6$), corresponding to the medium-strength
+    co-occurrence partnerships that are selectively disrupted in IBD.
+  }
+  \label{fig:S3}
+\end{figure}
+
+%─── S4: H0+H1 ROC curves ───────────────────────────────────────────────────
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/h0h1_roc.png}
+  \caption{%
+    \textbf{Supplementary Figure~S4: ROC curves for $H_0 + H_1$
+    classification (logistic regression, 5-fold CV, AGP).}
+    Adding $H_0$ fragmentation features to $H_1$ loop features yields
+    AUC $= 0.674$, a negligible improvement over $H_1$ alone ($0.671$)
+    and below Aitchison-PCoA(10) ($0.694$).
+    The two topological dimensions share predictive information,
+    consistent with fragmentation and loop collapse being faces of the
+    same dysbiotic reorganisation rather than independent phenomena.
+    See Section~\ref{subsec:h0_features} for numerical results.
+  }
+  \label{fig:S4}
+\end{figure}
+
+%─── S5: IBDMDB extended figures ────────────────────────────────────────────
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/ibdmdb_ibd_vs_nonibd.png}
+  \caption{%
+    \textbf{Supplementary Figure~S5: IBDMDB full-dataset IBD
+    vs.\ non-IBD bootstrap distributions.}
+    Same format as Figure~2 (main text).
+    All six features are FDR-significant ($p_\text{FDR} = 0.003$) using
+    all 1,338 longitudinal timepoints (no subject deduplication).
+    Cf.\ the one-sample-per-subject sensitivity check
+    (Table~4 in main text), which reverses the direction of effect for
+    five of six features, exposing a sampling-frequency artefact.
+  }
+  \label{fig:S5}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/ibdmdb_cd_vs_nonibd.png}
+  \caption{%
+    \textbf{Supplementary Figure~S6: IBDMDB Crohn's disease vs.\
+    non-IBD bootstrap distributions.}
+    Crohn's disease produces the strongest topological signal in the
+    IBDMDB cohort ($d = -0.56$ to $-1.50$; all 6 features
+    FDR-significant), consistent with the broader literature showing
+    deeper and more diffuse microbial disruption in Crohn's relative
+    to ulcerative colitis.
+  }
+  \label{fig:S6}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/ibdmdb_high_vs_low_calprotectin.png}
+  \caption{%
+    \textbf{Supplementary Figure~S7: IBDMDB high vs.\ low fecal
+    calprotectin bootstrap distributions.}
+    High calprotectin ($\geq 250\,\mu\text{g/g}$; $n = 60$) vs.\
+    low ($< 50\,\mu\text{g/g}$; $n = 189$).
+    The pattern is directionally complex: fewer loops (H1 count
+    $d = -1.27^\star$) but longer-lived individual loops
+    (mean lifetime $d = +3.51^\star$; max lifetime $d = +1.98^\star$)
+    at high calprotectin.
+    The large lifetime effect sizes should be interpreted as upper
+    bounds owing to near-exhaustive resampling of the small
+    high-calprotectin group ($n = 60$).
+  }
+  \label{fig:S7}
+\end{figure}
+
+%─── S6: Loop attribution heatmap ───────────────────────────────────────────
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/loop_attribution_heatmap.png}
+  \caption{%
+    \textbf{Supplementary Figure~S8: Per-taxon, per-feature leave-one-out
+    topological impact heatmap (AGP, $N = 80$ taxa, top 20 by composite
+    score).}
+    Rows are taxa; columns are the six \Hone\ scalar features.
+    Cell values show the standardised differential impact
+    (healthy minus IBD, z-scored across taxa).
+    \textit{Oscillospira} and \textit{Blautia} rank highest on multiple
+    features simultaneously, indicating that their co-occurrence
+    partnerships are critical across all dimensions of loop structure
+    rather than a single topological statistic.
+  }
+  \label{fig:S8}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\textwidth]{figures/ibdmdb_loop_attribution_top20.png}
+  \caption{%
+    \textbf{Supplementary Figure~S9: Top 20 differential topological
+    anchors (IBDMDB WGS, MetaPhlAn2 species).}
+    Same format as Figure~8 (main text; AGP 16S).
+    \textit{Bacteroides finegoldii} ranks first; five of the top 13
+    anchors are \textit{Bacteroides}-clade species, reflecting the
+    complementary sensitivity of WGS to 16S in resolving
+    \textit{Bacteroides} at species level.
+    Seven genera overlap with the AGP top-20 anchor list
+    (orange bars).
+  }
+  \label{fig:S9}
+\end{figure}
+
+%─── S1: Parameter sensitivity table ────────────────────────────────────────
+\begin{table}[H]
+\centering
+\caption{%
+  \textbf{Supplementary Table~S1: Complete taxon-set sensitivity results
+  for the IBD comparison (AGP).}
+  Cohen's $d$ (IBD $-$ healthy; all values negative) and FDR-adjusted
+  $p$-values across $N \in \{50, 80, 120\}$ taxa, full and covariate-matched
+  subsets.
+  All 36 cells are FDR-significant, confirming robustness to taxon-set
+  choice.
+  $\star\star\star$: $p_\text{FDR} \leq 0.005$ (permutation floor).
+}
+\label{tab:S1}
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{llcccccc}
+\toprule
+& & \multicolumn{2}{c}{\textbf{$N = 50$}}
+  & \multicolumn{2}{c}{\textbf{$N = 80$}}
+  & \multicolumn{2}{c}{\textbf{$N = 120$}} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}
+\textbf{Feature} & \textbf{Subset}
+  & $d$ & $p_\text{FDR}$
+  & $d$ & $p_\text{FDR}$
+  & $d$ & $p_\text{FDR}$ \\
+\midrule
+\multirow{2}{*}{H1 count}
+  & Full    & $-1.31$ & $0.003^{\star\star\star}$ & $-1.44$ & $0.004^{\star\star\star}$ & $-1.31$ & $0.004^{\star\star\star}$ \\
+  & Matched & $-2.09$ & $0.003^{\star\star\star}$ & $-1.60$ & $0.004^{\star\star\star}$ & $-1.68$ & $0.004^{\star\star\star}$ \\
+\addlinespace
+\multirow{2}{*}{H1 entropy}
+  & Full    & $-1.12$ & $0.003^{\star\star\star}$ & $-1.32$ & $0.004^{\star\star\star}$ & $-1.35$ & $0.004^{\star\star\star}$ \\
+  & Matched & $-1.74$ & $0.003^{\star\star\star}$ & $-1.51$ & $0.004^{\star\star\star}$ & $-1.76$ & $0.004^{\star\star\star}$ \\
+\addlinespace
+\multirow{2}{*}{Total persistence}
+  & Full    & $-2.02$ & $0.003^{\star\star\star}$ & $-2.38$ & $0.004^{\star\star\star}$ & $-1.96$ & $0.004^{\star\star\star}$ \\
+  & Matched & $-2.56$ & $0.003^{\star\star\star}$ & $-2.36$ & $0.004^{\star\star\star}$ & $-2.34$ & $0.004^{\star\star\star}$ \\
+\addlinespace
+\multirow{2}{*}{Mean lifetime}
+  & Full    & $-1.59$ & $0.003^{\star\star\star}$ & $-1.61$ & $0.004^{\star\star\star}$ & $-1.32$ & $0.004^{\star\star\star}$ \\
+  & Matched & $-1.63$ & $0.003^{\star\star\star}$ & $-1.53$ & $0.004^{\star\star\star}$ & $-1.20$ & $0.004^{\star\star\star}$ \\
+\addlinespace
+\multirow{2}{*}{Max lifetime}
+  & Full    & $-1.55$ & $0.003^{\star\star\star}$ & $-1.38$ & $0.004^{\star\star\star}$ & $-0.75$ & $0.004^{\star\star\star}$ \\
+  & Matched & $-1.95$ & $0.003^{\star\star\star}$ & $-1.11$ & $0.004^{\star\star\star}$ & $-0.81$ & $0.004^{\star\star\star}$ \\
+\addlinespace
+\multirow{2}{*}{Max Betti-1}
+  & Full    & $-1.57$ & $0.003^{\star\star\star}$ & $-2.11$ & $0.004^{\star\star\star}$ & $-1.82$ & $0.004^{\star\star\star}$ \\
+  & Matched & $-1.90$ & $0.003^{\star\star\star}$ & $-2.40$ & $0.004^{\star\star\star}$ & $-2.28$ & $0.004^{\star\star\star}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%─── Software versions ──────────────────────────────────────────────────────
+\subsection*{Software and Reproducibility}
+
+All analyses were performed in Python~3.11 with the following package
+versions: \texttt{ripser}~0.6.14, \texttt{persim}~0.3.7,
+\texttt{scipy}~1.17, \texttt{numpy}~2.4, \texttt{pandas}~2.2,
+\texttt{scikit-learn}~1.5, \texttt{matplotlib}~3.9.
+The random seed was fixed to 42 throughout all analyses.
+Data download scripts (\texttt{scripts/download\_agp.sh},
+\texttt{scripts/download\_ibdmdb.sh}) and all analysis entry points are
+archived at
+\href{https://github.com/adam-jfkhs/Microbiome-TDA}%
+{\texttt{github.com/adam-jfkhs/Microbiome-TDA}}.
+
+Primary analysis scripts and their outputs:
+\begin{itemize}[leftmargin=*, itemsep=1pt]
+  \item \texttt{run\_agp\_bootstrap\_v2.py} → \texttt{results/agp\_bootstrap\_v2.csv}
+  \item \texttt{run\_taxa\_sensitivity.py} → \texttt{results/taxa\_sensitivity.csv}
+  \item \texttt{run\_ibdmdb\_bootstrap.py} → \texttt{results/ibdmdb\_bootstrap.csv}
+  \item \texttt{run\_loop\_attribution.py} → \texttt{results/loop\_attribution\_differential.csv}
+  \item \texttt{run\_ibdmdb\_loop\_attribution.py} → \texttt{results/ibdmdb\_loop\_attribution\_differential.csv}
+  \item \texttt{run\_classification\_benchmark\_v2.py} → \texttt{results/classification\_benchmark\_v2.csv}
+  \item \texttt{run\_precision\_recall\_analysis.py} → \texttt{results/precision\_recall\_metrics.csv}
+  \item \texttt{run\_h0\_classification.py} → \texttt{results/h0h1\_classification.csv}
+  \item \texttt{run\_preflare\_pilot.py} → \texttt{results/preflare\_pilot\_perparticipant.csv}
+\end{itemize}
 
 %─────────────────────────────────────────────────────────────────────────────
 \newpage

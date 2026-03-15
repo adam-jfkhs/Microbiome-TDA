@@ -675,26 +675,12 @@ extended the classification benchmark to include two \textbf{$\beta$-diversity
 baselines} alongside Shannon $\alpha$-diversity.
 
 \paragraph{Feature sets and methods.}
-Nine feature sets were evaluated using logistic regression ($L_2$, balanced
-class weights) and random forest (500 trees) under stratified 5-fold
-cross-validation.
-The two $\beta$-diversity embeddings are:
-\begin{itemize}[leftmargin=*, itemsep=1pt]
-  \item \textbf{Aitchison-PCoA(10).}
-  Euclidean distance in CLR space is the theoretically principled metric for
-  compositional data, providing a phylogeny-free analog of weighted
-  UniFrac~\citep{aitchison1982statistical}.
-  Embedded into $k = 10$ principal coordinates.
-  \item \textbf{BC-PCoA(10).}
-  Bray--Curtis dissimilarity on relative abundances of the same 80 taxa,
-  embedded into $k = 10$ principal coordinates.
-\end{itemize}
-To prevent information leakage, PCoA was \emph{re-fitted on training samples
-only} in each CV fold; test samples were projected via Gower's (1968)
-out-of-sample formula.
-All feature sets operate on the same 80-taxon representation, so AUC
-differences reflect the mathematical form of the representation rather than
-taxon selection.
+Nine feature sets were evaluated as described in
+Section~\ref{subsec:classification_methods}.
+All operate on the same 80-taxon CLR representation; PCoA was re-fitted
+on training samples only in each CV fold (Gower out-of-sample projection,
+no test-fold leakage), so AUC differences reflect the mathematical form of
+the representation rather than taxon selection.
 
 \begin{table}[H]
 \centering
@@ -905,3 +891,141 @@ Aitchison + Topo + Shannon  & 95\% spec & \textbf{0.158} & \textbf{0.194} & 0.94
   }
   \label{fig:pr_curves}
 \end{figure}
+
+%─────────────────────────────────────────────────────────────────────────────
+\subsection{H\textsubscript{0} fragmentation features: a complementary
+  dimension of topological collapse}
+\label{subsec:h0_features}
+%─────────────────────────────────────────────────────────────────────────────
+
+While the preceding results focus on $H_1$ (loop) features, the zeroth
+homology group $H_0$ encodes a distinct and biologically interpretable
+topological property: the fragmentation of the co-occurrence network into
+disconnected components.
+In a healthy microbiome, the Vietoris--Rips filtration on the CLR correlation
+matrix merges into a single connected component (Betti-0 $= 1$) at a
+relatively low distance threshold; in a dysbiotic microbiome, isolated
+correlation clusters may persist to higher thresholds before merging,
+producing longer-lived $H_0$ bars (``fragmentation'').
+
+We extracted four per-sample $H_0$ features using the same $k$-NN
+neighbourhood ($k = 60$) as the $H_1$ pipeline: $H_0$ component count,
+total $H_0$ persistence, mean $H_0$ lifetime, and max $H_0$ lifetime.
+Table~\ref{tab:h0_classification} reports the cross-validated AUC when
+these features are used alone and in combination with $H_1$ scalars
+and Aitchison-PCoA.
+
+\begin{table}[H]
+\centering
+\caption{%
+  \textbf{H\textsubscript{0} fragmentation features in IBD classification
+  (5-fold CV, logistic regression and random forest, AGP, $n = 3{,}249$).}
+  $H_0$ features: component count, total persistence, mean lifetime, max lifetime.
+  $H_1$ features: same six scalars as Table~\ref{tab:classification}.
+  Aitchison-PCoA: 10 principal coordinates (training-fold PCoA, Gower
+  out-of-sample projection).
+}
+\label{tab:h0_classification}
+\small
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{llcc}
+\toprule
+\textbf{Clf} & \textbf{Feature set} & \textbf{Mean AUC} & \textbf{SD} \\
+\midrule
+LR & $H_1$ only (6 features)                    & 0.671 & 0.034 \\
+LR & $H_0$ only (4 features)                    & 0.675 & 0.063 \\
+LR & $H_0 + H_1$ (10 features)                  & 0.674 & 0.059 \\
+LR & Aitchison-PCoA(10)                         & 0.694 & 0.061 \\
+LR & Aitchison-PCoA $+ H_0 + H_1$ (20 features) & \textbf{0.698} & 0.053 \\
+\midrule
+RF & $H_1$ only (6 features)                    & 0.625 & 0.042 \\
+RF & $H_0$ only (4 features)                    & 0.591 & 0.059 \\
+RF & $H_0 + H_1$ (10 features)                  & 0.623 & 0.051 \\
+RF & Aitchison-PCoA(10)                         & 0.647 & 0.047 \\
+RF & Aitchison-PCoA $+ H_0 + H_1$ (20 features) & \textbf{0.663} & 0.042 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three observations stand out.
+First, $H_0$-only AUC ($0.675$ LR) closely matches $H_1$-only AUC ($0.671$ LR),
+indicating that network fragmentation and loop loss carry comparable
+discriminative signal.
+Second, combining $H_0 + H_1$ does not exceed $H_1$ alone ($0.674$ vs.\
+$0.671$ LR)---the two dimensions of topological collapse are not independent;
+samples that exhibit loop loss also tend to exhibit fragmentation, so their
+information largely overlaps.
+This is consistent with interpreting fragmentation and loop collapse as two
+faces of the same underlying phenomenon: systematic dismantling of the
+cross-feeding correlation structure in IBD microbiomes.
+Third, the AUC values in Table~\ref{tab:h0_classification} are slightly higher
+than those in Table~\ref{tab:classification} for the matching feature sets
+($0.671$ vs.\ $0.668$ for $H_1$ only), reflecting that the $H_0 + H_1$
+analysis was run on a later version of the per-sample feature cache;
+both pass through the same cross-validation protocol with the same seed.
+
+%─────────────────────────────────────────────────────────────────────────────
+\subsection{Longitudinal pilot: pre-flare topological signal in IBDMDB
+  (\textit{n\,=\,2, exploratory only})}
+\label{subsec:preflare}
+%─────────────────────────────────────────────────────────────────────────────
+
+\textbf{This subsection reports a preliminary exploratory observation,
+not a tested hypothesis.}
+The sample size ($n = 2$ participants) is entirely insufficient for
+statistical inference; no $p$-values are reported.
+The purpose is to document whether the topological signal in
+cross-sectional comparisons has a longitudinal analog worth pursuing in
+larger datasets.
+
+We searched the IBDMDB longitudinal archive for participants with a
+documented remission-to-flare transition, defined operationally as a
+transition from fecal calprotectin $< 50\,\mu\text{g/g}$ to
+$\geq 300\,\mu\text{g/g}$ within a 6-month window.
+Two UC participants (H4010, P6013) met this criterion.
+For each participant, we extracted the metagenomic samples from the
+remission phase and computed their mean per-sample $H_1$ features using
+the same $k$-NN pipeline as the cross-sectional analyses.
+
+\begin{table}[H]
+\centering
+\caption{%
+  \textbf{Pre-flare topological features in two IBDMDB participants
+  (\textit{exploratory, $n = 2$}).}
+  Remission window: calprotectin $< 50\,\mu\text{g/g}$ (start);
+  flare: calprotectin $\geq 300\,\mu\text{g/g}$.
+  Features are means over $n_\text{samples}$ longitudinal timepoints
+  in the remission window.
+  No statistical test is applicable at $n = 2$.
+}
+\label{tab:preflare}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{PID} & \textbf{Dx} & \textbf{Weeks to flare}
+  & \textbf{$n$ samples} & \textbf{H$_1$ count}
+  & \textbf{Total pers.} & \textbf{Max lifetime} \\
+\midrule
+H4010 & UC &  12 & 9  & 15.0 & 1.07 & 0.200 \\
+P6013 & UC &  8  & 22 &  9.0 & 0.66 & 0.232 \\
+\midrule
+\multicolumn{4}{l}{\textit{Cross-sectional reference (IBDMDB non-IBD mean):}}
+  & 40.8 & 2.19 & — \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Both participants show $H_1$ counts and total persistence substantially
+below the non-IBD cross-sectional mean (40.8 and 2.19 respectively)
+during the remission window preceding the documented flare.
+The participant closer to flare (P6013, 8 weeks) shows lower values on
+both features than the participant further out (H4010, 12 weeks),
+which is directionally consistent with the hypothesis that topological
+simplification deepens as flare approaches.
+However, with $n = 2$, individual variation, sampling density differences
+($n_\text{samples} = 9$ vs.\ $22$), and the absence of matched
+remission-only controls mean no causal or predictive claim is warranted.
+This observation motivates a targeted analysis in future datasets with
+$n \geq 50$ confirmed remission-to-flare transitions and dense
+pre-flare sampling.

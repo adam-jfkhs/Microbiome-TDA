@@ -34,17 +34,19 @@
 \contentsline {paragraph}{Results.}{22}{table.caption.13}%
 \contentsline {paragraph}{Predictive vs.\ interpretive value.}{22}{table.caption.13}%
 \contentsline {paragraph}{Precision-recall analysis and threshold-dependent metrics.}{23}{figure.caption.14}%
-\contentsline {section}{\numberline {4}Discussion}{25}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Loop collapse as a structural correlate of IBD dysbiosis}{25}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Structural reorganization versus abundance enrichment in diet}{26}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}The antibiotic null}{26}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Relation to prior topological analyses of microbiome data}{27}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}Limitations}{27}{subsection.4.5}%
-\contentsline {paragraph}{Cross-sectional topology.}{27}{subsection.4.5}%
-\contentsline {paragraph}{ASV-level resolution.}{27}{subsection.4.5}%
-\contentsline {paragraph}{Diversity-metric benchmark (addressed).}{27}{subsection.4.5}%
-\contentsline {paragraph}{Single cohort (addressed in part).}{27}{subsection.4.5}%
-\contentsline {paragraph}{Loop attribution completed; biological validation pending.}{28}{subsection.4.5}%
-\contentsline {paragraph}{Inflammatory biomarker data (partially addressed).}{28}{subsection.4.5}%
-\contentsline {paragraph}{Bootstrap non-independence.}{28}{subsection.4.5}%
-\contentsline {section}{\numberline {5}Conclusion}{28}{section.5}%
+\contentsline {subsection}{\numberline {3.9}H\textsubscript {0} fragmentation features: a complementary dimension of topological collapse}{25}{subsection.3.9}%
+\contentsline {subsection}{\numberline {3.10}Longitudinal pilot: pre-flare topological signal in IBDMDB (\textit {n\,=\,2, exploratory only})}{26}{subsection.3.10}%
+\contentsline {section}{\numberline {4}Discussion}{27}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Loop collapse as a structural correlate of IBD dysbiosis}{27}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Structural reorganization versus abundance enrichment in diet}{28}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}The antibiotic null}{28}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Relation to prior topological analyses of microbiome data}{28}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Limitations}{29}{subsection.4.5}%
+\contentsline {paragraph}{Cross-sectional topology.}{29}{subsection.4.5}%
+\contentsline {paragraph}{ASV-level resolution.}{29}{subsection.4.5}%
+\contentsline {paragraph}{Diversity-metric benchmark (addressed).}{29}{subsection.4.5}%
+\contentsline {paragraph}{Single cohort (addressed in part).}{29}{subsection.4.5}%
+\contentsline {paragraph}{Loop attribution completed; biological validation pending.}{29}{subsection.4.5}%
+\contentsline {paragraph}{Inflammatory biomarker data (partially addressed).}{30}{subsection.4.5}%
+\contentsline {paragraph}{Bootstrap non-independence.}{30}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Conclusion}{30}{section.5}%

@@ -4,8 +4,9 @@
 %=============================================================================
 
 We applied persistent homology to microbial co-occurrence networks derived
-from 3,409 fecal samples in the American Gut Project and independently
-validated the core finding in the IBDMDB multi-omics cohort.
+from 3,409 fecal samples in the American Gut Project~\citep{mcdonald2018american}
+and independently validated the core finding in the IBDMDB multi-omics
+cohort~\citep{lloydprice2019multi}.
 Using a paired bootstrap framework with sign-flip label permutation and
 Benjamini--Hochberg correction over a pre-specified 18-test family, we
 find that:
@@ -46,7 +47,8 @@ find that:
   candidates for the loop collapse.
 
   \item \textbf{An extended classification benchmark clarifies topology's role.}
-  Aitchison $\beta$-diversity (10 PCoA axes, no test-fold leakage) is the
+  Aitchison $\beta$-diversity~\citep{aitchison1982statistical}
+  (10 PCoA axes, no test-fold leakage) is the
   strongest single predictor (AUC $= 0.734$, logistic regression), exceeding
   Shannon ($0.688$) and topology scalars alone ($0.668$).
   Topology scalars do not improve over Aitchison when combined, indicating that
@@ -57,6 +59,17 @@ find that:
   comparisons alone.
 
 \end{enumerate}
+
+Two supplementary analyses extend the core findings.
+$H_0$ fragmentation features (connected-component persistence) carry AUC
+comparable to $H_1$ loop features ($0.675$ vs.\ $0.671$, logistic regression)
+but add minimal signal when combined, suggesting that fragmentation and loop
+collapse are two faces of the same dysbiotic reorganization
+(Section~\ref{subsec:h0_features}).
+A two-participant longitudinal pilot in IBDMDB
+(Section~\ref{subsec:preflare}) shows pre-flare $H_1$ counts well below
+the non-IBD cross-sectional mean; this is a documented observation,
+not a tested claim.
 
 The paired bootstrap design, pre-fixed global taxon selection, and
 leave-one-out topological attribution pipeline introduced here are reusable
@@ -88,9 +101,12 @@ demographic confounding, grounded in an inflammation biomarker, and
 interpretable at the level of named taxa.
 It invites the question of whether topological complexity is a property
 worth restoring therapeutically, and whether interventions that shift
-microbiome composition (FMT, dietary modulation, precision probiotics) do
-so by rebuilding co-occurrence loop structure or merely by altering
-taxon abundances.
+microbiome composition---fecal microbiota transplantation~\citep{kelly2015breaking},
+dietary modulation~\citep{ley2006microbial}, or precision
+probiotics---do so by rebuilding co-occurrence loop structure or merely
+by altering taxon abundances, and whether the butyrate-producing partnerships
+disrupted in IBD~\citep{louis2017formation} are among the first loops
+to collapse and the last to recover.
 That question cannot be answered with cross-sectional data; it requires
-the kind of dense longitudinal sampling that ongoing consortia are now
-making feasible.
+the kind of dense longitudinal sampling that ongoing consortia are
+beginning to provide~\citep{halfvarson2017dynamics}.

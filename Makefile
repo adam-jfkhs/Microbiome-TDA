@@ -20,7 +20,15 @@ explore:
 	jupyter notebook notebooks/01_data_exploration.ipynb
 
 paper:
-	cd paper && latexmk -pdf main.tex
+	cd paper && pdflatex -interaction=nonstopmode main.tex && pdflatex -interaction=nonstopmode main.tex
+	@echo "PDF ready: paper/main.pdf"
+
+watch:
+	@echo "Watching paper/ for changes — press Ctrl-C to stop"
+	@while true; do \
+	  inotifywait -q -e modify -r paper/ 2>/dev/null && \
+	  $(MAKE) paper; \
+	done
 
 test:
 	python -m pytest tests/ -v

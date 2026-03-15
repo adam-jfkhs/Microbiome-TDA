@@ -129,7 +129,7 @@ Six scalars were extracted from each $\mathrm{PD}_1$:
   \item[\textbf{H1 count.}] Cardinality $|\mathrm{PD}_1|$: raw number of
   detected co-occurrence cycles.
   \item[\textbf{H1 entropy.}] Persistent entropy~\citep{patania2017topological}:
-  $\mathcal{S} = -\sum_i \ell_i \log \ell_i \, / \, L$,
+  $\mathcal{S} = -\sum_i \frac{\ell_i}{L} \log \frac{\ell_i}{L}$,
   where $\ell_i = d_i - b_i$ and $L = \sum_i \ell_i$.
   Quantifies the evenness of cycle-lifetime distribution.
   \item[\textbf{Total persistence.}] $\sum_i \ell_i$: cumulative

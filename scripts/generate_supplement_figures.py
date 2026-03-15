@@ -173,6 +173,8 @@ def truncate_label(name, maxlen=28):
 
 def plot_heatmap(csv_path, out_path, top_n=30):
     diff_df = pd.read_csv(csv_path, index_col=0)
+    # Drop duplicate index entries, keep first (highest composite_impact)
+    diff_df = diff_df[~diff_df.index.duplicated(keep="first")]
     top     = diff_df["composite_impact"].nlargest(top_n).index
     data    = diff_df.loc[top, FEATURE_NAMES]
 
@@ -185,7 +187,7 @@ def plot_heatmap(csv_path, out_path, top_n=30):
     # Significance stars on composite_impact
     pvals = diff_df.loc[top, "pval"].values if "pval" in diff_df.columns else None
 
-    fig, ax = plt.subplots(figsize=(8, 11))   # taller and slightly narrower
+    fig, ax = plt.subplots(figsize=(9, 7))   # compact for 15 taxa
 
     im = ax.imshow(zdata.values, aspect="auto", cmap="RdBu_r",
                    vmin=-3, vmax=3, interpolation="nearest")
@@ -196,7 +198,7 @@ def plot_heatmap(csv_path, out_path, top_n=30):
 
     # Row labels — left side, reasonable font
     ax.set_yticks(range(len(labels)))
-    ax.set_yticklabels(labels, fontsize=8.5)
+    ax.set_yticklabels(labels, fontsize=10)
 
     # Significance stars to the right of each row
     if pvals is not None:
@@ -238,7 +240,7 @@ def main():
     plot_heatmap(
         os.path.join(RESULTS_DIR, "loop_attribution_differential.csv"),
         os.path.join(FIGURE_DIR,  "loop_attribution_heatmap.png"),
-        top_n=30,
+        top_n=15,
     )
 
     # ── Persistence diagrams (requires AGP data) ───────────────────────────────

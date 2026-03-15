@@ -2,6 +2,9 @@
 % Persistent Homology Reveals Topological Simplification in IBD-Associated Microbial Co-occurrence Networks
 % February 2026
 %=============================================================================
+% OVERLEAF FREE PLAN: change \draftfalse → \drafttrue below to skip figures
+% and compile in ~5s instead of ~25s.  Switch back for final PDF.
+\newif\ifdraft\draftfalse   % ← change to \drafttrue for fast editing
 
 \documentclass[11pt, a4paper]{article}
 
@@ -65,7 +68,7 @@
 }
 
 % ── Figures & tables ──────────────────────────────────────────────────────────
-\usepackage{graphicx}
+\ifdraft\usepackage[draft]{graphicx}\else\usepackage{graphicx}\fi
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{caption}
@@ -298,7 +301,7 @@ The IBDMDB validation data are available at \url{https://ibdmdb.org}.
 %─── S1: Sensitivity heatmap ────────────────────────────────────────────────
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figures/sensitivity_matched_heatmap.png}
+  \includegraphics[width=\textwidth]{figures/sensitivity_matched_heatmap.jpg}
   \caption{%
     \textbf{Supplementary Figure~S1: Covariate-matched sensitivity analysis
     heatmap across taxon-set sizes.}
@@ -321,7 +324,7 @@ The IBDMDB validation data are available at \url{https://ibdmdb.org}.
 %─── S2: Persistence diagrams ───────────────────────────────────────────────
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figures/agp_persistence_diagrams.png}
+  \includegraphics[width=\textwidth]{figures/agp_persistence_diagrams.jpg}
   \caption{%
     \textbf{Supplementary Figure~S2: Representative \Hone\ persistence
     diagrams for AGP healthy and IBD groups.}
@@ -343,7 +346,7 @@ The IBDMDB validation data are available at \url{https://ibdmdb.org}.
 %─── S3: Betti curves ───────────────────────────────────────────────────────
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figures/agp_betti_curves.png}
+  \includegraphics[width=\textwidth]{figures/agp_betti_curves.jpg}
   \caption{%
     \textbf{Supplementary Figure~S3: Betti-1 curves across the Vietoris--Rips
     filtration (AGP, $N = 80$ taxa).}
@@ -382,7 +385,7 @@ The IBDMDB validation data are available at \url{https://ibdmdb.org}.
 %─── S5: IBDMDB extended figures ────────────────────────────────────────────
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figures/ibdmdb_ibd_vs_nonibd.png}
+  \includegraphics[width=\textwidth]{figures/ibdmdb_ibd_vs_nonibd.jpg}
   \caption{%
     \textbf{Supplementary Figure~S5: IBDMDB full-dataset IBD
     vs.\ non-IBD bootstrap distributions.}
@@ -398,7 +401,7 @@ The IBDMDB validation data are available at \url{https://ibdmdb.org}.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figures/ibdmdb_cd_vs_nonibd.png}
+  \includegraphics[width=\textwidth]{figures/ibdmdb_cd_vs_nonibd.jpg}
   \caption{%
     \textbf{Supplementary Figure~S6: IBDMDB Crohn's disease vs.\
     non-IBD bootstrap distributions.}
@@ -413,7 +416,7 @@ The IBDMDB validation data are available at \url{https://ibdmdb.org}.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figures/ibdmdb_high_vs_low_calprotectin.png}
+  \includegraphics[width=\textwidth]{figures/ibdmdb_high_vs_low_calprotectin.jpg}
   \caption{%
     \textbf{Supplementary Figure~S7: IBDMDB high vs.\ low fecal
     calprotectin bootstrap distributions.}
@@ -433,7 +436,7 @@ The IBDMDB validation data are available at \url{https://ibdmdb.org}.
 %─── S6: Loop attribution heatmap ───────────────────────────────────────────
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figures/loop_attribution_heatmap.png}
+  \includegraphics[width=\textwidth]{figures/loop_attribution_heatmap.jpg}
   \caption{%
     \textbf{Supplementary Figure~S8: Per-taxon, per-feature leave-one-out
     topological impact heatmap (AGP, $N = 80$ taxa, top 20 by composite
@@ -451,7 +454,7 @@ The IBDMDB validation data are available at \url{https://ibdmdb.org}.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.75\textwidth]{figures/ibdmdb_loop_attribution_top20.png}
+  \includegraphics[width=0.75\textwidth]{figures/ibdmdb_loop_attribution_top20.jpg}
   \caption{%
     \textbf{Supplementary Figure~S9: Top 20 differential topological
     anchors (IBDMDB WGS, MetaPhlAn2 species).}

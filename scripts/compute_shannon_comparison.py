@@ -6,9 +6,7 @@ it shows that conventional Shannon diversity produces smaller effect sizes
 than the topological features from the TDA pipeline.
 """
 
-import sys
 import os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import numpy as np
 import pandas as pd

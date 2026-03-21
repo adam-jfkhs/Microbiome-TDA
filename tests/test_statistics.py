@@ -2,8 +2,6 @@
 
 import numpy as np
 import pytest
-import sys
-sys.path.insert(0, '.')
 
 from src.analysis.statistics import (
     permutation_test, cohens_d, fdr_correction,

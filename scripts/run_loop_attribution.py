@@ -29,11 +29,8 @@ Runtime: ~1–2 min (160 Ripser runs on 79×79 matrices).
 """
 
 import os
-import sys
 import time
 from multiprocessing import Pool, cpu_count
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import numpy as np
 import pandas as pd

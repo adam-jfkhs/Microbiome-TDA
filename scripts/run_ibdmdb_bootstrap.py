@@ -22,10 +22,7 @@ Methodological notes
     for cross-sectional TDA comparison; longitudinal analysis is future work).
 """
 
-import sys
 import os
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import numpy as np
 import pandas as pd
@@ -126,8 +123,6 @@ def plot_delta_distributions(deltas, comp_name, label_a, label_b, results_df):
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
-    rng = np.random.default_rng(SEED)
-
     print("=" * 70)
     print("IBDMDB BOOTSTRAP TDA — Independent Validation")
     print("=" * 70)
@@ -161,7 +156,7 @@ def main():
     # Run comparisons
     all_results = []
 
-    for comp_name in COMPARISONS:
+    for comp_idx, comp_name in enumerate(COMPARISONS):
         print(f"\n{'=' * 70}")
         print(f"COMPARISON: {comp_name}")
         print(f"{'=' * 70}")
@@ -171,10 +166,11 @@ def main():
         ids_b = [i for i in ids_b if i in clr_df.index]
         print(f"  Group sizes: {label_a} n={len(ids_a)}, {label_b} n={len(ids_b)}")
 
+        comp_rng = np.random.default_rng(SEED + comp_idx)
         results_df, raw = paired_resample_test(
             clr_df, ids_a, ids_b, global_taxa,
             n_iter=N_ITERATIONS, subsample_size=SUBSAMPLE_SIZE,
-            n_perm=N_PERMUTATIONS, rng=rng,
+            n_perm=N_PERMUTATIONS, rng=comp_rng,
             label=f"{label_a} vs {label_b}",
         )
 
@@ -202,7 +198,7 @@ def main():
         print("\nNo comparisons completed.")
         return
 
-    # Collate and apply FDR
+    # Collate and apply FDR per comparison family
     all_df = pd.concat(all_results, ignore_index=True)
 
     rejected_perm, adj_perm = fdr_correction(all_df["permutation_p"].values)

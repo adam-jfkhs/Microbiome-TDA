@@ -16,10 +16,7 @@ C. CONFOUNDING CONTROL: Each comparison is run twice — on the full group and
    matching are reported as robust.
 """
 
-import sys
 import os
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import numpy as np
 import pandas as pd
@@ -92,8 +89,6 @@ def plot_delta_distributions(raw_data, comp_name, label_a, label_b,
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
-    rng = np.random.default_rng(SEED)
-
     print("=" * 70)
     print("UPGRADED BOOTSTRAP TDA — v2")
     print("=" * 70)
@@ -158,21 +153,22 @@ def main():
         print(f"  {name}: {comp['label_a']} n={len(comp['ids_a'])}  "
               f"{comp['label_b']} n={len(comp['ids_b'])}")
 
-    # Run each comparison
+    # Run each comparison (each gets its own RNG to avoid ordering dependence)
     all_results = []
-    for comp_name, comp in comparisons.items():
+    for comp_idx, (comp_name, comp) in enumerate(comparisons.items()):
         print(f"\n{'=' * 70}")
         print(f"COMPARISON: {comp_name}")
         print(f"{'=' * 70}")
 
         raw_data = {}
+        comp_rng = np.random.default_rng(SEED + comp_idx)
 
         # --- Full groups ---
         print("\n[Full groups]")
         results_full, raw_full = paired_resample_test(
             clr_df, comp["ids_a"], comp["ids_b"], global_taxa,
             n_iter=N_ITERATIONS, subsample_size=SUBSAMPLE_SIZE,
-            n_perm=N_PERMUTATIONS, rng=rng,
+            n_perm=N_PERMUTATIONS, rng=comp_rng,
             label=f"{comp['label_a']} vs {comp['label_b']}",
         )
         results_full["comparison"] = comp_name
@@ -188,10 +184,11 @@ def main():
         raw_data["matched"] = None
 
         if len(m_a) >= SUBSAMPLE_SIZE and len(m_b) >= SUBSAMPLE_SIZE:
+            matched_rng = np.random.default_rng(SEED + comp_idx + 1000)
             results_matched, raw_matched = paired_resample_test(
                 clr_df, m_a, m_b, global_taxa,
                 n_iter=N_ITERATIONS, subsample_size=SUBSAMPLE_SIZE,
-                n_perm=N_PERMUTATIONS, rng=rng,
+                n_perm=N_PERMUTATIONS, rng=matched_rng,
                 label=f"{comp['label_a']} vs {comp['label_b']} [matched]",
             )
             results_matched["comparison"] = comp_name
@@ -219,18 +216,25 @@ def main():
                                  comp["label_a"], comp["label_b"],
                                  results_full, results_matched)
 
-    # Collate results and apply FDR across all tests
+    # Collate results and apply FDR separately per subset (full vs matched)
+    # so that the FDR family size is consistent (18 tests = 6 features × 3 comparisons).
     all_df = pd.concat(all_results, ignore_index=True)
 
-    # FDR on permutation p-values
-    rejected_perm, adj_perm = fdr_correction(all_df["permutation_p"].values)
-    all_df["perm_p_fdr"] = adj_perm
-    all_df["sig_perm_fdr"] = rejected_perm
+    fdr_chunks = []
+    for subset in all_df["subset"].unique():
+        chunk = all_df[all_df["subset"] == subset].copy()
 
-    # FDR on Wilcoxon p-values
-    rejected_wilcox, adj_wilcox = fdr_correction(all_df["wilcoxon_p"].values)
-    all_df["wilcox_p_fdr"] = adj_wilcox
-    all_df["sig_wilcox_fdr"] = rejected_wilcox
+        rejected_perm, adj_perm = fdr_correction(chunk["permutation_p"].values)
+        chunk["perm_p_fdr"] = adj_perm
+        chunk["sig_perm_fdr"] = rejected_perm
+
+        rejected_wilcox, adj_wilcox = fdr_correction(chunk["wilcoxon_p"].values)
+        chunk["wilcox_p_fdr"] = adj_wilcox
+        chunk["sig_wilcox_fdr"] = rejected_wilcox
+
+        fdr_chunks.append(chunk)
+
+    all_df = pd.concat(fdr_chunks, ignore_index=True)
 
     out_path = os.path.join(RESULTS_DIR, "agp_bootstrap_v2.csv")
     all_df.to_csv(out_path, index=False)

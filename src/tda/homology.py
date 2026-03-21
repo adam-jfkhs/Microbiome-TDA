@@ -36,6 +36,10 @@ def filter_infinite(diagrams):
     """
     filtered = []
     for dgm in diagrams:
+        dgm = np.asarray(dgm)
+        if dgm.ndim != 2 or dgm.shape[0] == 0:
+            filtered.append(np.empty((0, 2)))
+            continue
         finite_mask = np.isfinite(dgm[:, 1])
         filtered.append(dgm[finite_mask])
     return filtered
@@ -70,7 +74,7 @@ def persistence_summary(diagrams):
             lifetimes = finite_dgm[:, 1] - finite_dgm[:, 0]
 
         summary[f"H{dim}"] = {
-            "count": len(dgm),
+            "count": len(finite_dgm),
             "mean_lifetime": float(np.mean(lifetimes)),
             "max_lifetime": float(np.max(lifetimes)),
         }

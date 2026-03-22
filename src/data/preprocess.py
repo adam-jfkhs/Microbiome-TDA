@@ -26,19 +26,22 @@ def filter_low_abundance(df, min_prevalence=0.05, min_reads=1000):
     return df
 
 
-def clr_transform(df):
+def clr_transform(df, pseudocount=0.5):
     """Centered log-ratio transformation for compositional data.
 
-    Handles zeros by adding a pseudocount of 0.5.
+    Handles zeros by adding a pseudocount before log transformation.
 
     Args:
         df: DataFrame with samples as rows and OTUs as columns.
+        pseudocount: Value added to all counts before log transformation.
+            Default 0.5 (Bayesian uniform prior). Common alternatives:
+            1.0, or min(nonzero)/2 for data-adaptive replacement.
 
     Returns:
         CLR-transformed DataFrame.
     """
     # Add pseudocount to handle zeros
-    data = df.values + 0.5
+    data = df.values + pseudocount
 
     # Geometric mean per sample
     log_data = np.log(data)

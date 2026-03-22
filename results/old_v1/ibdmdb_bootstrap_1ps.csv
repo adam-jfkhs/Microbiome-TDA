@@ -1,0 +1,7 @@
+feature,mean_a,mean_b,mean_delta,cohens_d,wilcoxon_p,permutation_p,n_iter,n_a,n_b,subsample_a,subsample_b,comparison
+h1_count,40.295,38.0,2.295,0.6081,0.0,0.001996,200,80,26,26,26,ibd_vs_nonibd_1ps
+h1_entropy,3.3465,3.2809,0.0656,0.611,0.0,0.001996,200,80,26,26,26,ibd_vs_nonibd_1ps
+h1_total_persistence,2.3965,2.0896,0.3069,0.9819,0.0,0.001996,200,80,26,26,26,ibd_vs_nonibd_1ps
+h1_mean_lifetime,0.0595,0.055,0.0045,0.7913,0.0,0.001996,200,80,26,26,26,ibd_vs_nonibd_1ps
+h1_max_lifetime,0.1993,0.1689,0.0304,1.219,0.0,0.001996,200,80,26,26,26,ibd_vs_nonibd_1ps
+max_betti1,14.31,14.0,0.31,0.1287,0.369642,0.205589,200,80,26,26,26,ibd_vs_nonibd_1ps

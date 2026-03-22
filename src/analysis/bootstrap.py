@@ -16,11 +16,14 @@ sample-level observations.  This measures the effect size of the group-level
 network topology difference, which is the quantity of biological interest.
 """
 
+import logging
 import time
 
 import numpy as np
 import pandas as pd
 from scipy.stats import wilcoxon
+
+logger = logging.getLogger(__name__)
 
 from src.networks.cooccurrence import spearman_correlation_matrix
 from src.networks.distance import correlation_distance
@@ -64,7 +67,7 @@ def select_global_taxa(clr_df: pd.DataFrame, n: int) -> list:
     """
     prevalence = (clr_df > clr_df.median()).mean(axis=0)
     top = prevalence.nlargest(n).index.tolist()
-    print(f"Global taxa selected: {len(top)} (from {clr_df.shape[1]} total)")
+    logger.info("Global taxa selected: %d (from %d total)", len(top), clr_df.shape[1])
     return top
 
 
@@ -150,12 +153,12 @@ def paired_resample_test(
     n_b = min(subsample_size, len(ids_b))
 
     if min_samples and (n_a < min_samples or n_b < min_samples):
-        print(f"  SKIP {label}: too few samples (n_a={n_a}, n_b={n_b})")
+        logger.warning("SKIP %s: too few samples (n_a=%d, n_b=%d)", label, n_a, n_b)
         return None, None
 
-    print(
-        f"  {label}: {len(ids_a)} vs {len(ids_b)} | "
-        f"drawing {n_a} vs {n_b} per iter × {n_iter}"
+    logger.info(
+        "%s: %d vs %d | drawing %d vs %d per iter x %d",
+        label, len(ids_a), len(ids_b), n_a, n_b, n_iter,
     )
 
     deltas    = {f: [] for f in FEATURES}
@@ -177,18 +180,16 @@ def paired_resample_test(
 
         if (i + 1) % 50 == 0:
             elapsed = time.time() - t0
-            print(f"    iteration {i + 1}/{n_iter}  ({elapsed:.0f}s elapsed)")
+            logger.info("    iteration %d/%d  (%.0fs elapsed)", i + 1, n_iter, elapsed)
 
     rows = []
     for feat in FEATURES:
         d = np.array(deltas[feat])
         observed_stat = np.mean(d)
 
-        count_extreme = 0
-        for _ in range(n_perm):
-            signs = rng.choice([-1, 1], size=len(d))
-            if abs(np.mean(d * signs)) >= abs(observed_stat):
-                count_extreme += 1
+        signs = rng.choice([-1, 1], size=(n_perm, len(d)))
+        perm_means = np.abs((signs * d).mean(axis=1))
+        count_extreme = int(np.sum(perm_means >= abs(observed_stat)))
         perm_p = (count_extreme + 1) / (n_perm + 1)
 
         try:
@@ -271,16 +272,26 @@ def matched_ids(ids_a, ids_b, strata: pd.Series, seed: int = 141):
     (matched_a_ids, matched_b_ids) as plain lists.
     """
     s = strata.dropna()
-    a_valid = [i for i in ids_a if i in s.index]
-    b_valid = [i for i in ids_b if i in s.index]
+    valid_idx = set(s.index)
+    a_valid = [i for i in ids_a if i in valid_idx]
+    b_valid = [i for i in ids_b if i in valid_idx]
+
+    # Build stratum -> ids lookup for O(1) grouping
+    a_by_stratum = {}
+    for i in a_valid:
+        st = s[i]
+        a_by_stratum.setdefault(st, []).append(i)
+    b_by_stratum = {}
+    for i in b_valid:
+        st = s[i]
+        b_by_stratum.setdefault(st, []).append(i)
 
     rng_local = np.random.default_rng(seed)
     matched_a, matched_b = [], []
 
-    for stratum in s.loc[a_valid].unique():
-        a_s = [i for i in a_valid if s.get(i) == stratum]
-        b_s = [i for i in b_valid if s.get(i) == stratum]
-        if not a_s or not b_s:
+    for stratum, a_s in a_by_stratum.items():
+        b_s = b_by_stratum.get(stratum)
+        if not b_s:
             continue
         b_sample = rng_local.choice(
             b_s, size=min(len(a_s) * 3, len(b_s)), replace=False

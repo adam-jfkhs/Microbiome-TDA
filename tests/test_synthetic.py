@@ -3,8 +3,6 @@
 import numpy as np
 import pandas as pd
 import pytest
-import sys
-sys.path.insert(0, '.')
 
 from src.data.synthetic import generate_synthetic_cohort
 from src.data.loaders import load_cohort

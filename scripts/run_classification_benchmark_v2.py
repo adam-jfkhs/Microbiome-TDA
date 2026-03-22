@@ -37,10 +37,7 @@ Usage
 """
 
 import os
-import sys
 import time
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import numpy as np
 import pandas as pd
@@ -505,13 +502,22 @@ def main():
     clr80  = clr80_df.values.astype(np.float64)
     y      = labels.values.astype(int)
 
-    # 2. Shannon (from raw filtered counts)
+    # 2. Shannon (from raw filtered counts, aligned to CLR samples)
     print("Computing Shannon diversity …")
     otu_raw, meta_raw = load_agp(os.path.join(DATA_DIR, "agp"))
     stool_ids = meta_raw.index[meta_raw["BODY_SITE"] == "UBERON:feces"]
     otu_raw   = otu_raw.loc[otu_raw.index.intersection(stool_ids)]
     otu_raw   = filter_low_abundance(otu_raw, min_prevalence=0.05, min_reads=1000)
-    otu_raw   = otu_raw.reindex(clr80_df.index).fillna(0)
+    # Keep only samples that survived CLR filtering (intersection, not reindex)
+    shared_ids = otu_raw.index.intersection(clr80_df.index)
+    otu_raw    = otu_raw.loc[shared_ids]
+    # Reorder to match clr80_df exactly
+    otu_raw    = otu_raw.reindex(clr80_df.index)
+    # Any samples in clr80_df but missing from otu_raw after filtering should
+    # not exist (they share the same filtering pipeline), but guard anyway.
+    assert not otu_raw.isna().any().any(), (
+        "Shannon input contains NaN — sample mismatch between CLR and raw OTU tables"
+    )
     X_shannon = compute_shannon(otu_raw).reshape(-1, 1)
 
     # 3. Per-sample topology (cached after first run)

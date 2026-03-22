@@ -16,11 +16,8 @@ Statistical framework (explicit):
   - Taxa selected globally once per taxa-size N, before any resampling.
 """
 
-import sys
 import os
 import time
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import numpy as np
 import pandas as pd
@@ -30,7 +27,7 @@ import matplotlib.pyplot as plt
 
 from src.data.loaders import load_agp
 from src.data.preprocess import filter_low_abundance, clr_transform
-from src.analysis.bootstrap import FEATURES, tda_features, paired_resample_test, make_strata, matched_ids
+from src.analysis.bootstrap import FEATURES, select_global_taxa, tda_features, paired_resample_test, make_strata, matched_ids
 from src.analysis.statistics import fdr_correction
 
 # ── Configuration ──────────────────────────────────────────────────────────────
@@ -138,8 +135,6 @@ def plot_sensitivity(pivot_d, pivot_sig, subset_label):
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
-    rng = np.random.default_rng(SEED)
-
     print("=" * 70)
     print("TAXA-SET SENSITIVITY ANALYSIS")
     print(f"N taxa tested: {TAXA_SIZES}")
@@ -210,22 +205,21 @@ def main():
         print(f"N TAXA = {n_taxa}")
         print("=" * 70)
 
-        # Global taxa selection for this N
-        prevalence = (clr_df > clr_df.median()).mean(axis=0)
-        taxa_list = prevalence.nlargest(n_taxa).index.tolist()
-        print(f"Global top-{n_taxa} taxa selected.")
+        # Global taxa selection for this N (uses canonical function)
+        taxa_list = select_global_taxa(clr_df, n=n_taxa)
 
         t_total = time.time()
 
-        for comp_name, g in groups.items():
+        for comp_idx, (comp_name, g) in enumerate(groups.items()):
             la, lb = COMPARISONS_DEF[comp_name]
 
             # Full groups
             print(f"\n  [{comp_name}] Full — {la} (n={len(g['ids_a'])}) "
                   f"vs {lb} (n={len(g['ids_b'])})")
+            comp_rng = np.random.default_rng(SEED + n_taxa * 100 + comp_idx)
             df_full, _ = paired_resample_test(
                 clr_df, g["ids_a"], g["ids_b"], taxa_list,
-                N_ITERATIONS, SUBSAMPLE_SIZE, N_PERMUTATIONS, rng,
+                N_ITERATIONS, SUBSAMPLE_SIZE, N_PERMUTATIONS, comp_rng,
                 label=f"{comp_name}/full/N={n_taxa}",
             )
             df_full["comparison"] = comp_name
@@ -237,9 +231,10 @@ def main():
             ma, mb = matched[comp_name]["ids_a"], matched[comp_name]["ids_b"]
             if len(ma) >= SUBSAMPLE_SIZE and len(mb) >= SUBSAMPLE_SIZE:
                 print(f"  [{comp_name}] Matched — {la} (n={len(ma)}) vs {lb} (n={len(mb)})")
+                matched_rng = np.random.default_rng(SEED + n_taxa * 100 + comp_idx + 1000)
                 df_match, _ = paired_resample_test(
                     clr_df, ma, mb, taxa_list,
-                    N_ITERATIONS, SUBSAMPLE_SIZE, N_PERMUTATIONS, rng,
+                    N_ITERATIONS, SUBSAMPLE_SIZE, N_PERMUTATIONS, matched_rng,
                     label=f"{comp_name}/matched/N={n_taxa}",
                 )
                 df_match["comparison"] = comp_name

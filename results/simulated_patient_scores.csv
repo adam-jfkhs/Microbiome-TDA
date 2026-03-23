@@ -1,0 +1,6 @@
+patient_num,patient_id,true_label,tds,risk_tier,classifier_prob,shannon,calprotectin,array_idx,h1_count,h1_entropy,h1_total_pers,h1_mean_life,h1_max_life,max_betti1
+1,PSMA265L,nonIBD,16.0,LOW,0.1598,2.566,,1305,6.0,1.6912,0.2287,0.0381,0.0582,2.0
+2,HSM7J4RE,nonIBD,32.2,MODERATE,0.3217,3.0137,,662,15.0,2.2005,0.9754,0.065,0.2795,6.0
+3,CSM7KOJG,CD,76.7,CRITICAL,0.7673,2.3951,,176,8.0,1.8445,0.8513,0.1064,0.1945,6.0
+4,HSM6XRRB,UC,87.2,CRITICAL,0.8721,0.7492,,449,6.0,1.4236,0.4768,0.0795,0.2328,2.0
+5,MSMA2688,UC,49.8,MODERATE,0.498,1.9338,,1062,21.0,2.5323,1.0216,0.0486,0.1864,5.0

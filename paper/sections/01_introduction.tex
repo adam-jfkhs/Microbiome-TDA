@@ -58,7 +58,7 @@ This is the mechanistic hypothesis our analysis tests empirically.
 
 \subsection{Contributions}
 
-This paper makes seven specific claims:
+This paper makes eight specific claims:
 
 \begin{enumerate}[leftmargin=*, itemsep=3pt]
   \item \textbf{Methodological:} A paired bootstrap design for comparing
@@ -101,6 +101,14 @@ This paper makes seven specific claims:
   topology scalars outperform Shannon under random forest and provide
   mechanistic interpretability that distance-based embeddings cannot supply
   (Section~\ref{subsec:classification}).
+
+  \item \textbf{Inductive validation:} A strictly inductive protocol---where
+  co-occurrence networks are computed on training and test partitions
+  independently---confirms that the topology classification signal survives
+  elimination of transductive leakage ($\Delta\text{AUC} = 0.013$), is
+  non-random by permutation test ($p < 0.001$), and is stable across 20
+  random seeds, multiple split ratios, and CV fold counts
+  (Section~\ref{subsec:inductive}).
 \end{enumerate}
 
 \noindent

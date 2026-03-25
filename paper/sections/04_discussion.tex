@@ -160,6 +160,21 @@ The remaining benchmark gap is whether richer topological representations
 (persistence images, kernel embeddings) can close the AUC gap to
 Aitchison-PCoA; that question is deferred to future work.
 
+\paragraph{Transductive leakage (addressed).}
+Section~\ref{subsec:inductive} reports an inductive benchmark in which
+co-occurrence networks are computed separately on training and test
+partitions, eliminating the shared-correlation-matrix leakage present in
+the transductive design.
+The transductive--inductive gap is $\Delta\text{AUC} \approx 0.013$ for
+topology alone, small relative to cross-seed variance ($\text{SD} \approx 0.03$).
+A 1{,}000-shuffle label-permutation test confirms $p < 0.001$, and
+systematic robustness checks (20 seeds, 4 split ratios, 4 CV fold counts,
+4 subsampling fractions) show that the classification signal is stable and
+not an artefact of any particular evaluation configuration.
+Topology features do, however, require larger sample sizes than Shannon to
+estimate reliably: at 25\% subsampling, topology AUC degrades by $0.027$
+while Shannon remains unchanged.
+
 \paragraph{Single cohort (addressed in part).}
 All primary \agp\ results originate from a self-recruited citizen-science
 population with attendant ascertainment biases.

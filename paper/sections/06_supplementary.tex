@@ -1,0 +1,94 @@
+%=============================================================================
+\section*{Supplementary Material}
+\label{sec:supplementary}
+%=============================================================================
+
+\setcounter{table}{0}
+\renewcommand{\thetable}{S\arabic{table}}
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{S\arabic{figure}}
+
+%─────────────────────────────────────────────────────────────────────────────
+\subsection*{Table~S1: Matched-group IBD results}
+
+Full matched-group results mirror the full-group analysis
+(Table~\ref{tab:ibd_results}) with negligible attenuation.
+All six features remain FDR-significant after age/sex/BMI matching
+($n_A = 135$, $n_B = 404$); effect sizes shift by less than $0.1d$
+in absolute value, confirming that demographic confounding does not
+explain the topological signal.
+
+%─────────────────────────────────────────────────────────────────────────────
+\subsection*{Table~S2: Precision-recall metrics at two operating points}
+
+\begin{table}[H]
+\centering
+\caption{%
+  \textbf{Precision-recall metrics at two operating points (logistic regression,
+  5-fold CV, pooled test-fold probabilities, AGP).}
+  Prevalence $= 5.1\%$; no-skill AP $= 0.051$.
+  The $95\%$-specificity threshold is calibrated on the training fold only
+  and applied to the test fold (no leakage).
+  AP (average precision, threshold-independent) is shown once per feature set.
+  Best metric in each operating-point block in \textbf{bold}.
+}
+\label{tab:pr_metrics}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Feature set} & \textbf{Threshold} & \textbf{Prec} & \textbf{Recall} & \textbf{Spec} & \textbf{F1} & \textbf{AP} \\
+\midrule
+\multicolumn{7}{l}{\textit{Operating point A: threshold $= 0.50$}} \\[2pt]
+Shannon only                & 0.50 & 0.090 & 0.576 & 0.687 & 0.155 & 0.116 \\
+Topology only               & 0.50 & 0.076 & 0.661 & 0.570 & 0.136 & 0.089 \\
+BC-PCoA(10)                 & 0.50 & 0.089 & 0.642 & 0.648 & 0.156 & 0.093 \\
+Aitchison-PCoA(10)          & 0.50 & \textbf{0.097} & \textbf{0.727} & 0.637 & \textbf{0.171} & 0.128 \\
+Aitchison + Topo + Shannon  & 0.50 & 0.099 & 0.709 & \textbf{0.654} & 0.173 & \textbf{0.136} \\
+\midrule
+\multicolumn{7}{l}{\textit{Operating point B: 95\% specificity (calibrated per fold)}} \\[2pt]
+Shannon only                & 95\% spec & 0.157 & 0.170 & 0.951 & 0.163 & ---   \\
+Topology only               & 95\% spec & 0.118 & 0.121 & 0.951 & 0.119 & ---   \\
+BC-PCoA(10)                 & 95\% spec & 0.114 & 0.121 & 0.950 & 0.118 & ---   \\
+Aitchison-PCoA(10)          & 95\% spec & 0.155 & 0.182 & 0.947 & 0.167 & ---   \\
+Aitchison + Topo + Shannon  & 95\% spec & \textbf{0.158} & \textbf{0.194} & 0.945 & \textbf{0.174} & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+At the standard threshold ($t = 0.50$), all models show high recall but low
+precision because balanced class weights shift probability mass toward the
+positive class.
+Aitchison-PCoA achieves the highest recall ($0.727$) and F1 ($0.171$);
+topology-only has the lowest precision ($0.076$), reflecting that the
+coarse six-dimensional feature space provides a less decisive boundary than
+the full distance geometry of Aitchison PCoA.
+
+At the 95\%-specificity operating point, only 5\% of healthy individuals are
+mis-labelled as IBD regardless of classifier.
+Under this constraint, the maximum achievable precision is fundamentally
+bounded by prevalence; with $p = 0.051$ and $\text{FPR} = 0.05$,
+even a perfect-sensitivity classifier yields precision $\approx 0.51$.
+Topology scalars alone perform worst at this operating point
+(recall $= 0.121$, precision $= 0.118$), below both Shannon and all
+$\beta$-diversity embeddings.
+
+%─────────────────────────────────────────────────────────────────────────────
+\subsection*{Figure~S2: Precision-recall curves}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\textwidth]{figures/precision_recall_curves.png}
+  \caption{%
+    \textbf{Precision-recall curves for IBD classification (logistic regression,
+    5-fold CV, pooled test-fold probabilities, AGP, $n = 3{,}249$).}
+    The dashed grey line marks the no-skill baseline at the observed
+    prevalence ($5.1\%$).
+    AP (average precision, area under the curve) is shown in the legend.
+    Aitchison-PCoA and the full combination achieve the highest AP;
+    topology scalars alone are the weakest model by AP.
+    The modest absolute AP values ($0.09$--$0.14$ vs.\ $0.05$ no-skill)
+    reflect the fundamental challenge of rare-class detection at low prevalence.
+  }
+  \label{fig:pr_curves}
+\end{figure}

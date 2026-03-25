@@ -917,3 +917,54 @@ performance is not an artefact of a particular random configuration:
     while Shannon remains stable ($0.645$ to $0.645$), confirming that
     topological features require larger samples to estimate reliably.
 \end{itemize}
+
+%─────────────────────────────────────────────────────────────────────────────
+\subsection{Treatment response: topology tracks inflammation trajectory}
+\label{subsec:treatment}
+%─────────────────────────────────────────────────────────────────────────────
+
+To test whether topological features track disease course---not merely
+diagnosis---we performed three within-IBDMDB analyses exploiting the
+longitudinal structure of the dataset.
+
+\paragraph{Calprotectin dose-response.}
+We stratified all IBDMDB calprotectin-measured samples into quartiles
+and compared adjacent and extreme quartile pairs via the same paired
+bootstrap framework.
+The extreme comparison (Q4 $\geq$250\,\textmu g/g vs.\ Q1 $<$50\,\textmu g/g)
+confirms the earlier binary finding: Q4 shows fewer loops
+($d = -0.95$), lower entropy ($d = -0.93$), lower total persistence
+($d = -0.97$), and substantially fewer simultaneous loops
+(max Betti-1 $d = -1.79$), all FDR-significant.
+Intermediate quartile comparisons (Q3 vs.\ Q1, Q4 vs.\ Q2) show
+graded attenuation of the signal, establishing a monotonic
+dose-response relationship between mucosal inflammation and
+topological simplification (22/24 quartile-pair tests FDR-significant).
+
+\paragraph{Immunosuppressant on vs.\ off.}
+Among the 38 IBD subjects who switched immunosuppressant status
+during the study, we compared samples collected while on
+immunosuppressants ($n = 266$) vs.\ off ($n = 504$).
+Five of six features were FDR-significant: H$_1$ entropy ($d = -1.05$),
+max Betti-1 ($d = -1.03$), total persistence ($d = -0.82$),
+H$_1$ count ($d = -0.81$), and mean lifetime ($d = -0.22$);
+only max lifetime was non-significant ($d = -0.19$, $p = 0.06$).
+The negative direction indicates that immunosuppressant-treated
+timepoints show \emph{reduced} topological complexity relative to
+untreated timepoints from the same subjects---consistent with the
+hypothesis that immunosuppressant use correlates with active disease
+states that drive topological collapse.
+
+\paragraph{Calprotectin trajectory classification.}
+Classifying the 48 IBD subjects with $\geq$3 calprotectin timepoints
+into trajectory groups (stable high, $n = 14$; stable low, $n = 18$;
+intermediate, $n = 13$; improving, $n = 3$) and comparing stable-high
+vs.\ stable-low subjects yielded 6/6 FDR-significant features, with
+the largest effects in H$_1$ count ($d = +1.75$) and mean lifetime
+($d = -2.23$).
+The bifurcated pattern (more loops but shorter-lived) in chronically
+inflamed subjects mirrors the calprotectin binary finding from
+Section~\ref{subsec:ibdmdb}, now extended to within-subject trajectories
+rather than cross-sectional snapshots.
+Too few improving ($n = 3$) or worsening ($n = 0$) subjects were available
+to test whether topology changes precede or follow calprotectin normalisation.

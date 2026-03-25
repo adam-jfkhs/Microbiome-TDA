@@ -123,6 +123,27 @@ graph-theoretic alternatives is the same as here: the features of interest
 are not expressible as functions of individual edges, but emerge from the
 collective geometry of multi-node motifs that thresholding-based networks
 miss or misrepresent.
+
+To test this claim directly, we ran a parallel benchmark in which the paired
+bootstrap framework was applied to standard graph-theoretic metrics (edge density,
+clustering coefficient, transitivity, modularity, number of connected components)
+at three absolute-correlation thresholds ($|r| \geq 0.2, 0.3, 0.4$) in the
+IBDMDB cohort.
+Standard metrics do detect the IBD signal---transitivity achieves $|d| = 1.20$
+at threshold 0.2, and modularity reaches $|d| = 0.91$ at 0.3---but their
+performance is \emph{threshold-dependent}: edge density is significant at
+$|r| \geq 0.2$ and $0.4$ but not $0.3$; clustering coefficient is significant
+at $0.2$ and $0.3$ but not $0.4$.
+By contrast, all six TDA features are significant at the permutation floor
+($p = 0.002$) without requiring any threshold choice, because persistent
+homology integrates across the full filtration.
+The highest single network-metric effect size ($|d| = 2.45$ for number of
+connected components at $|r| \geq 0.4$) exceeds the best TDA feature
+($|d| = 1.46$ for total persistence), but this metric is essentially $H_0$
+(zeroth homology), which TDA also computes; the distinctive contribution of
+persistent homology lies in the $H_1$ loop features, which have no
+graph-theoretic equivalent.
+
 The amplified effect sizes we observe relative to conventional alpha-diversity
 are consistent with this general principle: topological features aggregate
 information from many pairwise correlations simultaneously, producing a more

@@ -332,6 +332,24 @@ $d = -1.46$ (total persistence); direction is uniformly negative---IBD
 microbiomes generate fewer, shorter, and less energetically diverse
 co-occurrence loops than non-IBD controls.
 
+\paragraph{$H_2$ voids mirror the $H_1$ pattern.}
+As an empirical stress test, we repeated the IBD vs.\ non-IBD comparison
+at $\text{maxdim} = 2$, extracting six analogous scalars from $\mathrm{PD}_2$
+(void count, entropy, total persistence, mean lifetime, max lifetime,
+max Betti-2).
+All six $H_2$ features are significant ($p_\text{perm} = 0.002$) with
+large effect sizes: $d = -2.15$ (void count), $d = -2.28$ (total
+persistence), $d = -1.79$ (entropy), $d = -1.13$ to $-1.57$ for the
+remaining three.
+The direction is uniformly negative, paralleling $H_1$: IBD networks
+contain fewer, shorter-lived two-dimensional cavities.
+These effect sizes are comparable to the $H_1$ values ($|d| = 1.13$--$2.28$
+for $H_2$ vs.\ $|d| = 1.33$--$2.83$ for $H_1$), indicating that topological
+simplification in dysbiosis extends across homological dimensions---it is
+not an artefact of the one-cycle structure alone.
+The additional runtime was negligible ($\sim$0.13\,s per diagram at
+$\text{maxdim} = 2$ vs.\ $\sim$0.06\,s at $\text{maxdim} = 1$).
+
 Breaking down by diagnosis subtype reveals an informative asymmetry.
 Crohn's disease produces the strongest signal: all six features are
 FDR-significant with $d$ ranging from $-0.56$ to $-1.50$.

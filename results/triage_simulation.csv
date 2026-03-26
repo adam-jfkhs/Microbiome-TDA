@@ -1,0 +1,805 @@
+strategy,sample_idx,true_label,tds,tier
+Shannon only,815,IBD,60.1,HIGH
+Shannon only,502,IBD,46.0,MODERATE
+Shannon only,729,IBD,54.8,HIGH
+Shannon only,538,IBD,59.0,HIGH
+Shannon only,251,IBD,61.5,HIGH
+Shannon only,444,nonIBD,61.8,HIGH
+Shannon only,1155,IBD,58.2,HIGH
+Shannon only,1258,nonIBD,61.1,HIGH
+Shannon only,958,IBD,38.5,MODERATE
+Shannon only,728,IBD,56.3,HIGH
+Shannon only,666,IBD,50.3,HIGH
+Shannon only,611,IBD,44.4,MODERATE
+Shannon only,881,nonIBD,52.0,HIGH
+Shannon only,22,IBD,56.5,HIGH
+Shannon only,453,IBD,59.1,HIGH
+Shannon only,499,IBD,49.0,MODERATE
+Shannon only,849,nonIBD,75.3,CRITICAL
+Shannon only,1022,IBD,32.6,MODERATE
+Shannon only,368,IBD,51.7,HIGH
+Shannon only,600,IBD,83.5,CRITICAL
+Shannon only,1182,IBD,56.2,HIGH
+Shannon only,898,nonIBD,46.6,MODERATE
+Shannon only,1091,IBD,56.5,HIGH
+Shannon only,188,IBD,44.9,MODERATE
+Shannon only,490,IBD,51.8,HIGH
+Shannon only,893,nonIBD,39.5,MODERATE
+Shannon only,1027,nonIBD,46.0,MODERATE
+Shannon only,1113,nonIBD,40.1,MODERATE
+Shannon only,1040,IBD,54.6,HIGH
+Shannon only,477,IBD,42.8,MODERATE
+Shannon only,158,IBD,69.8,HIGH
+Shannon only,268,IBD,48.6,MODERATE
+Shannon only,267,IBD,56.6,HIGH
+Shannon only,232,IBD,53.1,HIGH
+Shannon only,380,IBD,52.0,HIGH
+Shannon only,1071,IBD,49.5,MODERATE
+Shannon only,1253,nonIBD,40.6,MODERATE
+Shannon only,1209,nonIBD,56.0,HIGH
+Shannon only,470,nonIBD,48.9,MODERATE
+Shannon only,741,IBD,50.4,HIGH
+Shannon only,362,IBD,42.5,MODERATE
+Shannon only,977,nonIBD,41.5,MODERATE
+Shannon only,261,IBD,53.5,HIGH
+Shannon only,767,IBD,56.8,HIGH
+Shannon only,778,IBD,33.7,MODERATE
+Shannon only,866,IBD,41.3,MODERATE
+Shannon only,355,nonIBD,38.2,MODERATE
+Shannon only,564,nonIBD,39.3,MODERATE
+Shannon only,120,IBD,48.8,MODERATE
+Shannon only,1158,IBD,46.1,MODERATE
+Shannon only,1062,IBD,58.0,HIGH
+Shannon only,1095,IBD,46.1,MODERATE
+Shannon only,102,IBD,36.9,MODERATE
+Shannon only,591,nonIBD,45.0,MODERATE
+Shannon only,1305,nonIBD,45.6,MODERATE
+Shannon only,529,nonIBD,47.2,MODERATE
+Shannon only,1076,nonIBD,40.2,MODERATE
+Shannon only,905,nonIBD,40.0,MODERATE
+Shannon only,1007,nonIBD,43.7,MODERATE
+Shannon only,770,nonIBD,47.9,MODERATE
+Shannon only,984,nonIBD,43.0,MODERATE
+Shannon only,96,IBD,54.8,HIGH
+Shannon only,1316,IBD,59.0,HIGH
+Shannon only,1252,nonIBD,57.2,HIGH
+Shannon only,605,IBD,38.0,MODERATE
+Shannon only,105,IBD,40.4,MODERATE
+Shannon only,1118,nonIBD,44.9,MODERATE
+Shannon only,221,nonIBD,38.6,MODERATE
+Shannon only,372,IBD,54.4,HIGH
+Shannon only,1333,IBD,49.0,MODERATE
+Shannon only,576,IBD,45.0,MODERATE
+Shannon only,575,IBD,48.8,MODERATE
+Shannon only,1220,IBD,82.5,CRITICAL
+Shannon only,1154,IBD,56.7,HIGH
+Shannon only,122,IBD,40.6,MODERATE
+Shannon only,814,IBD,55.5,HIGH
+Shannon only,551,nonIBD,43.7,MODERATE
+Shannon only,913,IBD,30.2,MODERATE
+Shannon only,418,IBD,44.3,MODERATE
+Shannon only,75,IBD,40.8,MODERATE
+Shannon only,542,IBD,53.0,HIGH
+Shannon only,403,IBD,54.0,HIGH
+Shannon only,700,IBD,60.8,HIGH
+Shannon only,46,IBD,39.7,MODERATE
+Shannon only,976,nonIBD,44.9,MODERATE
+Shannon only,283,IBD,51.6,HIGH
+Shannon only,442,nonIBD,61.2,HIGH
+Shannon only,198,IBD,46.6,MODERATE
+Shannon only,145,IBD,47.4,MODERATE
+Shannon only,435,nonIBD,57.6,HIGH
+Shannon only,1049,IBD,63.7,HIGH
+Shannon only,733,IBD,48.3,MODERATE
+Shannon only,852,nonIBD,38.0,MODERATE
+Shannon only,832,IBD,51.2,HIGH
+Shannon only,446,IBD,38.4,MODERATE
+Shannon only,1030,nonIBD,53.6,HIGH
+Shannon only,1013,nonIBD,43.2,MODERATE
+Shannon only,483,IBD,41.0,MODERATE
+Shannon only,272,IBD,51.7,HIGH
+Shannon only,744,nonIBD,37.7,MODERATE
+Shannon only,1014,nonIBD,40.9,MODERATE
+Shannon only,965,IBD,55.0,HIGH
+Shannon only,1235,nonIBD,56.8,HIGH
+Shannon only,441,nonIBD,61.6,HIGH
+Shannon only,801,IBD,50.8,HIGH
+Shannon only,88,IBD,41.1,MODERATE
+Shannon only,590,nonIBD,35.8,MODERATE
+Shannon only,831,IBD,45.7,MODERATE
+Shannon only,427,nonIBD,46.3,MODERATE
+Shannon only,117,IBD,49.6,MODERATE
+Shannon only,512,IBD,55.6,HIGH
+Shannon only,42,IBD,52.4,HIGH
+Shannon only,451,nonIBD,66.3,HIGH
+Shannon only,613,IBD,59.2,HIGH
+Shannon only,1285,nonIBD,37.8,MODERATE
+Shannon only,883,nonIBD,48.2,MODERATE
+Shannon only,1206,IBD,58.8,HIGH
+Shannon only,703,IBD,46.1,MODERATE
+Shannon only,900,nonIBD,43.5,MODERATE
+Shannon only,775,IBD,42.8,MODERATE
+Shannon only,472,IBD,46.9,MODERATE
+Shannon only,915,nonIBD,45.1,MODERATE
+Shannon only,1096,IBD,54.8,HIGH
+Shannon only,1151,IBD,42.8,MODERATE
+Shannon only,197,IBD,40.4,MODERATE
+Shannon only,681,IBD,46.7,MODERATE
+Shannon only,1159,IBD,45.2,MODERATE
+Shannon only,282,IBD,46.4,MODERATE
+Shannon only,879,IBD,48.5,MODERATE
+Shannon only,631,IBD,57.0,HIGH
+Shannon only,669,IBD,42.1,MODERATE
+Shannon only,876,nonIBD,40.6,MODERATE
+Shannon only,878,IBD,47.9,MODERATE
+Shannon only,1130,nonIBD,44.0,MODERATE
+Shannon only,356,nonIBD,37.5,MODERATE
+Shannon only,587,nonIBD,63.6,HIGH
+Shannon only,1322,IBD,57.7,HIGH
+Shannon only,634,IBD,56.8,HIGH
+Shannon only,970,IBD,60.9,HIGH
+Shannon only,972,IBD,59.9,HIGH
+Shannon only,11,IBD,49.8,MODERATE
+Shannon only,462,nonIBD,33.2,MODERATE
+Shannon only,52,IBD,66.8,HIGH
+Shannon only,907,nonIBD,39.3,MODERATE
+Shannon only,234,IBD,58.6,HIGH
+Shannon only,1290,IBD,54.6,HIGH
+Shannon only,759,IBD,54.3,HIGH
+Shannon only,806,IBD,50.8,HIGH
+Shannon only,992,nonIBD,53.8,HIGH
+Shannon only,838,nonIBD,48.3,MODERATE
+Shannon only,707,IBD,46.4,MODERATE
+Shannon only,15,IBD,46.2,MODERATE
+Shannon only,237,IBD,44.2,MODERATE
+Shannon only,127,IBD,48.4,MODERATE
+Shannon only,736,IBD,41.3,MODERATE
+Shannon only,570,IBD,50.8,HIGH
+Shannon only,119,IBD,46.6,MODERATE
+Shannon only,1039,IBD,69.7,HIGH
+Shannon only,816,IBD,57.9,HIGH
+Shannon only,1019,IBD,36.3,MODERATE
+Shannon only,212,IBD,47.3,MODERATE
+Shannon only,383,IBD,49.2,MODERATE
+Shannon only,321,IBD,59.1,HIGH
+Shannon only,94,IBD,55.5,HIGH
+Shannon only,875,nonIBD,37.4,MODERATE
+Shannon only,912,IBD,29.9,MODERATE
+Shannon only,1243,IBD,48.7,MODERATE
+Shannon only,1187,IBD,39.6,MODERATE
+Shannon only,35,IBD,58.0,HIGH
+Shannon only,162,IBD,80.8,CRITICAL
+Shannon only,376,IBD,70.5,HIGH
+Shannon only,514,nonIBD,36.0,MODERATE
+Shannon only,960,IBD,49.9,MODERATE
+Shannon only,291,IBD,46.5,MODERATE
+Shannon only,1244,IBD,47.6,MODERATE
+Shannon only,742,IBD,51.9,HIGH
+Shannon only,1026,nonIBD,46.7,MODERATE
+Shannon only,57,IBD,45.0,MODERATE
+Shannon only,1120,nonIBD,44.3,MODERATE
+Shannon only,445,IBD,51.9,HIGH
+Shannon only,517,IBD,59.2,HIGH
+Shannon only,839,nonIBD,47.2,MODERATE
+Shannon only,340,IBD,59.5,HIGH
+Shannon only,548,nonIBD,45.3,MODERATE
+Shannon only,993,nonIBD,57.0,HIGH
+Shannon only,810,nonIBD,34.7,MODERATE
+Shannon only,843,IBD,52.2,HIGH
+Shannon only,168,IBD,65.0,HIGH
+Shannon only,299,IBD,57.5,HIGH
+Shannon only,344,IBD,57.9,HIGH
+Shannon only,695,IBD,60.7,HIGH
+Shannon only,82,nonIBD,40.2,MODERATE
+Shannon only,1108,IBD,48.7,MODERATE
+Shannon only,34,IBD,42.5,MODERATE
+Shannon only,1204,IBD,37.9,MODERATE
+Shannon only,1273,IBD,64.4,HIGH
+Shannon only,333,IBD,71.4,HIGH
+Shannon only,406,nonIBD,59.8,HIGH
+Shannon only,1303,nonIBD,57.5,HIGH
+Shannon only,1283,IBD,53.6,HIGH
+Shannon only,676,IBD,48.6,MODERATE
+Shannon only,526,IBD,53.1,HIGH
+Shannon only,1144,IBD,50.5,HIGH
+Shannon only,449,IBD,77.9,CRITICAL
+Shannon only,804,IBD,46.2,MODERATE
+Shannon only,1104,nonIBD,43.1,MODERATE
+Shannon only,1267,IBD,48.6,MODERATE
+Shannon only,982,nonIBD,35.3,MODERATE
+Shannon only,476,IBD,42.7,MODERATE
+Shannon only,880,IBD,45.1,MODERATE
+Shannon only,1033,nonIBD,37.3,MODERATE
+Shannon only,278,IBD,49.1,MODERATE
+Shannon only,19,IBD,44.6,MODERATE
+Shannon only,737,IBD,63.1,HIGH
+Shannon only,685,IBD,48.3,MODERATE
+Shannon only,1152,IBD,55.1,HIGH
+Shannon only,1006,IBD,53.2,HIGH
+Shannon only,1264,IBD,59.0,HIGH
+Shannon only,1279,IBD,44.6,MODERATE
+Shannon only,200,IBD,49.1,MODERATE
+Shannon only,922,IBD,58.1,HIGH
+Shannon only,1219,IBD,57.6,HIGH
+Shannon only,803,IBD,47.0,MODERATE
+Shannon only,821,IBD,71.0,HIGH
+Shannon only,882,nonIBD,44.4,MODERATE
+Shannon only,662,nonIBD,37.0,MODERATE
+Shannon only,324,IBD,44.2,MODERATE
+Shannon only,68,IBD,48.3,MODERATE
+Shannon only,1297,IBD,47.5,MODERATE
+Shannon only,808,nonIBD,35.9,MODERATE
+Shannon only,769,IBD,64.3,HIGH
+Shannon only,1056,IBD,56.0,HIGH
+Shannon only,53,IBD,65.1,HIGH
+Shannon only,101,IBD,35.7,MODERATE
+Shannon only,753,IBD,48.8,MODERATE
+Shannon only,640,IBD,37.9,MODERATE
+Shannon only,1141,IBD,51.9,HIGH
+Shannon only,50,IBD,63.1,HIGH
+Shannon only,609,IBD,44.6,MODERATE
+Shannon only,286,IBD,46.7,MODERATE
+Shannon only,357,IBD,50.0,MODERATE
+Shannon only,1042,IBD,67.2,HIGH
+Shannon only,1106,IBD,33.8,MODERATE
+Shannon only,129,IBD,45.3,MODERATE
+Shannon only,1009,nonIBD,43.5,MODERATE
+Shannon only,108,IBD,60.6,HIGH
+Shannon only,74,IBD,44.4,MODERATE
+Shannon only,307,IBD,49.6,MODERATE
+Shannon only,1210,nonIBD,62.6,HIGH
+Shannon only,204,IBD,40.2,MODERATE
+Shannon only,544,nonIBD,44.2,MODERATE
+Shannon only,98,IBD,61.2,HIGH
+Shannon only,176,IBD,49.0,MODERATE
+Shannon only,4,IBD,76.6,CRITICAL
+Shannon only,1208,nonIBD,54.5,HIGH
+Shannon only,1094,IBD,60.7,HIGH
+Shannon only,697,IBD,43.5,MODERATE
+Shannon only,422,IBD,63.1,HIGH
+Shannon only,1193,IBD,56.5,HIGH
+Shannon only,734,IBD,45.9,MODERATE
+Shannon only,857,nonIBD,37.4,MODERATE
+Shannon only,92,IBD,48.6,MODERATE
+Shannon only,1064,IBD,48.9,MODERATE
+Shannon only,1218,IBD,66.0,HIGH
+Shannon only,750,IBD,54.9,HIGH
+Shannon only,1180,IBD,86.5,CRITICAL
+Shannon only,877,IBD,47.7,MODERATE
+Shannon only,630,IBD,63.2,HIGH
+Topology only,815,IBD,49.9,MODERATE
+Topology only,502,IBD,58.0,HIGH
+Topology only,729,IBD,42.9,MODERATE
+Topology only,538,IBD,59.7,HIGH
+Topology only,251,IBD,50.5,HIGH
+Topology only,444,nonIBD,39.3,MODERATE
+Topology only,1155,IBD,42.2,MODERATE
+Topology only,1258,nonIBD,64.3,HIGH
+Topology only,958,IBD,59.7,HIGH
+Topology only,728,IBD,49.4,MODERATE
+Topology only,666,IBD,57.7,HIGH
+Topology only,611,IBD,56.1,HIGH
+Topology only,881,nonIBD,49.2,MODERATE
+Topology only,22,IBD,69.6,HIGH
+Topology only,453,IBD,48.8,MODERATE
+Topology only,499,IBD,44.7,MODERATE
+Topology only,849,nonIBD,45.9,MODERATE
+Topology only,1022,IBD,44.5,MODERATE
+Topology only,368,IBD,52.4,HIGH
+Topology only,600,IBD,46.2,MODERATE
+Topology only,1182,IBD,49.2,MODERATE
+Topology only,898,nonIBD,45.0,MODERATE
+Topology only,1091,IBD,40.2,MODERATE
+Topology only,188,IBD,35.3,MODERATE
+Topology only,490,IBD,58.5,HIGH
+Topology only,893,nonIBD,59.7,HIGH
+Topology only,1027,nonIBD,52.5,HIGH
+Topology only,1113,nonIBD,38.9,MODERATE
+Topology only,1040,IBD,48.8,MODERATE
+Topology only,477,IBD,51.7,HIGH
+Topology only,158,IBD,59.2,HIGH
+Topology only,268,IBD,53.4,HIGH
+Topology only,267,IBD,63.2,HIGH
+Topology only,232,IBD,51.2,HIGH
+Topology only,380,IBD,38.1,MODERATE
+Topology only,1071,IBD,45.3,MODERATE
+Topology only,1253,nonIBD,46.1,MODERATE
+Topology only,1209,nonIBD,41.4,MODERATE
+Topology only,470,nonIBD,62.4,HIGH
+Topology only,741,IBD,49.9,MODERATE
+Topology only,362,IBD,57.1,HIGH
+Topology only,977,nonIBD,46.1,MODERATE
+Topology only,261,IBD,55.5,HIGH
+Topology only,767,IBD,66.8,HIGH
+Topology only,778,IBD,43.4,MODERATE
+Topology only,866,IBD,43.3,MODERATE
+Topology only,355,nonIBD,54.8,HIGH
+Topology only,564,nonIBD,43.3,MODERATE
+Topology only,120,IBD,47.7,MODERATE
+Topology only,1158,IBD,53.0,HIGH
+Topology only,1062,IBD,41.8,MODERATE
+Topology only,1095,IBD,47.9,MODERATE
+Topology only,102,IBD,44.2,MODERATE
+Topology only,591,nonIBD,62.6,HIGH
+Topology only,1305,nonIBD,32.3,MODERATE
+Topology only,529,nonIBD,34.5,MODERATE
+Topology only,1076,nonIBD,39.9,MODERATE
+Topology only,905,nonIBD,24.5,LOW
+Topology only,1007,nonIBD,57.1,HIGH
+Topology only,770,nonIBD,56.6,HIGH
+Topology only,984,nonIBD,55.0,HIGH
+Topology only,96,IBD,69.7,HIGH
+Topology only,1316,IBD,60.2,HIGH
+Topology only,1252,nonIBD,41.0,MODERATE
+Topology only,605,IBD,50.5,HIGH
+Topology only,105,IBD,45.1,MODERATE
+Topology only,1118,nonIBD,51.8,HIGH
+Topology only,221,nonIBD,34.5,MODERATE
+Topology only,372,IBD,62.9,HIGH
+Topology only,1333,IBD,55.0,HIGH
+Topology only,576,IBD,61.1,HIGH
+Topology only,575,IBD,50.2,HIGH
+Topology only,1220,IBD,54.8,HIGH
+Topology only,1154,IBD,29.8,MODERATE
+Topology only,122,IBD,44.8,MODERATE
+Topology only,814,IBD,46.7,MODERATE
+Topology only,551,nonIBD,54.8,HIGH
+Topology only,913,IBD,55.6,HIGH
+Topology only,418,IBD,47.7,MODERATE
+Topology only,75,IBD,52.2,HIGH
+Topology only,542,IBD,46.7,MODERATE
+Topology only,403,IBD,63.0,HIGH
+Topology only,700,IBD,40.0,MODERATE
+Topology only,46,IBD,40.7,MODERATE
+Topology only,976,nonIBD,45.7,MODERATE
+Topology only,283,IBD,41.9,MODERATE
+Topology only,442,nonIBD,61.0,HIGH
+Topology only,198,IBD,61.1,HIGH
+Topology only,145,IBD,47.1,MODERATE
+Topology only,435,nonIBD,50.7,HIGH
+Topology only,1049,IBD,48.0,MODERATE
+Topology only,733,IBD,47.3,MODERATE
+Topology only,852,nonIBD,54.6,HIGH
+Topology only,832,IBD,61.2,HIGH
+Topology only,446,IBD,48.0,MODERATE
+Topology only,1030,nonIBD,37.1,MODERATE
+Topology only,1013,nonIBD,43.7,MODERATE
+Topology only,483,IBD,65.6,HIGH
+Topology only,272,IBD,53.6,HIGH
+Topology only,744,nonIBD,51.4,HIGH
+Topology only,1014,nonIBD,51.9,HIGH
+Topology only,965,IBD,61.1,HIGH
+Topology only,1235,nonIBD,68.8,HIGH
+Topology only,441,nonIBD,44.2,MODERATE
+Topology only,801,IBD,73.2,HIGH
+Topology only,88,IBD,36.7,MODERATE
+Topology only,590,nonIBD,60.7,HIGH
+Topology only,831,IBD,48.7,MODERATE
+Topology only,427,nonIBD,32.7,MODERATE
+Topology only,117,IBD,59.1,HIGH
+Topology only,512,IBD,50.8,HIGH
+Topology only,42,IBD,65.5,HIGH
+Topology only,451,nonIBD,59.5,HIGH
+Topology only,613,IBD,64.9,HIGH
+Topology only,1285,nonIBD,44.6,MODERATE
+Topology only,883,nonIBD,59.8,HIGH
+Topology only,1206,IBD,61.6,HIGH
+Topology only,703,IBD,48.0,MODERATE
+Topology only,900,nonIBD,52.7,HIGH
+Topology only,775,IBD,40.3,MODERATE
+Topology only,472,IBD,35.5,MODERATE
+Topology only,915,nonIBD,40.2,MODERATE
+Topology only,1096,IBD,28.4,MODERATE
+Topology only,1151,IBD,49.5,MODERATE
+Topology only,197,IBD,55.0,HIGH
+Topology only,681,IBD,52.0,HIGH
+Topology only,1159,IBD,53.6,HIGH
+Topology only,282,IBD,49.8,MODERATE
+Topology only,879,IBD,66.7,HIGH
+Topology only,631,IBD,46.0,MODERATE
+Topology only,669,IBD,39.2,MODERATE
+Topology only,876,nonIBD,34.5,MODERATE
+Topology only,878,IBD,49.9,MODERATE
+Topology only,1130,nonIBD,39.3,MODERATE
+Topology only,356,nonIBD,59.8,HIGH
+Topology only,587,nonIBD,66.0,HIGH
+Topology only,1322,IBD,66.9,HIGH
+Topology only,634,IBD,62.4,HIGH
+Topology only,970,IBD,64.7,HIGH
+Topology only,972,IBD,59.5,HIGH
+Topology only,11,IBD,52.9,HIGH
+Topology only,462,nonIBD,42.2,MODERATE
+Topology only,52,IBD,59.1,HIGH
+Topology only,907,nonIBD,42.7,MODERATE
+Topology only,234,IBD,56.0,HIGH
+Topology only,1290,IBD,43.6,MODERATE
+Topology only,759,IBD,82.2,CRITICAL
+Topology only,806,IBD,62.8,HIGH
+Topology only,992,nonIBD,36.7,MODERATE
+Topology only,838,nonIBD,62.0,HIGH
+Topology only,707,IBD,67.2,HIGH
+Topology only,15,IBD,49.4,MODERATE
+Topology only,237,IBD,42.4,MODERATE
+Topology only,127,IBD,58.7,HIGH
+Topology only,736,IBD,57.1,HIGH
+Topology only,570,IBD,27.6,MODERATE
+Topology only,119,IBD,62.0,HIGH
+Topology only,1039,IBD,60.0,HIGH
+Topology only,816,IBD,67.8,HIGH
+Topology only,1019,IBD,36.7,MODERATE
+Topology only,212,IBD,65.5,HIGH
+Topology only,383,IBD,46.5,MODERATE
+Topology only,321,IBD,61.9,HIGH
+Topology only,94,IBD,57.0,HIGH
+Topology only,875,nonIBD,63.6,HIGH
+Topology only,912,IBD,53.2,HIGH
+Topology only,1243,IBD,59.9,HIGH
+Topology only,1187,IBD,45.6,MODERATE
+Topology only,35,IBD,51.8,HIGH
+Topology only,162,IBD,50.5,HIGH
+Topology only,376,IBD,54.8,HIGH
+Topology only,514,nonIBD,45.2,MODERATE
+Topology only,960,IBD,57.0,HIGH
+Topology only,291,IBD,47.5,MODERATE
+Topology only,1244,IBD,59.2,HIGH
+Topology only,742,IBD,38.0,MODERATE
+Topology only,1026,nonIBD,51.1,HIGH
+Topology only,57,IBD,75.8,CRITICAL
+Topology only,1120,nonIBD,53.4,HIGH
+Topology only,445,IBD,47.9,MODERATE
+Topology only,517,IBD,62.4,HIGH
+Topology only,839,nonIBD,47.2,MODERATE
+Topology only,340,IBD,63.6,HIGH
+Topology only,548,nonIBD,75.5,CRITICAL
+Topology only,993,nonIBD,38.6,MODERATE
+Topology only,810,nonIBD,55.0,HIGH
+Topology only,843,IBD,37.0,MODERATE
+Topology only,168,IBD,54.3,HIGH
+Topology only,299,IBD,54.1,HIGH
+Topology only,344,IBD,57.3,HIGH
+Topology only,695,IBD,46.3,MODERATE
+Topology only,82,nonIBD,61.2,HIGH
+Topology only,1108,IBD,69.3,HIGH
+Topology only,34,IBD,57.9,HIGH
+Topology only,1204,IBD,33.1,MODERATE
+Topology only,1273,IBD,43.1,MODERATE
+Topology only,333,IBD,47.6,MODERATE
+Topology only,406,nonIBD,50.0,HIGH
+Topology only,1303,nonIBD,44.9,MODERATE
+Topology only,1283,IBD,58.5,HIGH
+Topology only,676,IBD,57.2,HIGH
+Topology only,526,IBD,37.5,MODERATE
+Topology only,1144,IBD,67.0,HIGH
+Topology only,449,IBD,69.2,HIGH
+Topology only,804,IBD,55.8,HIGH
+Topology only,1104,nonIBD,59.8,HIGH
+Topology only,1267,IBD,58.0,HIGH
+Topology only,982,nonIBD,60.7,HIGH
+Topology only,476,IBD,37.3,MODERATE
+Topology only,880,IBD,57.1,HIGH
+Topology only,1033,nonIBD,53.0,HIGH
+Topology only,278,IBD,59.9,HIGH
+Topology only,19,IBD,49.8,MODERATE
+Topology only,737,IBD,50.0,MODERATE
+Topology only,685,IBD,49.5,MODERATE
+Topology only,1152,IBD,44.4,MODERATE
+Topology only,1006,IBD,49.1,MODERATE
+Topology only,1264,IBD,36.1,MODERATE
+Topology only,1279,IBD,45.0,MODERATE
+Topology only,200,IBD,59.0,HIGH
+Topology only,922,IBD,36.1,MODERATE
+Topology only,1219,IBD,48.2,MODERATE
+Topology only,803,IBD,67.1,HIGH
+Topology only,821,IBD,42.5,MODERATE
+Topology only,882,nonIBD,64.2,HIGH
+Topology only,662,nonIBD,53.5,HIGH
+Topology only,324,IBD,42.2,MODERATE
+Topology only,68,IBD,53.3,HIGH
+Topology only,1297,IBD,45.4,MODERATE
+Topology only,808,nonIBD,40.0,MODERATE
+Topology only,769,IBD,65.7,HIGH
+Topology only,1056,IBD,58.7,HIGH
+Topology only,53,IBD,55.9,HIGH
+Topology only,101,IBD,51.7,HIGH
+Topology only,753,IBD,50.7,HIGH
+Topology only,640,IBD,53.7,HIGH
+Topology only,1141,IBD,47.7,MODERATE
+Topology only,50,IBD,54.7,HIGH
+Topology only,609,IBD,39.8,MODERATE
+Topology only,286,IBD,56.2,HIGH
+Topology only,357,IBD,46.5,MODERATE
+Topology only,1042,IBD,56.9,HIGH
+Topology only,1106,IBD,43.6,MODERATE
+Topology only,129,IBD,32.8,MODERATE
+Topology only,1009,nonIBD,44.2,MODERATE
+Topology only,108,IBD,58.7,HIGH
+Topology only,74,IBD,53.5,HIGH
+Topology only,307,IBD,39.8,MODERATE
+Topology only,1210,nonIBD,39.3,MODERATE
+Topology only,204,IBD,41.3,MODERATE
+Topology only,544,nonIBD,50.9,HIGH
+Topology only,98,IBD,48.7,MODERATE
+Topology only,176,IBD,81.9,CRITICAL
+Topology only,4,IBD,53.0,HIGH
+Topology only,1208,nonIBD,72.8,HIGH
+Topology only,1094,IBD,57.6,HIGH
+Topology only,697,IBD,58.6,HIGH
+Topology only,422,IBD,67.9,HIGH
+Topology only,1193,IBD,46.0,MODERATE
+Topology only,734,IBD,51.1,HIGH
+Topology only,857,nonIBD,55.0,HIGH
+Topology only,92,IBD,45.9,MODERATE
+Topology only,1064,IBD,52.4,HIGH
+Topology only,1218,IBD,48.6,MODERATE
+Topology only,750,IBD,57.1,HIGH
+Topology only,1180,IBD,35.4,MODERATE
+Topology only,877,IBD,56.0,HIGH
+Topology only,630,IBD,62.0,HIGH
+Topo + Shannon,815,IBD,55.6,HIGH
+Topo + Shannon,502,IBD,57.3,HIGH
+Topo + Shannon,729,IBD,55.1,HIGH
+Topo + Shannon,538,IBD,69.0,HIGH
+Topo + Shannon,251,IBD,56.7,HIGH
+Topo + Shannon,444,nonIBD,58.9,HIGH
+Topo + Shannon,1155,IBD,49.5,MODERATE
+Topo + Shannon,1258,nonIBD,60.0,HIGH
+Topo + Shannon,958,IBD,48.6,MODERATE
+Topo + Shannon,728,IBD,60.1,HIGH
+Topo + Shannon,666,IBD,58.9,HIGH
+Topo + Shannon,611,IBD,47.8,MODERATE
+Topo + Shannon,881,nonIBD,53.2,HIGH
+Topo + Shannon,22,IBD,77.8,CRITICAL
+Topo + Shannon,453,IBD,62.8,HIGH
+Topo + Shannon,499,IBD,46.0,MODERATE
+Topo + Shannon,849,nonIBD,79.1,CRITICAL
+Topo + Shannon,1022,IBD,30.7,MODERATE
+Topo + Shannon,368,IBD,54.0,HIGH
+Topo + Shannon,600,IBD,79.0,CRITICAL
+Topo + Shannon,1182,IBD,58.0,HIGH
+Topo + Shannon,898,nonIBD,36.2,MODERATE
+Topo + Shannon,1091,IBD,27.3,MODERATE
+Topo + Shannon,188,IBD,28.0,MODERATE
+Topo + Shannon,490,IBD,61.6,HIGH
+Topo + Shannon,893,nonIBD,51.2,HIGH
+Topo + Shannon,1027,nonIBD,49.5,MODERATE
+Topo + Shannon,1113,nonIBD,28.3,MODERATE
+Topo + Shannon,1040,IBD,52.4,HIGH
+Topo + Shannon,477,IBD,46.8,MODERATE
+Topo + Shannon,158,IBD,83.1,CRITICAL
+Topo + Shannon,268,IBD,56.7,HIGH
+Topo + Shannon,267,IBD,73.7,HIGH
+Topo + Shannon,232,IBD,59.4,HIGH
+Topo + Shannon,380,IBD,39.9,MODERATE
+Topo + Shannon,1071,IBD,48.6,MODERATE
+Topo + Shannon,1253,nonIBD,31.9,MODERATE
+Topo + Shannon,1209,nonIBD,32.3,MODERATE
+Topo + Shannon,470,nonIBD,66.5,HIGH
+Topo + Shannon,741,IBD,52.4,HIGH
+Topo + Shannon,362,IBD,54.4,HIGH
+Topo + Shannon,977,nonIBD,36.7,MODERATE
+Topo + Shannon,261,IBD,61.1,HIGH
+Topo + Shannon,767,IBD,74.3,HIGH
+Topo + Shannon,778,IBD,27.0,MODERATE
+Topo + Shannon,866,IBD,33.5,MODERATE
+Topo + Shannon,355,nonIBD,44.6,MODERATE
+Topo + Shannon,564,nonIBD,26.4,MODERATE
+Topo + Shannon,120,IBD,46.6,MODERATE
+Topo + Shannon,1158,IBD,51.8,HIGH
+Topo + Shannon,1062,IBD,49.8,MODERATE
+Topo + Shannon,1095,IBD,41.4,MODERATE
+Topo + Shannon,102,IBD,29.0,MODERATE
+Topo + Shannon,591,nonIBD,58.9,HIGH
+Topo + Shannon,1305,nonIBD,16.0,LOW
+Topo + Shannon,529,nonIBD,28.3,MODERATE
+Topo + Shannon,1076,nonIBD,30.6,MODERATE
+Topo + Shannon,905,nonIBD,13.8,LOW
+Topo + Shannon,1007,nonIBD,55.8,HIGH
+Topo + Shannon,770,nonIBD,52.7,HIGH
+Topo + Shannon,984,nonIBD,53.6,HIGH
+Topo + Shannon,96,IBD,74.5,HIGH
+Topo + Shannon,1316,IBD,71.8,HIGH
+Topo + Shannon,1252,nonIBD,47.1,MODERATE
+Topo + Shannon,605,IBD,39.3,MODERATE
+Topo + Shannon,105,IBD,33.4,MODERATE
+Topo + Shannon,1118,nonIBD,52.9,HIGH
+Topo + Shannon,221,nonIBD,23.5,LOW
+Topo + Shannon,372,IBD,68.6,HIGH
+Topo + Shannon,1333,IBD,59.9,HIGH
+Topo + Shannon,576,IBD,55.3,HIGH
+Topo + Shannon,575,IBD,52.2,HIGH
+Topo + Shannon,1220,IBD,82.7,CRITICAL
+Topo + Shannon,1154,IBD,37.3,MODERATE
+Topo + Shannon,122,IBD,35.2,MODERATE
+Topo + Shannon,814,IBD,51.9,HIGH
+Topo + Shannon,551,nonIBD,51.3,HIGH
+Topo + Shannon,913,IBD,36.2,MODERATE
+Topo + Shannon,418,IBD,40.2,MODERATE
+Topo + Shannon,75,IBD,42.0,MODERATE
+Topo + Shannon,542,IBD,54.8,HIGH
+Topo + Shannon,403,IBD,69.1,HIGH
+Topo + Shannon,700,IBD,58.7,HIGH
+Topo + Shannon,46,IBD,29.8,MODERATE
+Topo + Shannon,976,nonIBD,45.2,MODERATE
+Topo + Shannon,283,IBD,39.5,MODERATE
+Topo + Shannon,442,nonIBD,78.4,CRITICAL
+Topo + Shannon,198,IBD,53.3,HIGH
+Topo + Shannon,145,IBD,47.8,MODERATE
+Topo + Shannon,435,nonIBD,63.0,HIGH
+Topo + Shannon,1049,IBD,60.0,HIGH
+Topo + Shannon,733,IBD,52.9,HIGH
+Topo + Shannon,852,nonIBD,41.0,MODERATE
+Topo + Shannon,832,IBD,60.7,HIGH
+Topo + Shannon,446,IBD,37.3,MODERATE
+Topo + Shannon,1030,nonIBD,40.6,MODERATE
+Topo + Shannon,1013,nonIBD,37.5,MODERATE
+Topo + Shannon,483,IBD,56.7,HIGH
+Topo + Shannon,272,IBD,59.7,HIGH
+Topo + Shannon,744,nonIBD,35.7,MODERATE
+Topo + Shannon,1014,nonIBD,42.4,MODERATE
+Topo + Shannon,965,IBD,68.4,HIGH
+Topo + Shannon,1235,nonIBD,67.9,HIGH
+Topo + Shannon,441,nonIBD,65.4,HIGH
+Topo + Shannon,801,IBD,64.1,HIGH
+Topo + Shannon,88,IBD,28.2,MODERATE
+Topo + Shannon,590,nonIBD,47.4,MODERATE
+Topo + Shannon,831,IBD,38.9,MODERATE
+Topo + Shannon,427,nonIBD,21.1,LOW
+Topo + Shannon,117,IBD,61.8,HIGH
+Topo + Shannon,512,IBD,59.8,HIGH
+Topo + Shannon,42,IBD,69.0,HIGH
+Topo + Shannon,451,nonIBD,79.9,CRITICAL
+Topo + Shannon,613,IBD,73.5,HIGH
+Topo + Shannon,1285,nonIBD,32.3,MODERATE
+Topo + Shannon,883,nonIBD,62.0,HIGH
+Topo + Shannon,1206,IBD,78.5,CRITICAL
+Topo + Shannon,703,IBD,49.0,MODERATE
+Topo + Shannon,900,nonIBD,37.1,MODERATE
+Topo + Shannon,775,IBD,32.2,MODERATE
+Topo + Shannon,472,IBD,32.0,MODERATE
+Topo + Shannon,915,nonIBD,41.7,MODERATE
+Topo + Shannon,1096,IBD,25.6,MODERATE
+Topo + Shannon,1151,IBD,42.7,MODERATE
+Topo + Shannon,197,IBD,35.4,MODERATE
+Topo + Shannon,681,IBD,49.5,MODERATE
+Topo + Shannon,1159,IBD,51.1,HIGH
+Topo + Shannon,282,IBD,37.2,MODERATE
+Topo + Shannon,879,IBD,66.0,HIGH
+Topo + Shannon,631,IBD,58.2,HIGH
+Topo + Shannon,669,IBD,34.6,MODERATE
+Topo + Shannon,876,nonIBD,28.2,MODERATE
+Topo + Shannon,878,IBD,50.6,HIGH
+Topo + Shannon,1130,nonIBD,35.3,MODERATE
+Topo + Shannon,356,nonIBD,45.6,MODERATE
+Topo + Shannon,587,nonIBD,78.5,CRITICAL
+Topo + Shannon,1322,IBD,76.5,CRITICAL
+Topo + Shannon,634,IBD,63.3,HIGH
+Topo + Shannon,970,IBD,74.5,HIGH
+Topo + Shannon,972,IBD,69.3,HIGH
+Topo + Shannon,11,IBD,50.5,HIGH
+Topo + Shannon,462,nonIBD,29.9,MODERATE
+Topo + Shannon,52,IBD,74.6,HIGH
+Topo + Shannon,907,nonIBD,25.4,MODERATE
+Topo + Shannon,234,IBD,68.1,HIGH
+Topo + Shannon,1290,IBD,48.9,MODERATE
+Topo + Shannon,759,IBD,81.9,CRITICAL
+Topo + Shannon,806,IBD,67.4,HIGH
+Topo + Shannon,992,nonIBD,28.9,MODERATE
+Topo + Shannon,838,nonIBD,59.2,HIGH
+Topo + Shannon,707,IBD,64.9,HIGH
+Topo + Shannon,15,IBD,50.9,HIGH
+Topo + Shannon,237,IBD,29.8,MODERATE
+Topo + Shannon,127,IBD,60.8,HIGH
+Topo + Shannon,736,IBD,52.0,HIGH
+Topo + Shannon,570,IBD,19.8,LOW
+Topo + Shannon,119,IBD,64.0,HIGH
+Topo + Shannon,1039,IBD,80.9,CRITICAL
+Topo + Shannon,816,IBD,63.0,HIGH
+Topo + Shannon,1019,IBD,21.4,LOW
+Topo + Shannon,212,IBD,67.6,HIGH
+Topo + Shannon,383,IBD,43.5,MODERATE
+Topo + Shannon,321,IBD,70.0,HIGH
+Topo + Shannon,94,IBD,64.4,HIGH
+Topo + Shannon,875,nonIBD,43.7,MODERATE
+Topo + Shannon,912,IBD,34.9,MODERATE
+Topo + Shannon,1243,IBD,56.3,HIGH
+Topo + Shannon,1187,IBD,35.9,MODERATE
+Topo + Shannon,35,IBD,62.6,HIGH
+Topo + Shannon,162,IBD,74.4,HIGH
+Topo + Shannon,376,IBD,61.9,HIGH
+Topo + Shannon,514,nonIBD,28.4,MODERATE
+Topo + Shannon,960,IBD,60.3,HIGH
+Topo + Shannon,291,IBD,47.9,MODERATE
+Topo + Shannon,1244,IBD,59.4,HIGH
+Topo + Shannon,742,IBD,47.0,MODERATE
+Topo + Shannon,1026,nonIBD,40.6,MODERATE
+Topo + Shannon,57,IBD,72.3,HIGH
+Topo + Shannon,1120,nonIBD,45.5,MODERATE
+Topo + Shannon,445,IBD,46.5,MODERATE
+Topo + Shannon,517,IBD,71.9,HIGH
+Topo + Shannon,839,nonIBD,41.8,MODERATE
+Topo + Shannon,340,IBD,74.5,HIGH
+Topo + Shannon,548,nonIBD,71.4,HIGH
+Topo + Shannon,993,nonIBD,44.5,MODERATE
+Topo + Shannon,810,nonIBD,40.8,MODERATE
+Topo + Shannon,843,IBD,41.9,MODERATE
+Topo + Shannon,168,IBD,75.1,CRITICAL
+Topo + Shannon,299,IBD,49.5,MODERATE
+Topo + Shannon,344,IBD,71.9,HIGH
+Topo + Shannon,695,IBD,63.9,HIGH
+Topo + Shannon,82,nonIBD,49.9,MODERATE
+Topo + Shannon,1108,IBD,68.3,HIGH
+Topo + Shannon,34,IBD,58.9,HIGH
+Topo + Shannon,1204,IBD,25.0,MODERATE
+Topo + Shannon,1273,IBD,41.8,MODERATE
+Topo + Shannon,333,IBD,77.8,CRITICAL
+Topo + Shannon,406,nonIBD,64.1,HIGH
+Topo + Shannon,1303,nonIBD,43.6,MODERATE
+Topo + Shannon,1283,IBD,65.2,HIGH
+Topo + Shannon,676,IBD,60.4,HIGH
+Topo + Shannon,526,IBD,38.0,MODERATE
+Topo + Shannon,1144,IBD,68.0,HIGH
+Topo + Shannon,449,IBD,87.2,CRITICAL
+Topo + Shannon,804,IBD,44.0,MODERATE
+Topo + Shannon,1104,nonIBD,56.8,HIGH
+Topo + Shannon,1267,IBD,58.0,HIGH
+Topo + Shannon,982,nonIBD,41.8,MODERATE
+Topo + Shannon,476,IBD,33.3,MODERATE
+Topo + Shannon,880,IBD,56.6,HIGH
+Topo + Shannon,1033,nonIBD,39.9,MODERATE
+Topo + Shannon,278,IBD,62.1,HIGH
+Topo + Shannon,19,IBD,44.9,MODERATE
+Topo + Shannon,737,IBD,70.2,HIGH
+Topo + Shannon,685,IBD,45.1,MODERATE
+Topo + Shannon,1152,IBD,51.7,HIGH
+Topo + Shannon,1006,IBD,55.8,HIGH
+Topo + Shannon,1264,IBD,48.8,MODERATE
+Topo + Shannon,1279,IBD,48.0,MODERATE
+Topo + Shannon,200,IBD,63.8,HIGH
+Topo + Shannon,922,IBD,38.5,MODERATE
+Topo + Shannon,1219,IBD,60.0,HIGH
+Topo + Shannon,803,IBD,55.3,HIGH
+Topo + Shannon,821,IBD,70.4,HIGH
+Topo + Shannon,882,nonIBD,59.6,HIGH
+Topo + Shannon,662,nonIBD,32.2,MODERATE
+Topo + Shannon,324,IBD,37.9,MODERATE
+Topo + Shannon,68,IBD,60.0,HIGH
+Topo + Shannon,1297,IBD,41.3,MODERATE
+Topo + Shannon,808,nonIBD,31.2,MODERATE
+Topo + Shannon,769,IBD,80.4,CRITICAL
+Topo + Shannon,1056,IBD,64.9,HIGH
+Topo + Shannon,53,IBD,72.7,HIGH
+Topo + Shannon,101,IBD,33.0,MODERATE
+Topo + Shannon,753,IBD,52.4,HIGH
+Topo + Shannon,640,IBD,42.7,MODERATE
+Topo + Shannon,1141,IBD,58.2,HIGH
+Topo + Shannon,50,IBD,69.6,HIGH
+Topo + Shannon,609,IBD,39.6,MODERATE
+Topo + Shannon,286,IBD,52.8,HIGH
+Topo + Shannon,357,IBD,44.4,MODERATE
+Topo + Shannon,1042,IBD,70.6,HIGH
+Topo + Shannon,1106,IBD,26.7,MODERATE
+Topo + Shannon,129,IBD,26.7,MODERATE
+Topo + Shannon,1009,nonIBD,42.4,MODERATE
+Topo + Shannon,108,IBD,60.6,HIGH
+Topo + Shannon,74,IBD,42.8,MODERATE
+Topo + Shannon,307,IBD,38.9,MODERATE
+Topo + Shannon,1210,nonIBD,45.7,MODERATE
+Topo + Shannon,204,IBD,28.9,MODERATE
+Topo + Shannon,544,nonIBD,45.3,MODERATE
+Topo + Shannon,98,IBD,67.5,HIGH
+Topo + Shannon,176,IBD,76.7,CRITICAL
+Topo + Shannon,4,IBD,71.0,HIGH
+Topo + Shannon,1208,nonIBD,59.2,HIGH
+Topo + Shannon,1094,IBD,54.0,HIGH
+Topo + Shannon,697,IBD,58.2,HIGH
+Topo + Shannon,422,IBD,80.0,CRITICAL
+Topo + Shannon,1193,IBD,56.7,HIGH
+Topo + Shannon,734,IBD,50.9,HIGH
+Topo + Shannon,857,nonIBD,40.6,MODERATE
+Topo + Shannon,92,IBD,32.1,MODERATE
+Topo + Shannon,1064,IBD,54.9,HIGH
+Topo + Shannon,1218,IBD,56.0,HIGH
+Topo + Shannon,750,IBD,68.6,HIGH
+Topo + Shannon,1180,IBD,76.1,CRITICAL
+Topo + Shannon,877,IBD,55.9,HIGH
+Topo + Shannon,630,IBD,75.3,CRITICAL

@@ -100,18 +100,14 @@ so pre-thresholding would only impoverish the topological signal.
 Persistent homology was computed with Ripser~\citep{tralie2018ripser}
 (\texttt{ripser} v0.6.14) operating directly on the
 $80 \times 80$ dissimilarity matrix.
-We extracted homology groups $H_0$ (connected components) and $H_1$
-(one-cycles, i.e., loops).
-$H_2$ computation (two-dimensional voids, the filling of tetrahedra)
-was omitted for two reasons.
-First, three-dimensional co-occurrence motifs lack a clear biological
-interpretation in microbial interaction networks; the scientifically
-motivated hypothesis---that dysbiosis disrupts cross-feeding
-\emph{cycles}---maps onto $H_1$, not $H_2$.
-Second, constructing the 3-simplices required for $H_2$ increases both
-computation and memory requirements substantially relative to the $H_1$
-case; for the 80-node networks analysed here, $H_1$ alone already
-saturates the topological signal at a tractable runtime.
+We extracted homology groups $H_0$ (connected components), $H_1$
+(one-cycles, i.e., loops), and $H_2$ (two-dimensional voids).
+While the primary hypothesis---that dysbiosis disrupts cross-feeding
+\emph{cycles}---maps onto $H_1$, we also computed $H_2$ as an
+empirical stress test to determine whether higher-dimensional
+topological features carry additional signal.
+For the 80-node networks analysed here, the additional cost of $H_2$
+was modest ($\sim$0.13\,s per diagram vs.\ $\sim$0.06\,s for $H_1$ only).
 
 The persistence diagram $\mathrm{PD}_k = \{(b_i, d_i)\}_{i=1}^{n_k}$
 records the birth and death filtration distances of each $k$-dimensional
@@ -123,7 +119,8 @@ were stripped before scalar extraction, and bars with negligible persistence
 \subsection{Scalar topological features}
 \label{subsec:features}
 
-Six scalars were extracted from each $\mathrm{PD}_1$:
+Six scalars were extracted from each $\mathrm{PD}_1$ (and, analogously,
+six from $\mathrm{PD}_2$ for the $H_2$ analysis):
 
 \begin{description}[leftmargin=2.2em, itemsep=3pt]
   \item[\textbf{H1 count.}] Cardinality $|\mathrm{PD}_1|$: raw number of

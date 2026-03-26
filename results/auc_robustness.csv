@@ -1,0 +1,193 @@
+test,feature_set,seed,n_folds,test_size,subsample_frac,mean_auc,std_auc
+seed_stability,Shannon only,0,5.0,,1.0,0.6457,0.0273
+seed_stability,Shannon only,1,5.0,,1.0,0.6449,0.0205
+seed_stability,Shannon only,2,5.0,,1.0,0.6464,0.0389
+seed_stability,Shannon only,3,5.0,,1.0,0.6468,0.0241
+seed_stability,Shannon only,4,5.0,,1.0,0.6453,0.0367
+seed_stability,Shannon only,5,5.0,,1.0,0.6482,0.0212
+seed_stability,Shannon only,6,5.0,,1.0,0.6455,0.0444
+seed_stability,Shannon only,7,5.0,,1.0,0.6449,0.0294
+seed_stability,Shannon only,8,5.0,,1.0,0.6457,0.0577
+seed_stability,Shannon only,9,5.0,,1.0,0.6452,0.0477
+seed_stability,Shannon only,10,5.0,,1.0,0.6458,0.0619
+seed_stability,Shannon only,11,5.0,,1.0,0.6462,0.0347
+seed_stability,Shannon only,12,5.0,,1.0,0.6458,0.0417
+seed_stability,Shannon only,13,5.0,,1.0,0.6446,0.0372
+seed_stability,Shannon only,14,5.0,,1.0,0.6455,0.0274
+seed_stability,Shannon only,15,5.0,,1.0,0.6451,0.0371
+seed_stability,Shannon only,16,5.0,,1.0,0.6443,0.0139
+seed_stability,Shannon only,17,5.0,,1.0,0.6457,0.0395
+seed_stability,Shannon only,18,5.0,,1.0,0.6474,0.0332
+seed_stability,Shannon only,19,5.0,,1.0,0.6448,0.0299
+seed_stability,Topology only,0,5.0,,1.0,0.5978,0.0269
+seed_stability,Topology only,1,5.0,,1.0,0.5911,0.0364
+seed_stability,Topology only,2,5.0,,1.0,0.5815,0.0295
+seed_stability,Topology only,3,5.0,,1.0,0.5969,0.0366
+seed_stability,Topology only,4,5.0,,1.0,0.5953,0.0226
+seed_stability,Topology only,5,5.0,,1.0,0.5926,0.0254
+seed_stability,Topology only,6,5.0,,1.0,0.595,0.0421
+seed_stability,Topology only,7,5.0,,1.0,0.5951,0.0252
+seed_stability,Topology only,8,5.0,,1.0,0.5975,0.0124
+seed_stability,Topology only,9,5.0,,1.0,0.5899,0.038
+seed_stability,Topology only,10,5.0,,1.0,0.5891,0.019
+seed_stability,Topology only,11,5.0,,1.0,0.5975,0.0695
+seed_stability,Topology only,12,5.0,,1.0,0.5875,0.0499
+seed_stability,Topology only,13,5.0,,1.0,0.5933,0.0227
+seed_stability,Topology only,14,5.0,,1.0,0.5933,0.0291
+seed_stability,Topology only,15,5.0,,1.0,0.5922,0.0322
+seed_stability,Topology only,16,5.0,,1.0,0.5919,0.0432
+seed_stability,Topology only,17,5.0,,1.0,0.5932,0.0244
+seed_stability,Topology only,18,5.0,,1.0,0.5973,0.0503
+seed_stability,Topology only,19,5.0,,1.0,0.5955,0.0218
+seed_stability,Topo + Shannon,0,5.0,,1.0,0.6788,0.0284
+seed_stability,Topo + Shannon,1,5.0,,1.0,0.6737,0.0152
+seed_stability,Topo + Shannon,2,5.0,,1.0,0.6659,0.017
+seed_stability,Topo + Shannon,3,5.0,,1.0,0.6728,0.0374
+seed_stability,Topo + Shannon,4,5.0,,1.0,0.6757,0.0247
+seed_stability,Topo + Shannon,5,5.0,,1.0,0.6731,0.0267
+seed_stability,Topo + Shannon,6,5.0,,1.0,0.671,0.0457
+seed_stability,Topo + Shannon,7,5.0,,1.0,0.6748,0.0292
+seed_stability,Topo + Shannon,8,5.0,,1.0,0.6743,0.0477
+seed_stability,Topo + Shannon,9,5.0,,1.0,0.6713,0.0344
+seed_stability,Topo + Shannon,10,5.0,,1.0,0.6708,0.0445
+seed_stability,Topo + Shannon,11,5.0,,1.0,0.6729,0.0433
+seed_stability,Topo + Shannon,12,5.0,,1.0,0.6666,0.0505
+seed_stability,Topo + Shannon,13,5.0,,1.0,0.6741,0.0287
+seed_stability,Topo + Shannon,14,5.0,,1.0,0.675,0.0234
+seed_stability,Topo + Shannon,15,5.0,,1.0,0.6708,0.0265
+seed_stability,Topo + Shannon,16,5.0,,1.0,0.6731,0.0258
+seed_stability,Topo + Shannon,17,5.0,,1.0,0.6701,0.0335
+seed_stability,Topo + Shannon,18,5.0,,1.0,0.6759,0.0432
+seed_stability,Topo + Shannon,19,5.0,,1.0,0.6738,0.0308
+split_ratio,Shannon only,0,,0.4,1.0,0.6635,
+split_ratio,Shannon only,1,,0.4,1.0,0.6494,
+split_ratio,Shannon only,2,,0.4,1.0,0.6293,
+split_ratio,Shannon only,3,,0.4,1.0,0.6815,
+split_ratio,Shannon only,4,,0.4,1.0,0.6349,
+split_ratio,Shannon only,0,,0.3,1.0,0.6752,
+split_ratio,Shannon only,1,,0.3,1.0,0.6631,
+split_ratio,Shannon only,2,,0.3,1.0,0.6197,
+split_ratio,Shannon only,3,,0.3,1.0,0.6884,
+split_ratio,Shannon only,4,,0.3,1.0,0.6154,
+split_ratio,Shannon only,0,,0.2,1.0,0.7156,
+split_ratio,Shannon only,1,,0.2,1.0,0.6455,
+split_ratio,Shannon only,2,,0.2,1.0,0.6273,
+split_ratio,Shannon only,3,,0.2,1.0,0.6856,
+split_ratio,Shannon only,4,,0.2,1.0,0.6249,
+split_ratio,Shannon only,0,,0.1,1.0,0.6967,
+split_ratio,Shannon only,1,,0.1,1.0,0.6857,
+split_ratio,Shannon only,2,,0.1,1.0,0.648,
+split_ratio,Shannon only,3,,0.1,1.0,0.6621,
+split_ratio,Shannon only,4,,0.1,1.0,0.5873,
+split_ratio,Topology only,0,,0.4,1.0,0.566,
+split_ratio,Topology only,1,,0.4,1.0,0.6005,
+split_ratio,Topology only,2,,0.4,1.0,0.6031,
+split_ratio,Topology only,3,,0.4,1.0,0.5645,
+split_ratio,Topology only,4,,0.4,1.0,0.5903,
+split_ratio,Topology only,0,,0.3,1.0,0.5674,
+split_ratio,Topology only,1,,0.3,1.0,0.5711,
+split_ratio,Topology only,2,,0.3,1.0,0.5958,
+split_ratio,Topology only,3,,0.3,1.0,0.5635,
+split_ratio,Topology only,4,,0.3,1.0,0.5664,
+split_ratio,Topology only,0,,0.2,1.0,0.5854,
+split_ratio,Topology only,1,,0.2,1.0,0.5621,
+split_ratio,Topology only,2,,0.2,1.0,0.6192,
+split_ratio,Topology only,3,,0.2,1.0,0.5321,
+split_ratio,Topology only,4,,0.2,1.0,0.5675,
+split_ratio,Topology only,0,,0.1,1.0,0.5969,
+split_ratio,Topology only,1,,0.1,1.0,0.4838,
+split_ratio,Topology only,2,,0.1,1.0,0.5842,
+split_ratio,Topology only,3,,0.1,1.0,0.555,
+split_ratio,Topology only,4,,0.1,1.0,0.6046,
+split_ratio,Topo + Shannon,0,,0.4,1.0,0.6666,
+split_ratio,Topo + Shannon,1,,0.4,1.0,0.6774,
+split_ratio,Topo + Shannon,2,,0.4,1.0,0.682,
+split_ratio,Topo + Shannon,3,,0.4,1.0,0.6601,
+split_ratio,Topo + Shannon,4,,0.4,1.0,0.6656,
+split_ratio,Topo + Shannon,0,,0.3,1.0,0.6751,
+split_ratio,Topo + Shannon,1,,0.3,1.0,0.6615,
+split_ratio,Topo + Shannon,2,,0.3,1.0,0.6633,
+split_ratio,Topo + Shannon,3,,0.3,1.0,0.6676,
+split_ratio,Topo + Shannon,4,,0.3,1.0,0.6503,
+split_ratio,Topo + Shannon,0,,0.2,1.0,0.7083,
+split_ratio,Topo + Shannon,1,,0.2,1.0,0.6537,
+split_ratio,Topo + Shannon,2,,0.2,1.0,0.6677,
+split_ratio,Topo + Shannon,3,,0.2,1.0,0.6427,
+split_ratio,Topo + Shannon,4,,0.2,1.0,0.6615,
+split_ratio,Topo + Shannon,0,,0.1,1.0,0.727,
+split_ratio,Topo + Shannon,1,,0.1,1.0,0.6122,
+split_ratio,Topo + Shannon,2,,0.1,1.0,0.6718,
+split_ratio,Topo + Shannon,3,,0.1,1.0,0.6426,
+split_ratio,Topo + Shannon,4,,0.1,1.0,0.6363,
+cv_folds,Shannon only,42,3.0,,1.0,0.6457,0.0054
+cv_folds,Shannon only,42,5.0,,1.0,0.6454,0.0248
+cv_folds,Shannon only,42,7.0,,1.0,0.6462,0.0299
+cv_folds,Shannon only,42,10.0,,1.0,0.6465,0.0297
+cv_folds,Topology only,42,3.0,,1.0,0.5946,0.0283
+cv_folds,Topology only,42,5.0,,1.0,0.5906,0.0386
+cv_folds,Topology only,42,7.0,,1.0,0.5925,0.045
+cv_folds,Topology only,42,10.0,,1.0,0.5915,0.0716
+cv_folds,Topo + Shannon,42,3.0,,1.0,0.6746,0.0135
+cv_folds,Topo + Shannon,42,5.0,,1.0,0.6729,0.0368
+cv_folds,Topo + Shannon,42,7.0,,1.0,0.6705,0.0306
+cv_folds,Topo + Shannon,42,10.0,,1.0,0.6703,0.0545
+subsampling,Shannon only,0,5.0,,0.25,0.6649,0.0786
+subsampling,Shannon only,1,5.0,,0.25,0.6562,0.0754
+subsampling,Shannon only,2,5.0,,0.25,0.616,0.0656
+subsampling,Shannon only,3,5.0,,0.25,0.6369,0.0339
+subsampling,Shannon only,4,5.0,,0.25,0.6527,0.0535
+subsampling,Shannon only,0,5.0,,0.5,0.6565,0.046
+subsampling,Shannon only,1,5.0,,0.5,0.6727,0.0341
+subsampling,Shannon only,2,5.0,,0.5,0.6629,0.0432
+subsampling,Shannon only,3,5.0,,0.5,0.6431,0.033
+subsampling,Shannon only,4,5.0,,0.5,0.6551,0.0536
+subsampling,Shannon only,0,5.0,,0.75,0.6291,0.0367
+subsampling,Shannon only,1,5.0,,0.75,0.635,0.0307
+subsampling,Shannon only,2,5.0,,0.75,0.6627,0.0404
+subsampling,Shannon only,3,5.0,,0.75,0.6432,0.0635
+subsampling,Shannon only,4,5.0,,0.75,0.6422,0.0249
+subsampling,Shannon only,0,5.0,,1.0,0.6459,0.022
+subsampling,Shannon only,1,5.0,,1.0,0.6447,0.0522
+subsampling,Shannon only,2,5.0,,1.0,0.6444,0.0312
+subsampling,Shannon only,3,5.0,,1.0,0.6443,0.0191
+subsampling,Shannon only,4,5.0,,1.0,0.6466,0.0265
+subsampling,Topology only,0,5.0,,0.25,0.519,0.0454
+subsampling,Topology only,1,5.0,,0.25,0.5181,0.0823
+subsampling,Topology only,2,5.0,,0.25,0.6104,0.1016
+subsampling,Topology only,3,5.0,,0.25,0.616,0.0765
+subsampling,Topology only,4,5.0,,0.25,0.5701,0.0497
+subsampling,Topology only,0,5.0,,0.5,0.5658,0.036
+subsampling,Topology only,1,5.0,,0.5,0.597,0.0613
+subsampling,Topology only,2,5.0,,0.5,0.5616,0.038
+subsampling,Topology only,3,5.0,,0.5,0.6083,0.0234
+subsampling,Topology only,4,5.0,,0.5,0.5743,0.0496
+subsampling,Topology only,0,5.0,,0.75,0.595,0.0577
+subsampling,Topology only,1,5.0,,0.75,0.5835,0.045
+subsampling,Topology only,2,5.0,,0.75,0.5979,0.0355
+subsampling,Topology only,3,5.0,,0.75,0.6034,0.0362
+subsampling,Topology only,4,5.0,,0.75,0.5899,0.0449
+subsampling,Topology only,0,5.0,,1.0,0.5973,0.0234
+subsampling,Topology only,1,5.0,,1.0,0.5923,0.0544
+subsampling,Topology only,2,5.0,,1.0,0.5929,0.0361
+subsampling,Topology only,3,5.0,,1.0,0.5986,0.0035
+subsampling,Topology only,4,5.0,,1.0,0.5981,0.0134
+subsampling,Topo + Shannon,0,5.0,,0.25,0.6617,0.0578
+subsampling,Topo + Shannon,1,5.0,,0.25,0.6697,0.0739
+subsampling,Topo + Shannon,2,5.0,,0.25,0.6557,0.0723
+subsampling,Topo + Shannon,3,5.0,,0.25,0.7023,0.0595
+subsampling,Topo + Shannon,4,5.0,,0.25,0.6454,0.0543
+subsampling,Topo + Shannon,0,5.0,,0.5,0.68,0.0455
+subsampling,Topo + Shannon,1,5.0,,0.5,0.6886,0.0305
+subsampling,Topo + Shannon,2,5.0,,0.5,0.6734,0.0388
+subsampling,Topo + Shannon,3,5.0,,0.5,0.6649,0.026
+subsampling,Topo + Shannon,4,5.0,,0.5,0.6731,0.0295
+subsampling,Topo + Shannon,0,5.0,,0.75,0.6499,0.0337
+subsampling,Topo + Shannon,1,5.0,,0.75,0.6529,0.0362
+subsampling,Topo + Shannon,2,5.0,,0.75,0.6865,0.0298
+subsampling,Topo + Shannon,3,5.0,,0.75,0.6697,0.0486
+subsampling,Topo + Shannon,4,5.0,,0.75,0.6633,0.0202
+subsampling,Topo + Shannon,0,5.0,,1.0,0.6771,0.0219
+subsampling,Topo + Shannon,1,5.0,,1.0,0.6683,0.0427
+subsampling,Topo + Shannon,2,5.0,,1.0,0.676,0.0419
+subsampling,Topo + Shannon,3,5.0,,1.0,0.6781,0.0131
+subsampling,Topo + Shannon,4,5.0,,1.0,0.6783,0.0211

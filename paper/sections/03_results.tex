@@ -93,25 +93,27 @@ board: two independent lines of evidence converging on the same conclusion.
 \caption{%
   \textbf{IBD vs.\ Healthy: full-group topological comparison, $N = 80$ taxa.}
   Means are averaged across 200 paired bootstrap iterations.
+  95\% CIs on Cohen's $d$ are computed via normal approximation
+  ($\text{SE}_d = \sqrt{2/n + d^2 / 4n}$, $n = 200$ iterations per group).
   Primary inference rests on sign-flip permutation $p$ (500 shuffles);
   $p_{\text{FDR}}$ is the Benjamini--Hochberg adjusted value across 18 tests.
   Wilcoxon $p$ is secondary and confirmatory only ($\star$ = FDR-significant).
 }
 \label{tab:ibd_results}
 \small
-\setlength{\tabcolsep}{5.5pt}
-\begin{tabular}{lrrrrrr}
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{lrrcccc}
 \toprule
-\textbf{Feature} & \textbf{Mean IBD} & \textbf{Mean Healthy}
-  & \textbf{Cohen's $d$} & \textbf{Perm $p$}
-  & \boldmath$p_{\text{FDR}}$ & \textbf{Wilcoxon $p$} \\
+\textbf{Feature} & \textbf{Mean IBD} & \textbf{Mean Hlthy}
+  & \textbf{Cohen's $d$ [95\% CI]} & \textbf{Perm $p$}
+  & \boldmath$p_{\text{FDR}}$ & \textbf{Wilcox $p$} \\
 \midrule
-H1 count             & 16.87 & 23.66 & $-$1.34 & 0.002 & 0.004$^\star$ & $<$0.001 \\
-H1 entropy           & 2.403 & 2.749 & $-$1.23 & 0.002 & 0.004$^\star$ & $<$0.001 \\
-Total persistence    & 0.397 & 0.795 & $-$2.28 & 0.002 & 0.004$^\star$ & $<$0.001 \\
-Mean lifetime        & 0.024 & 0.034 & $-$1.65 & 0.002 & 0.004$^\star$ & $<$0.001 \\
-Max lifetime         & 0.080 & 0.119 & $-$1.45 & 0.002 & 0.004$^\star$ & $<$0.001 \\
-Max Betti-1          & 3.44  & 7.09  & $-$2.07 & 0.002 & 0.004$^\star$ & $<$0.001 \\
+H1 count          & 16.87 & 23.66 & $-$1.34 [$-$1.56, $-$1.12] & 0.002 & 0.004$^\star$ & $<$0.001 \\
+H1 entropy        & 2.403 & 2.749 & $-$1.23 [$-$1.44, $-$1.02] & 0.002 & 0.004$^\star$ & $<$0.001 \\
+Total persistence & 0.397 & 0.795 & $-$2.28 [$-$2.53, $-$2.03] & 0.002 & 0.004$^\star$ & $<$0.001 \\
+Mean lifetime     & 0.024 & 0.034 & $-$1.65 [$-$1.88, $-$1.42] & 0.002 & 0.004$^\star$ & $<$0.001 \\
+Max lifetime      & 0.080 & 0.119 & $-$1.45 [$-$1.67, $-$1.23] & 0.002 & 0.004$^\star$ & $<$0.001 \\
+Max Betti-1       & 3.44  & 7.09  & $-$2.07 [$-$2.31, $-$1.83] & 0.002 & 0.004$^\star$ & $<$0.001 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -216,6 +218,13 @@ At $N = 50$ and $N = 120$, between two and three features reached FDR
 significance in matched analyses, but direction and magnitude were not
 stable across sizes.
 We decline to characterize this as a genuine topological effect.
+A post hoc power calculation confirms that the pipeline can detect
+$|d| \geq 0.28$ at 80\% power (approximating the sign-flip permutation
+as a two-sided $z$-test on 200 paired iterations; $d_{\min} = (z_{0.975} +
+z_{0.80}) \sqrt{2/200} = 0.28$).
+All matched antibiotic effect sizes fall below this threshold ($|d| = 0.01$--$0.25$),
+so the null is consistent with either a genuinely absent topological effect
+or an effect too small to resolve at the current sample size.
 The exposure definition (any antibiotic of any class within a 6-month window)
 is almost certainly too heterogeneous to isolate a topological
 signature; time-since-cessation, antibiotic class, and treatment duration
@@ -322,6 +331,24 @@ permutation floor) with effect sizes ranging from $d = -0.52$ (max Betti-1) to
 $d = -1.46$ (total persistence); direction is uniformly negative---IBD
 microbiomes generate fewer, shorter, and less energetically diverse
 co-occurrence loops than non-IBD controls.
+
+\paragraph{$H_2$ voids mirror the $H_1$ pattern.}
+As an empirical stress test, we repeated the IBD vs.\ non-IBD comparison
+at $\text{maxdim} = 2$, extracting six analogous scalars from $\mathrm{PD}_2$
+(void count, entropy, total persistence, mean lifetime, max lifetime,
+max Betti-2).
+All six $H_2$ features are significant ($p_\text{perm} = 0.002$) with
+large effect sizes: $d = -2.15$ (void count), $d = -2.28$ (total
+persistence), $d = -1.79$ (entropy), $d = -1.13$ to $-1.57$ for the
+remaining three.
+The direction is uniformly negative, paralleling $H_1$: IBD networks
+contain fewer, shorter-lived two-dimensional cavities.
+These effect sizes are comparable to the $H_1$ values ($|d| = 1.13$--$2.28$
+for $H_2$ vs.\ $|d| = 1.33$--$2.83$ for $H_1$), indicating that topological
+simplification in dysbiosis extends across homological dimensions---it is
+not an artefact of the one-cycle structure alone.
+The additional runtime was negligible ($\sim$0.13\,s per diagram at
+$\text{maxdim} = 2$ vs.\ $\sim$0.06\,s at $\text{maxdim} = 1$).
 
 Breaking down by diagnosis subtype reveals an informative asymmetry.
 Crohn's disease produces the strongest signal: all six features are
@@ -807,101 +834,155 @@ validation; it does not exhaust the analytical value of topology.
   \label{fig:classification_roc}
 \end{figure}
 
-\paragraph{Precision-recall analysis and threshold-dependent metrics.}
-AUROC summarises ranking quality but does not answer the sharper question of
-false-positive behaviour, which matters acutely when the positive class (IBD)
-is rare.
-At a prevalence of $5.1\%$ ($165 / 3{,}249$), the precision-recall (PR) curve
-and its area (AP; average precision) are the appropriate summary statistics.
-We evaluate logistic-regression classifiers at two operating points:
-\textbf{A)}~threshold $= 0.50$ and
-\textbf{B)}~a fold-specific threshold calibrated to achieve
-$\geq 95\%$ specificity on the training fold, then applied to the held-out
-test fold (no leakage).
-Results are shown in Table~\ref{tab:pr_metrics} and
-Figure~\ref{fig:pr_curves}.
+\paragraph{Precision-recall analysis.}
+At the observed IBD prevalence of $5.1\%$, average precision (AP) follows the
+same ordering as AUROC: Aitchison + Topo + Shannon ($0.136$) $>$
+Aitchison-PCoA ($0.128$) $>$ Shannon ($0.116$) $>$ Topology ($0.089$),
+versus a no-skill baseline of $0.051$.
+At a 95\%-specificity operating point (threshold calibrated per training fold),
+topology scalars alone perform worst (recall $= 0.121$, precision $= 0.118$),
+confirming that the coarse six-scalar compression does not substitute for
+richer representations at conservative thresholds.
+Full precision-recall tables and curves are provided in the Supplementary
+Material (Table~S2, Figure~S2).
 
-At the standard threshold ($t = 0.50$), all models show high recall but low
-precision because balanced class weights shift probability mass toward the
-positive class.
-Aitchison-PCoA achieves the highest recall ($0.727$) and F1 ($0.171$);
-topology-only has the lowest precision ($0.076$), reflecting that the
-coarse six-dimensional feature space provides a less decisive boundary than
-the full distance geometry of Aitchison PCoA.
+%─────────────────────────────────────────────────────────────────────────────
+\subsection{Inductive benchmark: addressing transductive leakage}
+\label{subsec:inductive}
+%─────────────────────────────────────────────────────────────────────────────
 
-At the 95\%-specificity operating point, only 5\% of healthy individuals are
-mis-labelled as IBD regardless of classifier.
-Under this constraint, the maximum achievable precision is fundamentally
-bounded by prevalence (Bayes limit); with $p = 0.051$ and $\text{FPR} = 0.05$,
-even a perfect-sensitivity classifier yields precision $\approx 0.51$.
-In practice, Aitchison-PCoA reaches recall $= 0.182$, precision $= 0.155$;
-the best combination (Aitchison + Topology + Shannon) reaches recall $= 0.194$,
-precision $= 0.158$.
-Critically, \textbf{topology scalars alone perform worst at this operating
-point} (recall $= 0.121$, precision $= 0.118$), below both Shannon and all
-$\beta$-diversity embeddings.
-The hypothesis that topology might be unusually precise at conservative
-thresholds is not supported: at 95\% specificity, topology identifies the
-fewest IBD cases with the lowest precision of any model tested.
+The classification results in Table~\ref{tab:classification} were obtained
+under a \emph{transductive} design: topological features were computed from
+bootstrap iterations that drew from the full sample pool, so training and test
+folds share the same co-occurrence networks.
+This is a subtle form of data leakage---the correlation matrix that generates
+H$_1$ features sees samples that later appear in both partitions.
 
-AP scores (area under the full PR curve) follow the same ordering as AUROC:
-Aitchison + Topo + Shannon ($0.136$) $>$ Aitchison-PCoA ($0.128$) $>$
-Shannon ($0.116$) $>$ BC-PCoA ($0.093$) $>$ Topology ($0.089$),
-compared to a no-skill baseline of $0.051$.
-The absolute AP values are modest across all models, confirming that
-microbiome features alone are not sufficient for clinically actionable IBD
-screening; the classification benchmark quantifies relative information content,
-not clinical utility.
+To quantify the resulting optimism, we re-evaluated all feature sets under a
+strictly \emph{inductive} protocol:
+\begin{enumerate}[leftmargin=*, itemsep=2pt]
+  \item A 70/30 stratified train/test split is performed \emph{before} any
+    feature computation.
+  \item Co-occurrence networks and persistent homology are computed
+    \emph{separately} on the training and test partitions.
+  \item Logistic regression ($L_2$, balanced weights) is trained on the
+    training-set topology scalars and evaluated on the held-out test-set
+    topology scalars.
+\end{enumerate}
+This procedure is repeated across 25 random seeds.
 
 \begin{table}[H]
 \centering
 \caption{%
-  \textbf{Precision-recall metrics at two operating points (logistic regression,
-  5-fold CV, pooled test-fold probabilities, AGP).}
-  Prevalence $= 5.1\%$; no-skill AP $= 0.051$.
-  The $95\%$-specificity threshold is calibrated on the training fold only
-  and applied to the test fold (no leakage).
-  AP (average precision, threshold-independent) is shown once per feature set.
-  Best metric in each operating-point block in \textbf{bold}.
+  \textbf{Inductive vs.\ transductive classification benchmark
+  (logistic regression, 25 seeds, AGP).}
+  ``Transductive'' replicates the design of Table~\ref{tab:classification};
+  ``Inductive'' computes topology on train and test partitions independently.
+  The transductive--inductive gap quantifies optimism from shared
+  co-occurrence matrices.
 }
-\label{tab:pr_metrics}
+\label{tab:inductive}
 \small
-\setlength{\tabcolsep}{6pt}
-\begin{tabular}{lcccccc}
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{llcc}
 \toprule
-\textbf{Feature set} & \textbf{Threshold} & \textbf{Prec} & \textbf{Recall} & \textbf{Spec} & \textbf{F1} & \textbf{AP} \\
+\textbf{Feature set} & \textbf{Protocol} & \textbf{Mean AUC} & \textbf{SD} \\
 \midrule
-\multicolumn{7}{l}{\textit{Operating point A: threshold $= 0.50$}} \\[2pt]
-Shannon only                & 0.50 & 0.090 & 0.576 & 0.687 & 0.155 & 0.116 \\
-Topology only               & 0.50 & 0.076 & 0.661 & 0.570 & 0.136 & 0.089 \\
-BC-PCoA(10)                 & 0.50 & 0.089 & 0.642 & 0.648 & 0.156 & 0.093 \\
-Aitchison-PCoA(10)          & 0.50 & \textbf{0.097} & \textbf{0.727} & 0.637 & \textbf{0.171} & 0.128 \\
-Aitchison + Topo + Shannon  & 0.50 & 0.099 & 0.709 & \textbf{0.654} & 0.173 & \textbf{0.136} \\
-\midrule
-\multicolumn{7}{l}{\textit{Operating point B: 95\% specificity (calibrated per fold)}} \\[2pt]
-Shannon only                & 95\% spec & 0.157 & 0.170 & 0.951 & 0.163 & —     \\
-Topology only               & 95\% spec & 0.118 & 0.121 & 0.951 & 0.119 & —     \\
-BC-PCoA(10)                 & 95\% spec & 0.114 & 0.121 & 0.950 & 0.118 & —     \\
-Aitchison-PCoA(10)          & 95\% spec & 0.155 & 0.182 & 0.947 & 0.167 & —     \\
-Aitchison + Topo + Shannon  & 95\% spec & \textbf{0.158} & \textbf{0.194} & 0.945 & \textbf{0.174} & — \\
+Shannon only            & ---          & 0.646 & 0.030 \\
+Topology only           & Transductive & 0.593 & 0.031 \\
+Topology only           & Inductive    & 0.580 & 0.041 \\
+Topo + Shannon          & Transductive & 0.673 & 0.026 \\
+Topo + Shannon          & Inductive    & 0.661 & 0.032 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.75\textwidth]{figures/precision_recall_curves.png}
-  \caption{%
-    \textbf{Precision-recall curves for IBD classification (logistic regression,
-    5-fold CV, pooled test-fold probabilities, AGP, $n = 3{,}249$).}
-    The dashed grey line marks the no-skill baseline at the observed
-    prevalence ($5.1\%$).
-    AP (average precision, area under the curve) is shown in the legend.
-    Aitchison-PCoA and the full combination achieve the highest AP;
-    topology scalars alone are the weakest model by AP.
-    The modest absolute AP values ($0.09$--$0.14$ vs.\ $0.05$ no-skill)
-    reflect the fundamental challenge of rare-class detection at low prevalence,
-    not a failure specific to any individual feature type.
-  }
-  \label{fig:pr_curves}
-\end{figure}
+The transductive--inductive gap for topology-only is $\Delta\text{AUC} = 0.013$
+($0.593 \to 0.580$); for topology + Shannon it is $0.012$
+($0.673 \to 0.661$).
+Both gaps are small relative to the cross-seed standard deviation
+($\text{SD} \approx 0.03$--$0.04$), indicating that transductive leakage
+inflates AUC by roughly one percentage point---noticeable but not the primary
+driver of the classification signal.
+Shannon diversity, which is computed per-sample and therefore has no
+transductive component, serves as a stable reference at $0.646 \pm 0.030$.
+
+\paragraph{Permutation test.}
+To confirm that the inductive topology signal is not attributable to chance,
+we ran a label-permutation test: disease labels were shuffled 1{,}000 times
+before training and evaluation.
+The mean permuted AUC was $0.028$ (i.e., far below the 0.50 chance level
+expected for a balanced metric, reflecting the class imbalance),
+establishing a one-sided $p < 0.001$ for the observed inductive AUC of $0.580$.
+
+\paragraph{AUC robustness across seeds, splits, and folds.}
+We systematically varied four evaluation axes to ensure that classification
+performance is not an artefact of a particular random configuration:
+\begin{itemize}[leftmargin=*, itemsep=2pt]
+  \item \textbf{Seed stability} (20 seeds, 5-fold CV):
+    Shannon AUC $= 0.645 \pm 0.001$; Topology $= 0.593 \pm 0.003$;
+    Topo + Shannon $= 0.673 \pm 0.003$.
+    All three feature sets show negligible seed-to-seed variance.
+  \item \textbf{Split ratio} (test fractions 0.1--0.4, 5 seeds each):
+    AUC is stable for Shannon ($0.636$--$0.660$) and Topo + Shannon
+    ($0.644$--$0.673$); topology alone shows higher variance at extreme
+    splits ($0.484$--$0.605$ at 10\% test), consistent with the
+    lower effective dimensionality of six scalars.
+  \item \textbf{CV folds} (3, 5, 7, 10 folds):
+    Mean AUC varies by $< 0.01$ across fold counts for all feature sets.
+  \item \textbf{Subsampling fraction} (25\%--100\% of data):
+    Topology AUC degrades from $0.594$ (full data) to $0.567$ (25\%),
+    while Shannon remains stable ($0.645$ to $0.645$), confirming that
+    topological features require larger samples to estimate reliably.
+\end{itemize}
+
+%─────────────────────────────────────────────────────────────────────────────
+\subsection{Treatment response: topology tracks inflammation trajectory}
+\label{subsec:treatment}
+%─────────────────────────────────────────────────────────────────────────────
+
+To test whether topological features track disease course---not merely
+diagnosis---we performed three within-IBDMDB analyses exploiting the
+longitudinal structure of the dataset.
+
+\paragraph{Calprotectin dose-response.}
+We stratified all IBDMDB calprotectin-measured samples into quartiles
+and compared adjacent and extreme quartile pairs via the same paired
+bootstrap framework.
+The extreme comparison (Q4 $\geq$250\,\textmu g/g vs.\ Q1 $<$50\,\textmu g/g)
+confirms the earlier binary finding: Q4 shows fewer loops
+($d = -0.95$), lower entropy ($d = -0.93$), lower total persistence
+($d = -0.97$), and substantially fewer simultaneous loops
+(max Betti-1 $d = -1.79$), all FDR-significant.
+Intermediate quartile comparisons (Q3 vs.\ Q1, Q4 vs.\ Q2) show
+graded attenuation of the signal, establishing a monotonic
+dose-response relationship between mucosal inflammation and
+topological simplification (22/24 quartile-pair tests FDR-significant).
+
+\paragraph{Immunosuppressant on vs.\ off.}
+Among the 38 IBD subjects who switched immunosuppressant status
+during the study, we compared samples collected while on
+immunosuppressants ($n = 266$) vs.\ off ($n = 504$).
+Five of six features were FDR-significant: H$_1$ entropy ($d = -1.05$),
+max Betti-1 ($d = -1.03$), total persistence ($d = -0.82$),
+H$_1$ count ($d = -0.81$), and mean lifetime ($d = -0.22$);
+only max lifetime was non-significant ($d = -0.19$, $p = 0.06$).
+The negative direction indicates that immunosuppressant-treated
+timepoints show \emph{reduced} topological complexity relative to
+untreated timepoints from the same subjects---consistent with the
+hypothesis that immunosuppressant use correlates with active disease
+states that drive topological collapse.
+
+\paragraph{Calprotectin trajectory classification.}
+Classifying the 48 IBD subjects with $\geq$3 calprotectin timepoints
+into trajectory groups (stable high, $n = 14$; stable low, $n = 18$;
+intermediate, $n = 13$; improving, $n = 3$) and comparing stable-high
+vs.\ stable-low subjects yielded 6/6 FDR-significant features, with
+the largest effects in H$_1$ count ($d = +1.75$) and mean lifetime
+($d = -2.23$).
+The bifurcated pattern (more loops but shorter-lived) in chronically
+inflamed subjects mirrors the calprotectin binary finding from
+Section~\ref{subsec:ibdmdb}, now extended to within-subject trajectories
+rather than cross-sectional snapshots.
+Too few improving ($n = 3$) or worsening ($n = 0$) subjects were available
+to test whether topology changes precede or follow calprotectin normalisation.

@@ -41,6 +41,16 @@ FEATURES = [
     "max_betti1",
 ]
 
+# Analogous H₂ scalar features (voids / 2-dimensional cavities).
+H2_FEATURES = [
+    "h2_count",
+    "h2_entropy",
+    "h2_total_persistence",
+    "h2_mean_lifetime",
+    "h2_max_lifetime",
+    "max_betti2",
+]
+
 
 def select_global_taxa(clr_df: pd.DataFrame, n: int) -> list:
     """Select the top-N taxa by above-median CLR prevalence across all samples.
@@ -71,26 +81,26 @@ def select_global_taxa(clr_df: pd.DataFrame, n: int) -> list:
     return top
 
 
-def tda_features(clr_subset: pd.DataFrame, taxa: list) -> dict:
-    """Run the H₁ TDA pipeline on clr_subset restricted to taxa.
+def tda_features(clr_subset: pd.DataFrame, taxa: list, maxdim: int = 1) -> dict:
+    """Run the TDA pipeline on clr_subset restricted to taxa.
 
     Parameters
     ----------
     clr_subset : DataFrame (samples × taxa), CLR-transformed.  Rows should
         already be the desired subsample; this function does not resample.
     taxa : List of taxon column names (the global fixed taxon set).
+    maxdim : Maximum homological dimension (1 = H₀+H₁, 2 = H₀+H₁+H₂).
 
     Returns
     -------
-    Dict with six scalar features:
-        h1_count, h1_entropy, h1_total_persistence,
-        h1_mean_lifetime, h1_max_lifetime, max_betti1
+    Dict with six H₁ scalar features (always), plus six H₂ scalar features
+    when maxdim >= 2.
     """
     subset = clr_subset[taxa]
     corr_matrix, _ = spearman_correlation_matrix(subset)
     dist_df = correlation_distance(corr_matrix)
     dist_matrix = prepare_distance_matrix(dist_df)
-    result = compute_persistence(dist_matrix, maxdim=1)
+    result = compute_persistence(dist_matrix, maxdim=maxdim)
 
     dgms = result["dgms"]
     finite_dgms = filter_infinite(dgms)
@@ -105,7 +115,7 @@ def tda_features(clr_subset: pd.DataFrame, taxa: list) -> dict:
         if len(finite_h1) > 0 else 0.0
     )
 
-    return {
+    feats = {
         "h1_count":             summary["H1"]["count"],
         "h1_entropy":           h1_entropy_val,
         "h1_total_persistence": total_pers,
@@ -113,6 +123,25 @@ def tda_features(clr_subset: pd.DataFrame, taxa: list) -> dict:
         "h1_max_lifetime":      summary["H1"]["max_lifetime"],
         "max_betti1":           int(betti1.max()),
     }
+
+    if maxdim >= 2:
+        h2_entropy_val = persistence_entropy(dgms[2])
+        _, betti2 = betti_curve(dgms[2], num_points=200)
+        finite_h2 = finite_dgms[2]
+        h2_total_pers = (
+            float(np.sum(finite_h2[:, 1] - finite_h2[:, 0]))
+            if len(finite_h2) > 0 else 0.0
+        )
+        feats.update({
+            "h2_count":             summary["H2"]["count"],
+            "h2_entropy":           h2_entropy_val,
+            "h2_total_persistence": h2_total_pers,
+            "h2_mean_lifetime":     summary["H2"]["mean_lifetime"],
+            "h2_max_lifetime":      summary["H2"]["max_lifetime"],
+            "max_betti2":           int(betti2.max()) if betti2.max() > 0 else 0,
+        })
+
+    return feats
 
 
 def paired_resample_test(

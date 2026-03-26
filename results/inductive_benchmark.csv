@@ -1,0 +1,7 @@
+method,mean_auc,std_auc,n_evaluations,min_auc,max_auc
+Shannon only,0.6458,0.0304,25,0.5927,0.6962
+Topology only (transductive),0.5925,0.0314,25,0.5335,0.6684
+Topo+Shannon (transductive),0.6734,0.0262,25,0.6144,0.7211
+Topology only (inductive),0.5802,0.0413,25,0.4871,0.6583
+Topo+Shannon (inductive),0.6611,0.0315,25,0.5983,0.7093
+PERMUTATION TEST,0.0276,0.0293,1000,0.184815,

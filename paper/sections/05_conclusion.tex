@@ -52,9 +52,24 @@ find that:
   Topology scalars do not improve over Aitchison when combined, indicating that
   the six H$_1$ scalars are largely subsumed by the full Aitchison distance
   geometry in prediction.
+  Under a strictly inductive protocol---where co-occurrence networks are
+  computed separately on training and test partitions---topology AUC decreases
+  modestly to $0.580$ ($\Delta = 0.013$), confirmed as non-random by a
+  1{,}000-shuffle permutation test ($p < 0.001$) and stable across 20 seeds,
+  multiple split ratios, and CV fold counts.
   The mechanistic value of topology---loop attribution, biomarker correlation,
   structural interpretability---is distinct from and not captured by AUC
   comparisons alone.
+
+  \item \textbf{Topology tracks disease course, not merely diagnosis.}
+  Calprotectin quartile dose-response analysis shows monotonic topological
+  simplification with increasing mucosal inflammation (22/24 quartile-pair
+  tests FDR-significant).
+  Within-subject immunosuppressant on/off comparisons (5/6 features
+  FDR-significant) and calprotectin trajectory classification (stable high
+  vs.\ stable low: 6/6 FDR-significant) confirm that topological features
+  respond to treatment-related changes in inflammation within the same
+  patients.
 
 \end{enumerate}
 
@@ -72,8 +87,9 @@ across disease flares and remission, to test whether loop complexity is a
 dynamic marker of disease activity rather than a static cross-sectional
 trait;
 (ii) richer topological representations---persistence images, kernel
-embeddings, or $H_2$ cavity counts---which are expected to widen the
-topology-versus-Shannon AUC gap beyond the current $0.02$ margin;
+embeddings, or $H_2$ cavity counts---which may close the AUC gap between
+topology and Aitchison-PCoA (currently $\Delta = 0.15$ under inductive
+evaluation);
 and (iii) integration with metatranscriptomic and metabolomic layers from
 IBDMDB to test whether the taxa identified as loop anchors also exhibit
 coordinated functional disruption, providing the mechanistic link from

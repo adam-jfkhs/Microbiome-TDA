@@ -123,6 +123,35 @@ graph-theoretic alternatives is the same as here: the features of interest
 are not expressible as functions of individual edges, but emerge from the
 collective geometry of multi-node motifs that thresholding-based networks
 miss or misrepresent.
+
+To test this claim directly, we ran a parallel benchmark in which the paired
+bootstrap framework was applied to standard graph-theoretic metrics (edge density,
+clustering coefficient, transitivity, modularity, number of connected components)
+at three absolute-correlation thresholds ($|r| \geq 0.2, 0.3, 0.4$) in the
+IBDMDB cohort.
+Standard metrics do detect the IBD signal---transitivity achieves $|d| = 1.20$
+at threshold 0.2, and modularity reaches $|d| = 0.91$ at 0.3---but their
+performance is \emph{threshold-dependent}: edge density is significant at
+$|r| \geq 0.2$ and $0.4$ but not $0.3$; clustering coefficient is significant
+at $0.2$ and $0.3$ but not $0.4$.
+By contrast, all six TDA features are significant at the permutation floor
+($p = 0.002$) without requiring any threshold choice, because persistent
+homology integrates across the full filtration.
+The highest single network-metric effect size ($|d| = 2.45$ for number of
+connected components at $|r| \geq 0.4$) exceeds the best TDA feature
+($|d| = 1.46$ for total persistence), but this metric is essentially $H_0$
+(zeroth homology), which TDA also computes; the distinctive contribution of
+persistent homology lies in the $H_1$ loop features, which have no
+graph-theoretic equivalent.
+Moreover, the $H_2$ stress test (Section~\ref{subsec:ibdmdb}) reveals
+that topological simplification in dysbiosis is not confined to
+one-cycles: two-dimensional voids are equally depleted in IBD networks
+($|d| = 1.13$--$2.28$, all $p < 0.005$), suggesting that the entire
+simplicial complex---not just its loop structure---collapses under
+dysbiosis.
+This multi-dimensional topological degradation is a novel finding with no
+analogue in standard network-metric analyses.
+
 The amplified effect sizes we observe relative to conventional alpha-diversity
 are consistent with this general principle: topological features aggregate
 information from many pairwise correlations simultaneously, producing a more
@@ -159,6 +188,21 @@ improve over Aitchison when combined.
 The remaining benchmark gap is whether richer topological representations
 (persistence images, kernel embeddings) can close the AUC gap to
 Aitchison-PCoA; that question is deferred to future work.
+
+\paragraph{Transductive leakage (addressed).}
+Section~\ref{subsec:inductive} reports an inductive benchmark in which
+co-occurrence networks are computed separately on training and test
+partitions, eliminating the shared-correlation-matrix leakage present in
+the transductive design.
+The transductive--inductive gap is $\Delta\text{AUC} \approx 0.013$ for
+topology alone, small relative to cross-seed variance ($\text{SD} \approx 0.03$).
+A 1{,}000-shuffle label-permutation test confirms $p < 0.001$, and
+systematic robustness checks (20 seeds, 4 split ratios, 4 CV fold counts,
+4 subsampling fractions) show that the classification signal is stable and
+not an artefact of any particular evaluation configuration.
+Topology features do, however, require larger sample sizes than Shannon to
+estimate reliably: at 25\% subsampling, topology AUC degrades by $0.027$
+while Shannon remains unchanged.
 
 \paragraph{Single cohort (addressed in part).}
 All primary \agp\ results originate from a self-recruited citizen-science

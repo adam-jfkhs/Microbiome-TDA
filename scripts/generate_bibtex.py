@@ -10,7 +10,7 @@ def doi_to_bibtex(doi):
     url = f"https://doi.org/{doi}"
     req = urllib.request.Request(url, headers={"Accept": "application/x-bibtex"})
     try:
-        with urllib.request.urlopen(req) as resp:
+        with urllib.request.urlopen(req, timeout=30) as resp:
             return resp.read().decode("utf-8")
     except Exception as e:
         print(f"Failed to fetch {doi}: {e}", file=sys.stderr)

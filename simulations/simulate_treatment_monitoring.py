@@ -49,6 +49,7 @@ from src.networks.cooccurrence import spearman_correlation_matrix
 from src.networks.distance import correlation_distance
 from src.tda.filtration import prepare_distance_matrix
 from src.tda.features import betti_curve, persistence_entropy
+from src.analysis.bootstrap import FEATURES as FEATURE_COLS
 
 # ── Configuration ─────────────────────────────────────────────────────────────
 SEED = 42
@@ -62,11 +63,6 @@ FIGURE_DIR = os.path.join(ROOT, "figures")
 RESULTS_DIR = os.path.join(ROOT, "results")
 os.makedirs(FIGURE_DIR, exist_ok=True)
 os.makedirs(RESULTS_DIR, exist_ok=True)
-
-FEATURE_COLS = [
-    "h1_count", "h1_entropy", "h1_total_persistence",
-    "h1_mean_lifetime", "h1_max_lifetime", "max_betti1",
-]
 
 
 def per_sample_topology(clr_matrix, k=K_NEIGHBOURS):

@@ -41,6 +41,12 @@ FEATURES = [
     "max_betti1",
 ]
 
+# Human-readable labels for the six H₁ features (for plot axes, tables, etc.).
+FEATURE_LABELS = [
+    "H1 Count", "H1 Entropy", "H1 Total Persistence",
+    "H1 Mean Lifetime", "H1 Max Lifetime", "Max Betti-1",
+]
+
 # Analogous H₂ scalar features (voids / 2-dimensional cavities).
 H2_FEATURES = [
     "h2_count",

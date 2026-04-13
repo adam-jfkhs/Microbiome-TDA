@@ -216,7 +216,10 @@ def compute_topology_features(clr_matrix: np.ndarray, k: int = K_NEIGHBOURS) -> 
 
 
 def load_or_compute_topology(clr_df: pd.DataFrame) -> np.ndarray:
-    """Return cached topology features or compute and cache them."""
+    """Return cached topology features or compute and cache them.
+
+    Uses a lock file to prevent concurrent writes from corrupting the cache.
+    """
     if os.path.exists(TOPO_CACHE):
         print(f"Loading cached topology features from {TOPO_CACHE} …")
         data = np.load(TOPO_CACHE)
@@ -229,12 +232,23 @@ def load_or_compute_topology(clr_df: pd.DataFrame) -> np.ndarray:
 
     print("Computing per-sample topology features (first run, ~10–15 min) …")
     features = compute_topology_features(clr_df.values.astype(np.float64))
-    np.savez(
-        TOPO_CACHE,
-        features=features,
-        sample_ids=np.array(clr_df.index.tolist()),
-    )
-    print(f"  Cached to {TOPO_CACHE}")
+
+    lock_path = TOPO_CACHE + ".lock"
+    try:
+        fd = os.open(lock_path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+        try:
+            np.savez(
+                TOPO_CACHE,
+                features=features,
+                sample_ids=np.array(clr_df.index.tolist()),
+            )
+            print(f"  Cached to {TOPO_CACHE}")
+        finally:
+            os.close(fd)
+            os.unlink(lock_path)
+    except FileExistsError:
+        print("  Another process is writing cache — skipping cache write.")
+
     return features
 
 
@@ -494,7 +508,21 @@ def plot_roc_curves(results_lr: list, results_rf: list, out_path: str):
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 
+def _preflight():
+    """Check required data files exist before expensive computation."""
+    biom = os.path.join(DATA_DIR, "agp", "agp_otu_table.biom")
+    meta = os.path.join(DATA_DIR, "agp", "agp_metadata.tsv")
+    missing = [p for p in (biom, meta) if not os.path.exists(p)]
+    if missing:
+        raise FileNotFoundError(
+            f"Required data files not found:\n"
+            + "\n".join(f"  {p}" for p in missing)
+            + "\nRun 'make data' or 'bash scripts/download_agp.sh' first."
+        )
+
+
 def main():
+    _preflight()
     t_start = time.time()
 
     # 1. Load data

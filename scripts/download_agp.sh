@@ -32,8 +32,11 @@ if [ -f "$DATA_DIR/agp_biom.zip" ] && [ -s "$DATA_DIR/agp_biom.zip" ]; then
   echo "Extracting BIOM archive..."
   unzip -o -d "$DATA_DIR/biom_extract" "$DATA_DIR/agp_biom.zip"
 
-  # Find the Deblur 150nt BIOM (prefer the one with "150nt" or "Deblur" in path)
-  BIOM_FILE=$(find "$DATA_DIR/biom_extract" -name "*.biom" | head -1)
+  # Find the Deblur 150nt BIOM — prefer exact match, fall back to first .biom
+  BIOM_FILE=$(find "$DATA_DIR/biom_extract" -name "*.biom" | grep -i -E "deblur|150nt" | head -1)
+  if [ -z "$BIOM_FILE" ]; then
+    BIOM_FILE=$(find "$DATA_DIR/biom_extract" -name "*.biom" | head -1)
+  fi
   if [ -n "$BIOM_FILE" ]; then
     cp "$BIOM_FILE" "$DATA_DIR/agp_otu_table.biom"
     echo "OTU table: $(du -h "$DATA_DIR/agp_otu_table.biom" | cut -f1)"
@@ -56,7 +59,7 @@ if [ -f "$DATA_DIR/agp_metadata.zip" ] && [ -s "$DATA_DIR/agp_metadata.zip" ]; t
   echo "Extracting metadata archive..."
   unzip -o -d "$DATA_DIR/meta_extract" "$DATA_DIR/agp_metadata.zip"
 
-  META_FILE=$(find "$DATA_DIR/meta_extract" -name "*.tsv" -o -name "*.txt" | head -1)
+  META_FILE=$(find "$DATA_DIR/meta_extract" \( -name "*.tsv" -o -name "*.txt" \) | head -1)
   if [ -n "$META_FILE" ]; then
     cp "$META_FILE" "$DATA_DIR/agp_metadata.tsv"
     echo "Metadata: $(du -h "$DATA_DIR/agp_metadata.tsv" | cut -f1)"
@@ -83,13 +86,14 @@ echo ""
 
 # Verify both files exist
 if [ ! -s "$DATA_DIR/agp_otu_table.biom" ] || [ ! -s "$DATA_DIR/agp_metadata.tsv" ]; then
-  echo "WARNING: One or both files are missing or empty."
-  echo ""
-  echo "Alternative: use redbiom (pip install redbiom):"
-  echo "  redbiom fetch samples \\"
-  echo "    --context Deblur-Illumina-16S-V4-150nt-780653 \\"
-  echo "    --output $DATA_DIR/agp_otu_table.biom"
-  echo ""
-  echo "Or download manually from:"
-  echo "  https://qiita.ucsd.edu/study/description/10317"
+  echo "ERROR: One or both files are missing or empty." >&2
+  echo "" >&2
+  echo "Alternative: use redbiom (pip install redbiom):" >&2
+  echo "  redbiom fetch samples \\" >&2
+  echo "    --context Deblur-Illumina-16S-V4-150nt-780653 \\" >&2
+  echo "    --output $DATA_DIR/agp_otu_table.biom" >&2
+  echo "" >&2
+  echo "Or download manually from:" >&2
+  echo "  https://qiita.ucsd.edu/study/description/10317" >&2
+  exit 1
 fi

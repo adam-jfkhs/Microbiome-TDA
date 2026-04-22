@@ -31,9 +31,6 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-from scipy.stats import spearmanr
-from scipy.spatial.distance import cdist
-
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
@@ -47,79 +44,27 @@ from src.data.ibdmdb_loader import load_ibdmdb
 from src.data.preprocess import filter_low_abundance, clr_transform
 from src.analysis.bootstrap import select_global_taxa
 from src.tda.homology import compute_persistence, filter_infinite
+from src.tda.sample_features import h1_features, compute_per_sample_topology
+from src.analysis.bootstrap import FEATURE_LABELS
 
 # ── Configuration ─────────────────────────────────────────────────────────────
 SEED = 42
 N_GLOBAL_TAXA = 80
-K_NEIGHBOURS = 40
+K_NEIGHBOURS = 40  # Smaller than scripts/ (60) — appropriate for IBDMDB size
 DATA_DIR = os.path.join(ROOT, "data", "raw")
 FIGURE_DIR = os.path.join(ROOT, "figures")
 RESULTS_DIR = os.path.join(ROOT, "results")
 os.makedirs(FIGURE_DIR, exist_ok=True)
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
-FEATURE_NAMES = [
-    "H1 Count", "H1 Entropy", "H1 Total Persistence",
-    "H1 Mean Lifetime", "H1 Max Lifetime", "Max Betti-1",
-]
+FEATURE_NAMES = FEATURE_LABELS
 SHORT_NAMES = [
     "h1_count", "h1_entropy", "h1_total_pers",
     "h1_mean_life", "h1_max_life", "max_betti1",
 ]
 
 
-def _h1_features(dgm_h1):
-    """Extract 6 H1 scalars from a persistence diagram."""
-    finite = dgm_h1[np.isfinite(dgm_h1[:, 1])] if len(dgm_h1) > 0 else dgm_h1
-    if len(finite) == 0:
-        return [0, 0.0, 0.0, 0.0, 0.0, 0]
-    lifetimes = finite[:, 1] - finite[:, 0]
-    total_pers = float(lifetimes.sum())
-    norm_lt = lifetimes / total_pers if total_pers > 0 else lifetimes
-    entropy = float(-np.sum(norm_lt * np.log(norm_lt + 1e-12)))
-    births, deaths = finite[:, 0], finite[:, 1]
-    thresholds = np.unique(np.concatenate([births, deaths]))
-    max_betti = int(max(
-        np.sum((births <= t) & (deaths > t)) for t in thresholds
-    )) if len(thresholds) > 0 else 0
-    return [len(finite), entropy, total_pers, float(lifetimes.mean()),
-            float(lifetimes.max()), max_betti]
-
-
-def compute_per_sample_topology(clr_matrix, k=K_NEIGHBOURS):
-    """Per-sample H1 features via k-NN neighbourhood TDA."""
-    n = clr_matrix.shape[0]
-    k_actual = min(k, n - 1)
-    out = np.zeros((n, 6), dtype=np.float32)
-
-    dists = cdist(clr_matrix, clr_matrix, metric="euclidean")
-
-    print(f"  Computing per-sample topology (n={n}, k={k_actual}) ...")
-    t0 = time.time()
-    for i in range(n):
-        if i % 200 == 0 and i > 0:
-            elapsed = time.time() - t0
-            eta = (elapsed / i) * (n - i)
-            print(f"    {i}/{n}  {elapsed:.0f}s elapsed  ETA {eta:.0f}s")
-
-        nn_idx = np.argsort(dists[i])[1:k_actual + 1]
-        neighbourhood = clr_matrix[nn_idx]
-        if neighbourhood.shape[0] < 3:
-            continue
-
-        corr_mat, _ = spearmanr(neighbourhood, axis=0)
-        if corr_mat.ndim == 0:
-            corr_mat = np.array([[1.0]])
-        dist_mat = np.clip(1.0 - np.abs(corr_mat), 0.0, 1.0)
-        np.fill_diagonal(dist_mat, 0.0)
-
-        result = compute_persistence(dist_mat, maxdim=1, thresh=1.0)
-        dgms = filter_infinite(result["dgms"])
-        dgm_h1 = dgms[1] if len(dgms) > 1 else np.empty((0, 2))
-        out[i] = _h1_features(dgm_h1)
-
-    print(f"  Done in {time.time() - t0:.1f}s")
-    return out
+# _h1_features and compute_per_sample_topology imported from src.tda.sample_features
 
 
 def compute_shannon(abundance_df):

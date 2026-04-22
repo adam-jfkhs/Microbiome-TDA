@@ -37,6 +37,7 @@ from scipy.stats import spearmanr
 from ripser import ripser
 
 from src.data.preprocess import clr_transform
+from src.analysis.bootstrap import FEATURES as FEATURE_NAMES
 
 # ── Configuration ───────────────────────────────────────────────────────────────
 SEED         = 42
@@ -50,11 +51,6 @@ FIG_DIR      = os.path.join(os.path.dirname(__file__), "..", "figures")
 RES_DIR      = os.path.join(os.path.dirname(__file__), "..", "results")
 os.makedirs(FIG_DIR, exist_ok=True)
 os.makedirs(RES_DIR, exist_ok=True)
-
-FEATURE_NAMES = [
-    "h1_count", "h1_entropy", "h1_total_persistence",
-    "h1_mean_lifetime", "h1_max_lifetime", "max_betti1",
-]
 
 
 # ── Data loading ────────────────────────────────────────────────────────────────

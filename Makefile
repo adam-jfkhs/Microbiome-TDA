@@ -14,7 +14,7 @@ analyze:
 	python scripts/run_agp_bootstrap_v2.py
 	python scripts/run_taxa_sensitivity.py
 	python scripts/run_ibdmdb_bootstrap.py
-	python scripts/run_classification_benchmark.py
+	python scripts/run_classification_benchmark_v2.py
 
 explore:
 	jupyter notebook notebooks/01_data_exploration.ipynb

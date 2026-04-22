@@ -1,0 +1,36 @@
+name	group	diff_impact	healthy_impact	ibd_impact	pval	annotation
+Oscillospira	healthy	4.077	4.876	-0.328	0.006	Butyrate-associated; enriched in healthy BMI and high-fiber diets
+Lachnospiraceae	ibd	-2.476	-3.211	-1.96	0.89	Butyrate producers; decreased in active IBD
+Dorea	ibd	-2.063	-0.046	3.162	1.0	Lachnospiraceae member; enriched in active IBD; low SCFA production
+Clostridiales	ibd	-1.726	0.761	2.972	0.994	Order of anaerobic Firmicutes; major fiber fermenters
+Blautia	healthy	1.282	-0.046	-1.824	0.0	SCFA producer; associated with reduced inflammation and IBD remission
+Ruminococcaceae	healthy	0.895	2.793	2.013	0.724	Cellulose/hemicellulose degraders; reduced in IBD
+Bacteroides	ibd	-0.754	-0.629	1.504	0.98	Predominant Bacteroidetes; degrade polysaccharides; complex IBD role
+Erwinia	ibd	-0.746	-0.046	1.042	0.996	Enterobacteriaceae-related; pathobiont; elevated in IBD
+Clostridiaceae	healthy	0.732	-0.046	-0.949	0.028	Clostridial family; ferment dietary fiber to short-chain fatty acids
+faecis	ibd	-0.38	-0.888	-0.692	0.048	Gut microbiome taxon
+[Mogibacteriaceae]	ibd	-0.344	-0.633	-0.214	0.804	Gut microbiome taxon
+Comamonadaceae	healthy	0.308	-0.046	-0.621	0.136	Betaproteobacteria; environmental origin; indicator of dysbiosis
+moorei	neutral	-0.216	-0.046	0.22	0.932	Gut microbiome taxon
+Planococcaceae	neutral	-0.209	-0.046	0.208	0.924	Gut microbiome taxon
+Chromatiales	neutral	-0.209	-0.046	0.208	0.916	Gut microbiome taxon
+Virgibacillus	neutral	-0.209	-0.046	0.208	0.924	Gut microbiome taxon
+distasonis	neutral	0.204	-0.046	-0.328	0.098	Bacteroides distasonis; butyrate-producing Bacteroidetes
+Ruminococcus	neutral	-0.201	-0.046	0.195	0.918	Starch degrader; complex role across IBD subtypes
+Anaerococcus	neutral	-0.194	-0.046	0.184	0.928	Gut microbiome taxon
+Roseburia	neutral	-0.151	-0.688	-0.483	0.11	Major butyrate producer; significantly decreased in CD and UC
+Dehalobacterium	neutral	0.136	-0.046	-0.227	0.354	Anaerobic; associated with healthy rural microbiomes
+Gemellaceae	neutral	0.131	-0.046	-0.228	0.274	Oral-origin Firmicutes; occasional gut opportunist
+Neisseria	neutral	0.127	-0.046	-0.214	0.298	Oral/respiratory; bloom in gut dysbiosis states
+Coprococcus	neutral	0.127	-0.46	-0.214	0.412	Butyrate producer; Lachnospiraceae; reduced in IBD and depression
+Coprobacillus	neutral	0.127	-0.046	-0.214	0.338	Gut microbiome taxon
+Anaerotruncus	neutral	0.127	-0.046	-0.214	0.316	Clostridiales; fiber fermenter; reduced in IBD
+formicigenerans	neutral	0.127	-0.046	-0.214	0.322	Gut microbiome taxon
+zeae	neutral	0.127	-0.046	-0.214	0.366	Gut microbiome taxon
+Paludibacter	neutral	0.127	-0.046	-0.214	0.304	Gut microbiome taxon
+Coriobacteriaceae	neutral	0.127	-0.046	-0.214	0.328	Actinobacteria family; bile acid biotransformation
+RF16	neutral	0.127	-0.046	-0.214	0.412	Gut microbiome taxon
+Parabacteroides	neutral	0.127	-0.046	-0.214	0.22	Bacteroidetes; associated with healthy gut barrier function
+Streptococcus	neutral	0.127	-0.046	-0.214	0.296	Oral-gut axis; bloom in dysbiosis and antibiotic perturbation
+Clostridium	neutral	0.127	-0.046	-0.214	0.476	Mixed genus; some species beneficial, others dysbiotic in IBD
+Rikenellaceae	neutral	0.127	-0.046	-0.214	0.316	Bacteroidetes family; reduced in IBD and high-fat diet

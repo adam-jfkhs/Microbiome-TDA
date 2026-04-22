@@ -50,11 +50,12 @@ from src.data.ibdmdb_loader import load_ibdmdb
 from src.data.preprocess import filter_low_abundance, clr_transform
 from src.analysis.bootstrap import select_global_taxa
 from src.tda.homology import compute_persistence, filter_infinite
+from src.tda.sample_features import h1_features
 
 # ── Configuration ─────────────────────────────────────────────────────────────
 SEED = 42
 N_GLOBAL_TAXA = 80
-K_NEIGHBOURS = 40
+K_NEIGHBOURS = 40  # Smaller than scripts/ (60) — appropriate for IBDMDB size
 N_CV_FOLDS = 5
 N_PERMUTATIONS = 1000
 
@@ -66,24 +67,6 @@ os.makedirs(RESULTS_DIR, exist_ok=True)
 
 
 # ── Core TDA ──────────────────────────────────────────────────────────────────
-
-def _h1_features(dgm_h1):
-    """Extract 6 H1 scalars from a persistence diagram."""
-    finite = dgm_h1[np.isfinite(dgm_h1[:, 1])] if len(dgm_h1) > 0 else dgm_h1
-    if len(finite) == 0:
-        return [0, 0.0, 0.0, 0.0, 0.0, 0]
-    lifetimes = finite[:, 1] - finite[:, 0]
-    total_pers = float(lifetimes.sum())
-    norm_lt = lifetimes / total_pers if total_pers > 0 else lifetimes
-    entropy = float(-np.sum(norm_lt * np.log(norm_lt + 1e-12)))
-    births, deaths = finite[:, 0], finite[:, 1]
-    thresholds = np.unique(np.concatenate([births, deaths]))
-    max_betti = int(max(
-        np.sum((births <= t) & (deaths > t)) for t in thresholds
-    )) if len(thresholds) > 0 else 0
-    return [len(finite), entropy, total_pers, float(lifetimes.mean()),
-            float(lifetimes.max()), max_betti]
-
 
 def _sample_topology(clr_matrix_ref, sample_vector, k):
     """Compute topology features for ONE sample using ONLY ref neighbors.
@@ -117,7 +100,7 @@ def _sample_topology(clr_matrix_ref, sample_vector, k):
     result = compute_persistence(dist_mat, maxdim=1, thresh=1.0)
     dgms = filter_infinite(result["dgms"])
     dgm_h1 = dgms[1] if len(dgms) > 1 else np.empty((0, 2))
-    return np.array(_h1_features(dgm_h1), dtype=np.float32)
+    return np.array(h1_features(dgm_h1), dtype=np.float32)
 
 
 def compute_topology_inductive(clr_train, clr_test, k=K_NEIGHBOURS):
@@ -160,7 +143,7 @@ def compute_topology_inductive(clr_train, clr_test, k=K_NEIGHBOURS):
         result = compute_persistence(dist_mat, maxdim=1, thresh=1.0)
         dgms = filter_infinite(result["dgms"])
         dgm_h1 = dgms[1] if len(dgms) > 1 else np.empty((0, 2))
-        X_train[i] = _h1_features(dgm_h1)
+        X_train[i] = h1_features(dgm_h1)
 
     # Test samples: k-NN from training set (no self issue — they're disjoint)
     for i in range(n_test):
@@ -187,7 +170,7 @@ def compute_topology_transductive(clr_full, k=K_NEIGHBOURS):
         result = compute_persistence(dist_mat, maxdim=1, thresh=1.0)
         dgms = filter_infinite(result["dgms"])
         dgm_h1 = dgms[1] if len(dgms) > 1 else np.empty((0, 2))
-        out[i] = _h1_features(dgm_h1)
+        out[i] = h1_features(dgm_h1)
     return out
 
 

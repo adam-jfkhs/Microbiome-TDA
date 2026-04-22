@@ -45,6 +45,7 @@ from biom import load_table
 
 from src.data.loaders import load_agp
 from src.data.preprocess import filter_low_abundance, clr_transform
+from src.analysis.bootstrap import FEATURES as FEATURE_NAMES
 
 # ── Configuration ───────────────────────────────────────────────────────────────
 SEED = 42
@@ -56,11 +57,6 @@ FIG_DIR   = os.path.join(os.path.dirname(__file__), "..", "figures")
 RES_DIR   = os.path.join(os.path.dirname(__file__), "..", "results")
 os.makedirs(FIG_DIR, exist_ok=True)
 os.makedirs(RES_DIR, exist_ok=True)
-
-FEATURE_NAMES = [
-    "h1_count", "h1_entropy", "h1_total_persistence",
-    "h1_mean_lifetime", "h1_max_lifetime", "max_betti1",
-]
 
 
 # ── Taxonomy mapping ────────────────────────────────────────────────────────────
@@ -345,7 +341,21 @@ def plot_heatmap(diff_df: pd.DataFrame, out_path: str, top_n: int = 30):
 
 # ── Main ────────────────────────────────────────────────────────────────────────
 
+def _preflight():
+    """Check required data files exist before expensive computation."""
+    biom = os.path.join(DATA_DIR, "agp", "agp_otu_table.biom")
+    meta = os.path.join(DATA_DIR, "agp", "agp_metadata.tsv")
+    missing = [p for p in (biom, meta) if not os.path.exists(p)]
+    if missing:
+        raise FileNotFoundError(
+            f"Required data files not found:\n"
+            + "\n".join(f"  {p}" for p in missing)
+            + "\nRun 'make data' or 'bash scripts/download_agp.sh' first."
+        )
+
+
 def main():
+    _preflight()
     print("Loading AGP data …")
     clr_df, labels = load_and_prepare()
     taxa_names = clr_df.columns.tolist()

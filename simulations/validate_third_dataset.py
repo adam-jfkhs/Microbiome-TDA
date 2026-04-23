@@ -30,6 +30,7 @@ from scipy.stats import mannwhitneyu
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import StratifiedKFold, cross_val_score
+from sklearn.pipeline import Pipeline
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, ROOT)
@@ -96,10 +97,9 @@ def main():
     # ── Preprocess for TDA ───────────────────────────────────────
     print("\n3. Preprocessing for TDA...")
     filtered = filter_low_abundance(abundance, min_prevalence=0.05, min_reads=0)
-    top_taxa = select_global_taxa(filtered, n=N_GLOBAL_TAXA)
-    filtered = filtered[top_taxa]
     clr = clr_transform(filtered)
-    clr_matrix = clr.values.astype(np.float64)
+    top_taxa = select_global_taxa(clr, n=N_GLOBAL_TAXA)
+    clr_matrix = clr[top_taxa].values.astype(np.float64)
     print(f"   CLR matrix: {clr_matrix.shape}")
 
     # ── Per-sample topology ──────────────────────────────────────
@@ -153,29 +153,25 @@ def main():
     print("\n6. AUC comparison (5-fold cross-validation):")
 
     cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=SEED)
-    scaler = StandardScaler()
+    pipe = Pipeline([
+        ("scaler", StandardScaler()),
+        ("clf", LogisticRegression(random_state=SEED, max_iter=1000)),
+    ])
 
     # Shannon only
-    X_shannon = scaler.fit_transform(shannon.reshape(-1, 1))
     auc_shannon = cross_val_score(
-        LogisticRegression(random_state=SEED, max_iter=1000),
-        X_shannon, labels, cv=cv, scoring="roc_auc"
+        pipe, shannon.reshape(-1, 1), labels, cv=cv, scoring="roc_auc"
     )
 
     # TDA only
-    X_tda = scaler.fit_transform(topo_features)
     auc_tda = cross_val_score(
-        LogisticRegression(random_state=SEED, max_iter=1000),
-        X_tda, labels, cv=cv, scoring="roc_auc"
+        pipe, topo_features, labels, cv=cv, scoring="roc_auc"
     )
 
     # Combined
-    X_combined = scaler.fit_transform(
-        np.column_stack([topo_features, shannon.reshape(-1, 1)])
-    )
+    X_combined = np.column_stack([topo_features, shannon.reshape(-1, 1)])
     auc_combined = cross_val_score(
-        LogisticRegression(random_state=SEED, max_iter=1000),
-        X_combined, labels, cv=cv, scoring="roc_auc"
+        pipe, X_combined, labels, cv=cv, scoring="roc_auc"
     )
 
     print(f"   Shannon only:   AUC = {auc_shannon.mean():.4f} ± {auc_shannon.std():.4f}")

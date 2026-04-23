@@ -1,8 +1,8 @@
 feature,cohens_d,p_value,type
-h1_count,0.2043,0.00118487,TDA
-h1_entropy,0.1989,0.00151552,TDA
-h1_total_persistence,0.1793,0.00263857,TDA
-h1_mean_lifetime,0.0768,0.29991498,TDA
-h1_max_lifetime,0.0334,0.37872428,TDA
-max_betti1,0.0524,0.31305732,TDA
+h1_count,0.0386,0.51404617,TDA
+h1_entropy,0.0351,0.41412683,TDA
+h1_total_persistence,0.1819,0.00228609,TDA
+h1_mean_lifetime,0.3735,1e-08,TDA
+h1_max_lifetime,0.2239,0.00314373,TDA
+max_betti1,0.1005,0.05172938,TDA
 shannon_diversity,-0.4383,0.0,Shannon

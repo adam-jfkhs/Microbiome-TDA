@@ -1,7 +1,30 @@
-"""Persistent homology computation using Ripser and Giotto-TDA."""
+"""Persistent homology computation using Ripser or Giotto-TDA."""
 
 import numpy as np
-from ripser import ripser
+
+try:
+    from ripser import ripser as _ripser
+    _BACKEND = "ripser"
+except ImportError:
+    _ripser = None
+    _BACKEND = "giotto"
+
+
+def _compute_giotto(distance_matrix, maxdim=2, thresh=np.inf):
+    from gtda.homology import VietorisRipsPersistence
+    vr = VietorisRipsPersistence(
+        metric="precomputed",
+        homology_dimensions=list(range(maxdim + 1)),
+        max_edge_length=float(thresh) if np.isfinite(thresh) else np.inf,
+    )
+    dm = np.asarray(distance_matrix, dtype=np.float64)[np.newaxis, :, :]
+    diagrams_3d = vr.fit_transform(dm)[0]
+    dgms = []
+    for dim in range(maxdim + 1):
+        mask = diagrams_3d[:, 2] == dim
+        pairs = diagrams_3d[mask][:, :2]
+        dgms.append(pairs)
+    return {"dgms": dgms}
 
 
 def compute_persistence(distance_matrix, maxdim=2, thresh=np.inf):
@@ -16,13 +39,14 @@ def compute_persistence(distance_matrix, maxdim=2, thresh=np.inf):
         Dictionary with 'dgms' key containing persistence diagrams
         for each dimension.
     """
-    result = ripser(
-        distance_matrix,
-        maxdim=maxdim,
-        thresh=thresh,
-        distance_matrix=True,
-    )
-    return result
+    if _BACKEND == "ripser":
+        return _ripser(
+            distance_matrix,
+            maxdim=maxdim,
+            thresh=thresh,
+            distance_matrix=True,
+        )
+    return _compute_giotto(distance_matrix, maxdim=maxdim, thresh=thresh)
 
 
 def filter_infinite(diagrams):

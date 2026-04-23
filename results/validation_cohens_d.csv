@@ -1,0 +1,8 @@
+feature,cohens_d,p_value,type
+h1_count,0.2043,0.00118487,TDA
+h1_entropy,0.1989,0.00151552,TDA
+h1_total_persistence,0.1793,0.00263857,TDA
+h1_mean_lifetime,0.0768,0.29991498,TDA
+h1_max_lifetime,0.0334,0.37872428,TDA
+max_betti1,0.0524,0.31305732,TDA
+shannon_diversity,-0.4383,0.0,Shannon

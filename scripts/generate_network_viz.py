@@ -189,7 +189,7 @@ summary = {
     "n_ibd_enriched": len(ibd_nodes),
     "top_healthy_taxon": max(healthy_nodes, key=lambda n: n["diff_impact"])["name"] if healthy_nodes else "",
     "top_ibd_taxon": min(ibd_nodes, key=lambda n: n["diff_impact"])["name"] if ibd_nodes else "",
-    "agp_cohens_d_range": "0.75–2.38",
+    "agp_cohens_d_note": "Group-level bootstrap d values are not directly comparable to standard per-sample benchmarks; see per-sample validation in paper Section 3.8 (|d|=0.04-0.37, combined AUC 0.674 vs Shannon 0.645).",
     "agp_n_samples": 3409,
     "ibdmdb_n_samples": 1338,
     "note": (

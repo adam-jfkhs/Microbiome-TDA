@@ -104,6 +104,13 @@ distinction.
 \caption{%
   \textbf{IBD vs.\ Healthy: full-group topological comparison, $N = 80$ taxa.}
   Means are averaged across 200 paired bootstrap iterations.
+  \textbf{Cohen's $d$ is computed on bootstrap iteration-level summaries
+  (one scalar per group per iteration, each aggregating 100 samples)} and
+  therefore reflects group-level network separation, not individual-patient
+  effect sizes.
+  These bootstrap-$d$ values are not directly comparable to conventional
+  per-sample Cohen's $d$ benchmarks; see Section~\ref{subsec:persample_validation}
+  for individual-level effect sizes ($|d| \leq 0.37$).
   95\% CIs on Cohen's $d$ are computed via normal approximation
   ($\text{SE}_d = \sqrt{2/n + d^2 / 4n}$, $n = 200$ iterations per group).
   Primary inference rests on sign-flip permutation $p$ (500 shuffles);
@@ -466,6 +473,8 @@ one sample---remains unaffected by this issue.
   \textbf{IBDMDB replication results: IBD subtypes vs.\ non-IBD controls.}
   Bootstrap parameters: 200 iterations, $n = 60$ per group, global top-80
   species, sign-flip permutation ($K = 500$).
+  Reported Cohen's $d$ is bootstrap-level (iteration summaries); see
+  Section~\ref{subsec:persample_validation} for per-sample effect sizes.
   $p_\text{FDR}$: Benjamini--Hochberg applied to 18 sign-flip $p$-values
   (6 features $\times$ 3 comparisons) within this IBDMDB analysis;
   correction is independent of the AGP analyses in Tables~1--3.
@@ -563,7 +572,8 @@ CD and UC subtypes.
 \centering
 \caption{%
   \textbf{IBDMDB biomarker comparisons: calprotectin, HBI, and SCCAI.}
-  Same bootstrap parameters as Table~\ref{tab:ibdmdb_results}.
+  Same bootstrap parameters as Table~\ref{tab:ibdmdb_results}; reported
+  $d$ values are bootstrap-level, not per-sample.
   $\star$ = FDR-significant ($p_\text{FDR} < 0.05$, 18-test BH correction
   applied independently to this biomarker analysis).
   Selected features shown; full results in \texttt{results/ibdmdb\_bootstrap.csv}.

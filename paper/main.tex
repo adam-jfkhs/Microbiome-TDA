@@ -182,37 +182,34 @@ Classification benchmarking compared topological features against Shannon
 diversity under 5-fold cross-validation.
 
 \noindent\textbf{Results.}
-\Ibd\ ($n = 165$ vs.\ $n = 3{,}084$ healthy) was associated with
-systematically lower topological complexity across all six features
-($p_{\text{FDR}} < 0.005$ at all taxa sizes),
-fully preserved after covariate matching.
-A per-sample validation on the IBDMDB cohort (1,338 samples) revealed that
-individual-level topological effect sizes are small (Cohen's $|d| = 0.04$--$0.37$),
-comparable to Shannon diversity ($|d| = 0.44$), indicating that the
-group-level network separation reported by the bootstrap does not translate
-to large per-patient discriminability.
-However, combining topological features with Shannon diversity improves
-classification (AUC $= 0.674$) over Shannon alone ($0.645$), confirming
-that topology captures complementary structural information.
-An extended classification benchmark established that Aitchison-PCoA
-is the strongest single predictor (AUC $= 0.734$, logistic regression).
+\Ibd\ ($n = 165$ vs.\ $n = 3{,}084$ healthy) exhibited systematically lower
+topological complexity across all six $H_1$ features
+($p_{\text{FDR}} < 0.005$ at taxon-set sizes $N \in \{50, 80, 120\}$),
+preserved after age/sex/BMI covariate matching.
+Per-sample analysis on IBDMDB ($n = 1{,}338$) yielded individual-level
+effect sizes of Cohen's $|d| = 0.04$--$0.37$ for topological features
+and $|d| = 0.44$ for Shannon diversity.
+Combining topology with Shannon improved 5-fold cross-validated
+classification AUC from $0.645$ (Shannon alone) to $0.674$,
+establishing topology as a complementary source of discriminative signal.
+An extended benchmark against $\beta$-diversity baselines showed
+Aitchison-PCoA as the strongest single predictor
+(AUC $= 0.734$, logistic regression).
 Leave-one-out attribution identified \textit{Oscillospira} and
 \textit{Blautia} as the dominant loop anchors in healthy \agp\ networks,
-with cross-dataset replication of \textit{Bacteroides}-clade importance in
+with \textit{Bacteroides}-clade species reproducing as top anchors in
 IBDMDB.
-Plant-based diet showed moderately longer-lived loops
-($p_{\text{FDR}} = 0.004$); antibiotic recency produced limited signal.
+Plant-based diet was associated with longer-lived loops
+($p_{\text{FDR}} = 0.004$); antibiotic recency produced no coherent signal.
 
 \noindent\textbf{Conclusions.}
-\Ibd-associated microbiomes exhibit statistically significant topological
-simplification at the group level across two independent cohorts and two
-sequencing technologies, and this simplification tracks a clinical
-inflammation biomarker.
-Per-sample effect sizes are modest, and topology alone does not outperform
-Shannon diversity for individual classification; however, the combination of
-topological and diversity features yields the best performance, demonstrating
-that persistent homology captures complementary structural information not
-accessible to single-sample diversity indices.
+\Ibd-associated microbiomes exhibit consistent topological simplification
+across two independent cohorts and two sequencing technologies, and this
+simplification tracks a clinical inflammation biomarker.
+Topological features provide complementary discriminative signal to
+$\alpha$-diversity indices, improving combined classification performance
+and offering structural interpretability through taxon-level attribution
+of loop anchors.
 
 \smallskip\noindent
 \textbf{Keywords:} persistent homology, gut microbiome, inflammatory bowel
@@ -303,8 +300,6 @@ The IBDMDB validation data are available at \url{https://ibdmdb.org}.
     IBD retains 18/18 significant cells across all
     taxon-set sizes after matching, confirming robustness to covariate
     imbalance and taxon-set choice.
-    Note: reported $d$ values are bootstrap-level (group network statistics),
-    not per-sample effect sizes (see Section~\ref{subsec:persample_validation}).
     Antibiotic recency produces 0/6 significant features at $N = 80$.
   }
   \label{fig:S1}

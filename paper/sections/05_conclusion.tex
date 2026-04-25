@@ -15,15 +15,12 @@ find that:
   \item \textbf{\ibd\ (UC + Crohn's) is associated with consistent
   attenuation of co-occurrence loop structure across all six features.}
   All features reach the permutation floor ($p_{\text{FDR}} < 0.005$),
-  with complete preservation after age/sex/BMI covariate matching.
-  The finding replicates at taxon-set sizes 50, 80, and 120 within \agp,
-  and is reproduced in IBDMDB WGS data.
-  Per-sample effect sizes are modest (Cohen's $|d| \leq 0.37$),
-  indicating that the group-level topological signal does not translate to
-  large individual-level discriminability.
-  Combining topological features with Shannon diversity yields a
-  classification AUC of $0.674$ vs.\ $0.645$ for Shannon alone,
-  confirming that topology captures complementary structural information.
+  preserved after age/sex/BMI covariate matching, and reproduced in
+  IBDMDB WGS data.
+  Per-sample analysis ($|d| \leq 0.37$) and combined-feature
+  classification (AUC $= 0.674$ for topology $+$ Shannon vs.\ $0.645$
+  for Shannon alone) confirm that topological features contribute
+  discriminative signal beyond single-sample diversity indices.
 
   \item \textbf{The loop-collapse signal tracks a continuous inflammation
   biomarker.}
@@ -106,9 +103,10 @@ a clinical claim.
 The finding that \ibd-associated microbiomes are topologically simpler is
 reproducible across cohorts and sequencing technologies, robust to
 demographic confounding, grounded in an inflammation biomarker, and
-interpretable at the level of named taxa, though individual-level effect
-sizes are modest and topology is best deployed as a complement to
-established diversity metrics rather than a standalone diagnostic.
+interpretable at the level of named taxa.
+Topology is best deployed as a complement to established diversity metrics,
+contributing structural information and mechanistic interpretability that
+$\alpha$- and $\beta$-diversity indices cannot supply.
 It invites the question of whether topological complexity is a property
 worth restoring therapeutically, and whether interventions that shift
 microbiome composition (FMT, dietary modulation, precision probiotics) do

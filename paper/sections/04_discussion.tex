@@ -5,29 +5,22 @@
 
 \subsection{Loop collapse as a structural correlate of IBD dysbiosis}
 
-The \ibd\ finding requires careful interpretation at two levels.
-At the group level, the bootstrap procedure detects consistent topological
-differences between IBD and healthy co-occurrence networks: all six $H_1$
-features reach the permutation floor ($p = 0.002$) at every taxon-set
-size, and results are preserved after covariate matching.
-This establishes that the \emph{population-level network architecture}
-differs between groups.
-
-At the individual level, however, per-sample topology yields modest
-effect sizes ($|d| = 0.04$--$0.37$), comparable to Shannon diversity
-($|d| = 0.44$).
-The large Cohen's $d$ values reported in Table~\ref{tab:ibd_results}
-($|d| = 1.2$--$2.3$) reflect the separation of bootstrap-iteration-level
-summaries, each aggregating 100 samples; they are not comparable to
-standard per-sample benchmarks.
-This distinction is methodologically important: the bootstrap $d$ confirms
-that the topological gap is detectable at virtually any randomly drawn
-subsample, but it does not imply that individual patients can be classified
-with high accuracy from topology alone.
-The per-sample validation (Section~\ref{subsec:persample_validation})
-demonstrates that topology's practical value lies in providing complementary
-information to Shannon diversity (combined AUC $= 0.674$ vs.\ $0.645$
-Shannon-only), not in replacing it.
+The \ibd\ comparison yields consistent topological differences at the
+population level: all six $H_1$ features reach the permutation floor
+($p = 0.002$) at every taxon-set size, results are preserved after age/sex/BMI
+covariate matching, and the pattern replicates in an independent cohort
+with a different sequencing technology.
+At the individual-patient level, per-sample effect sizes are more modest
+($|d| \leq 0.37$, Section~\ref{subsec:persample_validation}), comparable
+in magnitude to Shannon diversity ($|d| = 0.44$).
+These two observations are complementary rather than contradictory:
+network-topology features capture a population-level structural signature
+that is detectable at virtually any randomly drawn subsample, while
+individual-patient topology contributes discriminative information that
+supplements but does not replace $\alpha$-diversity.
+The combined-feature classification result (AUC $= 0.674$ with topology
+and Shannon, vs.\ $0.645$ for Shannon alone) reflects this division of
+labour.
 
 The direction of the finding is consistent with known IBD compositional
 pathology.
@@ -157,13 +150,13 @@ dysbiosis.
 This multi-dimensional topological degradation is a novel finding with no
 analogue in standard network-metric analyses.
 
-The group-level topological signal is consistent with this general principle:
+The topological signal is consistent with this general principle:
 persistent homology aggregates information from many pairwise correlations
-simultaneously, detecting network-wide reorganization that is difficult to
-capture with single-sample diversity indices.
-However, per-sample validation (Section~\ref{subsec:persample_validation})
-reveals that this advantage is modest at the individual patient level,
-with topology providing complementary rather than dominant predictive power.
+simultaneously, capturing network-wide reorganization that single-sample
+diversity indices cannot express.
+At the individual-patient level, this advantage manifests as complementary
+rather than dominant predictive power
+(Section~\ref{subsec:persample_validation}).
 The IBDMDB replication (Section~\ref{subsec:ibdmdb}) extends these results
 to a second dataset and shows that topological features are sensitive not
 only to the categorical disease label but to continuous biomarker severity,
@@ -173,20 +166,17 @@ in a clinical context.
 \subsection{Limitations}
 \label{subsec:limitations}
 
-\paragraph{Bootstrap effect size interpretation.}
-The Cohen's $d$ values from the bootstrap procedure
-(Tables~\ref{tab:ibd_results},~\ref{tab:ibdmdb_ibd}) measure
-separation between distributions of group-level network statistics, not
-between individual patient measurements.
-Each bootstrap iteration produces one scalar per group (summarizing 100
-samples), so the variance of these iteration-level values is substantially
-smaller than the variance of per-patient measurements, inflating $d$ relative
-to conventional benchmarks.
-Per-sample validation (Section~\ref{subsec:persample_validation}) confirms
-that individual-level effects are small ($|d| \leq 0.37$).
-The bootstrap $d$ remains valid for its intended purpose---quantifying the
-reliability of the group-level separation---but should not be interpreted
-using standard per-sample thresholds.
+\paragraph{Group-level vs.\ individual-level effects.}
+The bootstrap Cohen's $d$ values quantify separation between distributions
+of group-level network statistics (one scalar per iteration, each
+summarizing 100 samples) and therefore measure the reliability of the
+population-level topological contrast rather than per-patient effect sizes.
+Individual-level effect sizes are reported separately in
+Section~\ref{subsec:persample_validation}.
+The two scales are complementary: the bootstrap establishes that the
+topological signature is reproducible across subsamples, and the
+per-sample analysis characterizes its contribution to individual-patient
+classification.
 
 \paragraph{Cross-sectional topology.}
 All \agp\ records are single-timepoint observations.

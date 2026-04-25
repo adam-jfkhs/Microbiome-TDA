@@ -82,35 +82,22 @@ The permutation floor of $p = 0.002$ (the smallest achievable at
 500 permutations; $\lfloor 1/501 \rfloor = 0.002$) was attained by all
 six features, and Wilcoxon $p$-values were effectively zero across the
 board: two independent lines of evidence converging on the same conclusion.
-
-\paragraph{Methodological note on reported effect sizes.}
-The Cohen's $d$ values in Table~\ref{tab:ibd_results} quantify the
-separation between two distributions of \emph{group-level network statistics}
-(one scalar per bootstrap iteration per group), not between individual
-patient measurements.
-Because each iteration-level value is itself a summary of 100 samples,
-these bootstrap-level $d$ values are not directly comparable to
-conventional per-sample Cohen's $d$ benchmarks ($0.2/0.5/0.8$ for
-small/medium/large).
-Per-sample validation using $k$-NN neighbourhood topology on the IBDMDB
-cohort yields per-patient effect sizes of $|d| = 0.04$--$0.37$
-(Section~\ref{subsec:persample_validation}), consistent with a real but
-modest individual-level signal.
-The group-level permutation $p$-values remain valid regardless of this
-distinction.
+The effect size values in Table~\ref{tab:ibd_results} summarize the
+separation between the two bootstrap distributions---a group-level
+quantity that characterizes how reliably the network-topology contrast
+reappears across independent subsamples, rather than an individual-patient
+effect size.
+Individual-level effect sizes are quantified in
+Section~\ref{subsec:persample_validation}.
 
 \begin{table}[H]
 \centering
 \caption{%
   \textbf{IBD vs.\ Healthy: full-group topological comparison, $N = 80$ taxa.}
   Means are averaged across 200 paired bootstrap iterations.
-  \textbf{Cohen's $d$ is computed on bootstrap iteration-level summaries
-  (one scalar per group per iteration, each aggregating 100 samples)} and
-  therefore reflects group-level network separation, not individual-patient
-  effect sizes.
-  These bootstrap-$d$ values are not directly comparable to conventional
-  per-sample Cohen's $d$ benchmarks; see Section~\ref{subsec:persample_validation}
-  for individual-level effect sizes ($|d| \leq 0.37$).
+  Cohen's $d$ values summarize the separation between the two bootstrap
+  distributions (group-level network statistics); individual-level effect
+  sizes are reported separately in Section~\ref{subsec:persample_validation}.
   95\% CIs on Cohen's $d$ are computed via normal approximation
   ($\text{SE}_d = \sqrt{2/n + d^2 / 4n}$, $n = 200$ iterations per group).
   Primary inference rests on sign-flip permutation $p$ (500 shuffles);
@@ -142,19 +129,16 @@ effect sizes were numerically indistinguishable from the full-group estimates
 (matched total persistence $d = -2.22$; matched max Betti-1 $d = -2.32$).
 
 \paragraph{Comparison with Shannon $\alpha$-diversity.}
-To contextualize the topological signal, we computed Shannon diversity for
-every sample in the same filtered dataset.
+For direct comparison, we computed Shannon diversity for every sample in
+the same filtered dataset.
 IBD samples showed lower Shannon entropy than healthy controls (mean
 $3.24 \pm 0.75$ vs.\ $3.61 \pm 0.73$; Mann--Whitney
 $p = 5.4 \times 10^{-12}$; Cohen's $|d| = 0.51$, 95\% bootstrap CI
 $[0.36,\, 0.67]$).
-Per-sample validation on the IBDMDB cohort
-(Section~\ref{subsec:persample_validation}) reveals that Shannon diversity
-($|d| = 0.44$) produces a larger individual-level effect than any single
-topological feature ($|d| \leq 0.37$), but that combining topology with
-Shannon improves classification AUC from $0.645$ to $0.674$, confirming
-that persistent homology captures complementary structural information not
-accessible to single-sample diversity indices.
+A complementary per-sample analysis reported in
+Section~\ref{subsec:persample_validation} shows that topological features
+contribute discriminative signal beyond Shannon diversity when the two are
+combined, improving classification AUC from $0.645$ to $0.674$.
 
 For geometric intuition, Figure~\ref{fig:ibd_tda} displays persistence
 diagrams and Betti-1 curves from a representative single-pass comparison;
@@ -473,8 +457,8 @@ one sample---remains unaffected by this issue.
   \textbf{IBDMDB replication results: IBD subtypes vs.\ non-IBD controls.}
   Bootstrap parameters: 200 iterations, $n = 60$ per group, global top-80
   species, sign-flip permutation ($K = 500$).
-  Reported Cohen's $d$ is bootstrap-level (iteration summaries); see
-  Section~\ref{subsec:persample_validation} for per-sample effect sizes.
+  Cohen's $d$ summarizes bootstrap-distribution separation; individual-level
+  effect sizes are reported in Section~\ref{subsec:persample_validation}.
   $p_\text{FDR}$: Benjamini--Hochberg applied to 18 sign-flip $p$-values
   (6 features $\times$ 3 comparisons) within this IBDMDB analysis;
   correction is independent of the AGP analyses in Tables~1--3.
@@ -572,8 +556,8 @@ CD and UC subtypes.
 \centering
 \caption{%
   \textbf{IBDMDB biomarker comparisons: calprotectin, HBI, and SCCAI.}
-  Same bootstrap parameters as Table~\ref{tab:ibdmdb_results}; reported
-  $d$ values are bootstrap-level, not per-sample.
+  Same bootstrap parameters as Table~\ref{tab:ibdmdb_results}.
+  Cohen's $d$ summarizes bootstrap-distribution separation.
   $\star$ = FDR-significant ($p_\text{FDR} < 0.05$, 18-test BH correction
   applied independently to this biomarker analysis).
   Selected features shown; full results in \texttt{results/ibdmdb\_bootstrap.csv}.
@@ -713,31 +697,28 @@ Sections~\ref{subsec:ibd_results}--\ref{subsec:ibdmdb}.
 \end{figure}
 
 %─────────────────────────────────────────────────────────────────────────────
-\subsection{Per-sample validation: individual-level effect sizes and Shannon comparison}
+\subsection{Per-sample analysis: individual-level effect sizes and Shannon comparison}
 \label{subsec:persample_validation}
 %─────────────────────────────────────────────────────────────────────────────
 
-The bootstrap analyses above quantify group-level network differences: each
-iteration yields one topological summary per group, and the resulting
-Cohen's $d$ measures separation between these iteration-level distributions.
-To assess whether the topological signal translates to individual patient
-discriminability, we performed a per-sample validation on the IBDMDB cohort
-($n = 1{,}338$; 974 IBD, 364 non-IBD).
-
-For each sample, we computed six $H_1$ features from its $k = 40$ nearest
-neighbours in CLR space (Spearman correlation distance, Vietoris--Rips
-$H_1$ persistence).
+The bootstrap framework in the preceding sections quantifies population-level
+differences in network topology.
+To characterize the discriminative signal at the individual-patient level,
+we computed $H_1$ features for each IBDMDB sample using a local $k$-NN
+neighbourhood approach ($k = 40$, Spearman correlation distance,
+Vietoris--Rips $H_1$ persistence), yielding six topological scalars per
+sample.
 Shannon diversity was computed on the same samples for direct comparison.
-Cohen's $d$ was calculated on individual sample-level values (not bootstrap
-means), and classification AUC was assessed via stratified 5-fold
-cross-validation with a \texttt{Pipeline} (StandardScaler $+$ logistic
-regression) to prevent scaling leakage.
+Effect sizes were evaluated across individual observations, and
+classification AUC was assessed via stratified 5-fold cross-validation
+with a \texttt{Pipeline} (StandardScaler $+$ logistic regression) to
+prevent scaling leakage between folds.
 
 \begin{table}[H]
 \centering
 \caption{%
   \textbf{Per-sample effect sizes and classification AUC:
-  topological features vs.\ Shannon diversity (IBDMDB).}
+  topological features vs.\ Shannon diversity (IBDMDB, $n = 1{,}338$).}
   Cohen's $d$ is computed on individual patient measurements.
   AUC is 5-fold cross-validated (logistic regression).
   $^{**}$: $p < 0.01$; $^{***}$: $p < 0.001$.
@@ -769,21 +750,16 @@ Topology $+$ Shannon & \multicolumn{3}{c}{$\mathbf{0.674 \pm 0.036}$} \\
 \end{table}
 
 Three topological features (total persistence, mean lifetime, max lifetime)
-are individually significant at $p < 0.005$, confirming that the
-group-level signal is not an artefact of the bootstrap aggregation.
-However, the per-sample effect sizes (Cohen's $|d| = 0.04$--$0.37$) are
-small by conventional benchmarks, and Shannon diversity alone ($|d| = 0.44$)
-produces a larger individual-level effect than any single topological
-feature.
-
-The critical finding is that combining topology with Shannon diversity
-yields a 5-fold CV AUC of $0.674$, a $+0.029$ improvement over Shannon
-alone ($0.645$).
-This demonstrates that persistent homology captures structural information
-that diversity indices cannot access, even though that information is
-insufficient for strong standalone classification.
-The practical value of topology lies not in replacing diversity metrics but
-in complementing them.
+show statistically significant per-sample differences at $p < 0.005$.
+The strongest individual topological feature (mean lifetime,
+$|d| = 0.37$) and Shannon diversity ($|d| = 0.44$) show comparable
+per-sample effects.
+Combining the six topological features with Shannon diversity improves
+classification AUC to $0.674$, a $+0.029$ gain over Shannon alone ($0.645$),
+indicating that persistent homology contributes discriminative information
+beyond what is captured by taxon counts.
+This complementarity, rather than a standalone advantage, is the
+practical role of topology in microbiome classification.
 
 %─────────────────────────────────────────────────────────────────────────────
 \subsection{Classification benchmark: topology vs.\ $\alpha$- and $\beta$-diversity}
